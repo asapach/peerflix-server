@@ -17,10 +17,16 @@
 </div>
 
 <div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
+  <h4>Torrents</h4>
   <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
+    Files:
   </p>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="file in files">
+      <span class="glyphicon glyphicon-cloud-download"></span>
+      <a href="/torrents/{{ $index }}" target="_blank">{{ file.name }}</a>
+    </li>
+  </ul>
 
   <h4>Angular</h4>
   <p>
