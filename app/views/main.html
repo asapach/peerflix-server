@@ -1,42 +1,37 @@
 <div class="header">
   <ul class="nav nav-pills pull-right">
-    <li class="active"><a ng-href="#">Home</a></li>
-    <li><a ng-href="#">About</a></li>
-    <li><a ng-href="#">Contact</a></li>
+    <li class="active"><a href="">Torrents</a></li>
+    <li><a href="">About</a></li>
   </ul>
   <h3 class="text-muted">peerflix server</h3>
 </div>
 
 <div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
+  <h1>Stream Torrents</h1>
+  <div class="form-group">
+    <div class="input-group">
+      <span class="input-group-addon">magnet:</span>
+      <input type="text" class="form-control" placeholder="Magnet link" ng-model="link">
+    </div>
+  </div>
+  <a class="btn btn-success" href="" ng-click="download()"><span class="glyphicon glyphicon-cloud-download"></span> Download</a>
 </div>
 
-<div class="row marketing">
+<div class="row content">
   <h4>Torrents</h4>
-  <p>
-    Files:
-  </p>
-  <ul class="list-group">
-    <li class="list-group-item" ng-repeat="file in files">
-      <span class="glyphicon glyphicon-cloud-download"></span>
-      <a href="/torrents/{{ $index }}" target="_blank">{{ file.name }}</a>
-    </li>
-  </ul>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+  <div ng-repeat="torrent in torrents" class="panel panel-default">
+    <div class="panel-heading">{{ torrent.name }}</div>
+    <div class="panel-body">
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="file in torrent.files">
+          <span class="glyphicon glyphicon-cloud-download"></span>
+          <a href="/torrents/{{ torrent.infoHash }}/files/{{ $index }}" target="_blank">{{ file.name }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <div class="footer">
-  <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+  <p><span class="glyphicon glyphicon-heart"></span> peerflix</p>
 </div>

@@ -1,25 +1,47 @@
 'use strict';
 var rangeParser = require('range-parser'),
-    mime = require('mime'),
-    pump = require('pump'),
-    express = require('express'),
-    engine = require('./engine'),
-    api = express();
+  mime = require('mime'),
+  pump = require('pump'),
+  magnet = require('magnet-uri'),
+  _ = require('lodash'),
+  express = require('express'),
+  engine = require('./engine'),
+  api = express(),
+  torrents = {};
+
+api.use(express.json());
 
 api.get('/torrents', function (req, res) {
-  res.send(engine.files);
+  res.send(Object.keys(torrents).map(function (infoHash) {
+    return _.omit(torrents[infoHash].torrent, 'pieces');
+  }));
 });
 
-api.get('/torrents/:file', function (req, res) {
-  var i = Number(req.params.file);
+api.get('/torrents/:infoHash', function (req, res) {
+  var torrent = torrents[req.params.infoHash];
+  if (!torrent) {
+    res.send(404);
+  }
+  res.send(_.omit(torrent.torrent, 'pieces'));
+});
 
-  if (isNaN(i) || i >= engine.files.length) {
-    res.statusCode = 404;
-    res.end();
+api.post('/torrents', function (req, res) {
+  var link = magnet(req.body.link),
+    infoHash = link.infoHash;
+  torrents[infoHash] = engine(req.body.link);
+  res.send({ infoHash: infoHash });
+});
+
+api.get('/torrents/:infoHash/files/:file', function (req, res) {
+  var torrent = torrents[req.params.infoHash],
+    i = Number(req.params.file);
+
+  if (!torrent || isNaN(i) || i >= torrent.files.length) {
+    res.send(404);
     return;
   }
 
-  var file = engine.files[i];
+  var file = torrent.files[i];
   var range = req.headers.range;
   range = range && rangeParser(file.length, range)[0];
   res.setHeader('Accept-Ranges', 'bytes');

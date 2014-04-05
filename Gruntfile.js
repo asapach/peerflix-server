@@ -358,7 +358,7 @@ module.exports = function (grunt) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
     } else if (target === 'server') {
-      return grunt.task.run(['clean:server', 'concurrent:server', 'connect:server:keepalive']);
+      return grunt.task.run(['connect:server:keepalive']);
     }
 
     grunt.task.run([

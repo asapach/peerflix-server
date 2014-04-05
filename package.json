@@ -6,7 +6,9 @@
     "range-parser": "~1.0.0",
     "mime": "~1.2.11",
     "pump": "~0.3.1",
-    "express": "~3.5.1"
+    "express": "~3.5.1",
+    "magnet-uri": "~1.1.0",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
