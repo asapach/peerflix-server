@@ -76,12 +76,12 @@ module.exports = function (grunt) {
             '.tmp',
             '<%= yeoman.app %>'
           ],
-          middleware: require('./server/middleware')
+          middleware: [require('./server/api')]
         }
       },
       server: {
         options: {
-          middleware: require('./server/middleware')
+          middleware: [require('./server/api')]
         }
       },
       test: {
