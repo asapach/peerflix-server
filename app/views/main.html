@@ -14,20 +14,34 @@
       <input type="text" class="form-control" placeholder="Magnet link" ng-model="link">
     </div>
   </div>
-  <a class="btn btn-success" href="" ng-click="download()"><span class="glyphicon glyphicon-cloud-download"></span> Download</a>
+  <a class="btn btn-success" href="" ng-click="download()">
+    <span class="glyphicon glyphicon-cloud-download"></span>
+    Download
+  </a>
 </div>
 
 <div class="row content">
   <h4>Torrents</h4>
-  <div ng-repeat="torrent in torrents" class="panel panel-default">
-    <div class="panel-heading">{{ torrent.name }}</div>
+  <div ng-repeat="torrent in torrents" class="panel panel-default" ng-class="{ 'panel-success': torrent.interested }">
+    <div class="panel-heading">
+      <span class="glyphicon glyphicon-download-alt"></span>
+      {{ torrent.name }}
+    </div>
     <div class="panel-body">
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="file in torrent.files">
           <span class="glyphicon glyphicon-cloud-download"></span>
-          <a href="/torrents/{{ torrent.infoHash }}/files/{{ $index }}" target="_blank">{{ file.name }}</a>
+          <a href="/torrents/{{ torrent.infoHash }}/files/{{ $index }}" target="_blank">
+            {{ file.name }} ({{ file.length / 1024 / 1024 | number }} MB)
+          </a>
         </li>
       </ul>
+    </div>
+    <div class="panel-footer" ng-if="torrent.stats">
+      Speed: {{ torrent.stats.down / 1024 | number }} / {{ torrent.stats.up / 1024 | number }} KB/s
+      Down/Up: {{ torrent.stats.downloaded / 1024 / 1024 | number }} / {{ torrent.stats.uploaded / 1024 / 1024 | number }} MB
+      Peers: {{ torrent.stats.peers | number }}
+      Queue: {{ torrent.stats.queued | number }}
     </div>
   </div>
 </div>

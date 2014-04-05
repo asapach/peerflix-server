@@ -5,7 +5,8 @@ angular
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute'
+    'ngRoute',
+    'btford.socket-io'
   ])
   .config(function ($routeProvider) {
     $routeProvider

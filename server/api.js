@@ -1,4 +1,5 @@
 'use strict';
+
 var rangeParser = require('range-parser'),
   mime = require('mime'),
   pump = require('pump'),
@@ -6,8 +7,9 @@ var rangeParser = require('range-parser'),
   _ = require('lodash'),
   express = require('express'),
   engine = require('./engine'),
-  api = express(),
-  torrents = {};
+  socket = require('./socket'),
+  torrents = {},
+  api = express();
 
 api.use(express.json());
 
@@ -27,8 +29,10 @@ api.get('/torrents/:infoHash', function (req, res) {
 
 api.post('/torrents', function (req, res) {
   var link = magnet(req.body.link),
-    infoHash = link.infoHash;
-  torrents[infoHash] = engine(req.body.link);
+    infoHash = link.infoHash,
+    torrent = engine(req.body.link);
+  torrents[infoHash] = torrent;
+  socket.register(torrent);
   res.send({ infoHash: infoHash });
 });
 
