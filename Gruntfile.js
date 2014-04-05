@@ -75,7 +75,13 @@ module.exports = function (grunt) {
           base: [
             '.tmp',
             '<%= yeoman.app %>'
-          ]
+          ],
+          middleware: require('./server/middleware')
+        }
+      },
+      server: {
+        options: {
+          middleware: require('./server/middleware')
         }
       },
       test: {
@@ -345,6 +351,8 @@ module.exports = function (grunt) {
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
+    } else if (target === 'server') {
+      return grunt.task.run(['clean:server', 'concurrent:server', 'connect:server:keepalive']);
     }
 
     grunt.task.run([
