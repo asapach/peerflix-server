@@ -3,24 +3,22 @@
 var rangeParser = require('range-parser'),
   mime = require('mime'),
   pump = require('pump'),
-  magnet = require('magnet-uri'),
   _ = require('lodash'),
   express = require('express'),
-  engine = require('./engine'),
-  socket = require('./socket'),
-  torrents = {},
+  store = require('./store'),
   api = express();
 
 api.use(express.json());
 
 api.get('/torrents', function (req, res) {
+  var torrents = store.list();
   res.send(Object.keys(torrents).map(function (infoHash) {
     return _.omit(torrents[infoHash].torrent, 'pieces');
   }));
 });
 
 api.get('/torrents/:infoHash', function (req, res) {
-  var torrent = torrents[req.params.infoHash];
+  var torrent = store.get(req.params.infoHash);
   if (!torrent) {
     res.send(404);
   }
@@ -28,16 +26,12 @@ api.get('/torrents/:infoHash', function (req, res) {
 });
 
 api.post('/torrents', function (req, res) {
-  var link = magnet(req.body.link),
-    infoHash = link.infoHash,
-    torrent = engine(req.body.link);
-  torrents[infoHash] = torrent;
-  socket.register(torrent);
+  var infoHash = store.add(req.body.link);
   res.send({ infoHash: infoHash });
 });
 
 api.get('/torrents/:infoHash/files/:file', function (req, res) {
-  var torrent = torrents[req.params.infoHash],
+  var torrent = store.get(req.params.infoHash),
     i = Number(req.params.file);
 
   if (!torrent || isNaN(i) || i >= torrent.files.length) {

@@ -11,7 +11,7 @@ module.exports = {
       io.sockets.emit('stats', hash, stats());
     }, 500);
 
-    engine.on('ready', function () {
+    engine.once('ready', function () {
       hash = engine.torrent.infoHash;
       io.sockets.emit('ready', hash, stats());
 

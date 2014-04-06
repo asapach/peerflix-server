@@ -28,3 +28,4 @@ app/bower_components
 dist
 .tmp
 .idea
+server/config
