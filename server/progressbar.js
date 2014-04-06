@@ -3,7 +3,7 @@
 module.exports = function (buffer) {
   var pieces = buffer.toJSON(),
     progress = [],
-    counter = 1,
+    counter = 0,
     downloaded = true;
 
   pieces.forEach(function (p) {
@@ -16,9 +16,7 @@ module.exports = function (buffer) {
     }
   });
 
-  if (progress.length === 0) {
-    progress.push(pieces.length);
-  }
+  progress.push(counter);
 
   return progress.map(function (p) {
     return p * 100 / pieces.length;

@@ -41,13 +41,17 @@
       </ul>
     </div>
     <div class="panel-footer" ng-if="torrent.stats">
-      Speed: <span class="label label-success">{{ torrent.stats.speed.down / 1024 | number:1 }}</span> /
+      <strong>Speed:</strong>
+        <span class="label label-success">{{ torrent.stats.speed.down / 1024 | number:1 }}</span> /
         <span class="label label-danger">{{ torrent.stats.speed.up / 1024 | number:1 }}</span> KB/s |
-      Traffic: <span class="label label-success">{{ torrent.stats.traffic.down / 1024 / 1024 | number:1 }}</span> /
+      <strong>Traffic:</strong>
+        <span class="label label-success">{{ torrent.stats.traffic.down / 1024 / 1024 | number:1 }}</span> /
         <span class="label label-danger">{{ torrent.stats.traffic.up / 1024 / 1024 | number:1 }}</span> MB |
-      Peers: <span class="label label-success">{{ torrent.stats.peers.unchocked | number }}</span> /
+      <strong>Peers:</strong>
+        <span class="label label-success">{{ torrent.stats.peers.unchocked | number }}</span> /
         <span class="label label-default">{{ torrent.stats.peers.total | number }}</span> |
-      Queue: <span class="label label-primary">{{ torrent.stats.queue | number }}</span>
+      <strong>Queue:</strong>
+        <span class="label label-primary">{{ torrent.stats.queue | number }}</span>
     </div>
   </div>
 </div>
