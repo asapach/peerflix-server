@@ -5,18 +5,17 @@ describe('Controller: MainCtrl', function () {
   // load the controller's module
   beforeEach(module('peerflixServerApp'));
 
-  var MainCtrl,
-    scope;
+  var MainCtrl, torrentSocket, scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope, $httpBackend) {
     $httpBackend.expectGET('/torrents').respond([
-      { name: 'foo' },
-      { name: 'bar' }
+      { files: ['foo', 'bar']}
     ]);
     scope = $rootScope.$new();
     MainCtrl = $controller('MainCtrl', {
-      $scope: scope
+      $scope: scope,
+      torrentSocket: torrentSocket = jasmine.createSpyObj('torrentSocket', ['on'])
     });
   }));
 
@@ -27,6 +26,6 @@ describe('Controller: MainCtrl', function () {
 
   it('should attach a list of files to the scope', inject(function ($httpBackend) {
     $httpBackend.flush();
-    expect(_.pluck(scope.files, 'name')).toEqual(['foo', 'bar']);
+    expect(scope.torrents[0].files).toEqual(['foo', 'bar']);
   }));
 });
