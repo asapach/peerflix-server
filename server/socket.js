@@ -31,12 +31,21 @@ module.exports = {
     var stats = function () {
       var swarm = engine.swarm;
       return {
-        peers: swarm.wires.length,
-        downloaded: swarm.downloaded,
-        uploaded: swarm.uploaded,
-        queued: swarm.queued,
-        down: swarm.downloadSpeed(),
-        up: swarm.uploadSpeed()
+        peers: {
+          total: swarm.wires.length,
+          unchocked: swarm.wires.reduce(function (prev, wire) {
+            return prev + !wire.peerChoking;
+          }, 0)
+        },
+        traffic: {
+          down: swarm.downloaded,
+          up: swarm.uploaded
+        },
+        speed: {
+          down: swarm.downloadSpeed(),
+          up: swarm.uploadSpeed()
+        },
+        queue: swarm.queued
       };
     };
   }

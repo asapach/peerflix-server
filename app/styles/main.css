@@ -58,6 +58,11 @@ body {
 .content p + h4 {
   margin-top: 28px;
 }
+.content .panel-heading {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-x: hidden;
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {

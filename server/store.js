@@ -46,11 +46,16 @@ var store = {
       return infoHash;
     });
   },
-  list: function () {
+  get: function (infoHash) {
+    if (infoHash) {
+      return torrents[infoHash];
+    }
     return torrents;
   },
-  get: function (infoHash) {
-    return torrents[infoHash];
+  list: function () {
+    return Object.keys(torrents).map(function (infoHash) {
+      return torrents[infoHash].torrent;
+    });
   }
 };
 

@@ -11,9 +11,8 @@ var rangeParser = require('range-parser'),
 api.use(express.json());
 
 api.get('/torrents', function (req, res) {
-  var torrents = store.list();
-  res.send(Object.keys(torrents).map(function (infoHash) {
-    return _.omit(torrents[infoHash].torrent, 'pieces');
+  res.send(store.list().map(function (torrent) {
+    return _.omit(torrent, 'pieces');
   }));
 });
 
