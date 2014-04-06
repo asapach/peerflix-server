@@ -55,13 +55,18 @@ body {
 .content {
   margin: 40px 0;
 }
-.content p + h4 {
-  margin-top: 28px;
-}
 .content .panel-heading {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow-x: hidden;
+}
+
+.progress .space {
+  float: left;
+  width: 0;
+  height: 100%;
+  color: #FFF;
+  box-shadow: 0px -1px 0px rgba(0, 0, 0, 0.15) inset;
 }
 
 /* Responsive: Portrait tablets and up */
