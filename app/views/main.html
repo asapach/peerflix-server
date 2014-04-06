@@ -27,9 +27,9 @@
       {{ torrent.name }}
     </div>
     <div class="panel-body">
-      <div class="progress progress-striped active">
-        <div class="progress-bar progress-bar-success" style="width: 60%;"></div>
-        <div class="space" style="width: 40%;"></div>
+      <div class="progress progress-striped" ng-class="{ active: torrent.interested }">
+        <div ng-class-even="'space'" ng-class-odd="'progress-bar progress-bar-success'"
+             ng-repeat="progress in torrent.progress" ng-style="{ width: progress + '%' }"></div>
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="file in torrent.files">

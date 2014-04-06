@@ -6,14 +6,20 @@ var rangeParser = require('range-parser'),
   _ = require('lodash'),
   express = require('express'),
   store = require('./store'),
+  progress = require('./progressbar'),
   api = express();
 
 api.use(express.json());
 
+function serialize(torrent) {
+  return _.extend(_.omit(torrent.torrent, 'pieces'), {
+    interested: torrent.amInterested,
+    progress: progress(torrent.bitfield.buffer)
+  });
+}
+
 api.get('/torrents', function (req, res) {
-  res.send(store.list().map(function (torrent) {
-    return _.omit(torrent, 'pieces');
-  }));
+  res.send(store.list().map(serialize));
 });
 
 api.get('/torrents/:infoHash', function (req, res) {
@@ -21,7 +27,7 @@ api.get('/torrents/:infoHash', function (req, res) {
   if (!torrent) {
     res.send(404);
   }
-  res.send(_.omit(torrent.torrent, 'pieces'));
+  res.send(serialize(torrent));
 });
 
 api.post('/torrents', function (req, res) {

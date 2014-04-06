@@ -1,6 +1,8 @@
 'use strict';
 
-var io = require('socket.io').listen(8111);
+var io = require('socket.io').listen(8111),
+  _ = require('lodash'),
+  progress = require('./progressbar');
 
 module.exports = {
   register: function (engine) {
@@ -22,7 +24,9 @@ module.exports = {
         io.sockets.emit('stats', hash, stats());
       }, 1000);
 
-//      engine.on('download', notify);
+      engine.on('download', _.throttle(function () {
+        io.sockets.emit('download', hash, progress(engine.bitfield.buffer));
+      }, 1000));
     });
 
     var stats = function () {

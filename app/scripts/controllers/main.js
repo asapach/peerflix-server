@@ -38,4 +38,9 @@ angular.module('peerflixServerApp')
       var torrent = _.find($scope.torrents, { infoHash: hash });
       torrent.stats = stats;
     });
+
+    torrentSocket.on('download', function (hash, progress) {
+      var torrent = _.find($scope.torrents, { infoHash: hash });
+      torrent.progress = progress;
+    });
   });
