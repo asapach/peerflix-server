@@ -41,7 +41,7 @@ body {
   margin: 30px 0;
 }
 
-/* Main marketing message and sign up button */
+/* Title message and button */
 .jumbotron {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
@@ -51,7 +51,7 @@ body {
   padding: 14px 24px;
 }
 
-/* Supporting marketing content */
+/* Main content */
 .content {
   margin: 40px 0;
 }

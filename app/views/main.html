@@ -24,7 +24,7 @@
   <h4>Torrents</h4>
   <div ng-repeat="torrent in torrents" class="panel panel-default" ng-class="{ 'panel-success': torrent.interested }">
     <div class="panel-heading">
-      <span class="glyphicon glyphicon-download-alt"></span>
+      <span class="glyphicon {{ torrent.interested ? 'glyphicon glyphicon-sort' : 'glyphicon-download-alt'}}"></span>
       {{ torrent.name }}
     </div>
     <div class="panel-body">
@@ -37,14 +37,14 @@
         </li>
       </ul>
     </div>
-    <div class="panel-footer" ng-if="torrent.stats" ng-init="stats = torrent.stats">
-      Speed: <span class="label label-success">{{ stats.speed.down / 1024 | number:1 }}</span> /
-        <span class="label label-danger">{{ stats.speed.up / 1024 | number:1 }}</span> KB/s |
-      Traffic: <span class="label label-success">{{ stats.traffic.down / 1024 / 1024 | number:1 }}</span> /
-        <span class="label label-danger">{{ stats.traffic.up / 1024 / 1024 | number:1 }}</span> MB |
-      Peers: <span class="label label-success">{{ stats.peers.unchocked | number }}</span> /
-        <span class="label label-default">{{ stats.peers.total | number }}</span> |
-      Queue: <span class="label label-primary">{{ stats.queue | number }}</span>
+    <div class="panel-footer" ng-if="torrent.stats">
+      Speed: <span class="label label-success">{{ torrent.stats.speed.down / 1024 | number:1 }}</span> /
+        <span class="label label-danger">{{ torrent.stats.speed.up / 1024 | number:1 }}</span> KB/s |
+      Traffic: <span class="label label-success">{{ torrent.stats.traffic.down / 1024 / 1024 | number:1 }}</span> /
+        <span class="label label-danger">{{ torrent.stats.traffic.up / 1024 / 1024 | number:1 }}</span> MB |
+      Peers: <span class="label label-success">{{ torrent.stats.peers.unchocked | number }}</span> /
+        <span class="label label-default">{{ torrent.stats.peers.total | number }}</span> |
+      Queue: <span class="label label-primary">{{ torrent.stats.queue | number }}</span>
     </div>
   </div>
 </div>

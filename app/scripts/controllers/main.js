@@ -16,21 +16,22 @@ angular.module('peerflixServerApp')
 
     torrentSocket.on('ready', function (hash) {
       $log.info('ready', hash);
-      var torrent = Torrent.get({ infoHash: hash }, function () {
-        $scope.torrents.unshift(torrent);
-      });
+      var torrent = _.find($scope.torrents, { infoHash: hash });
+      if (!torrent) {
+        torrent = Torrent.get({ infoHash: hash }, function () {
+          $scope.torrents.unshift(torrent);
+        });
+      }
     });
 
-    torrentSocket.on('interested', function (hash, stats) {
+    torrentSocket.on('interested', function (hash) {
       var torrent = _.find($scope.torrents, { infoHash: hash });
       torrent.interested = true;
-      torrent.stats = stats;
     });
 
     torrentSocket.on('uninterested', function (hash) {
       var torrent = _.find($scope.torrents, { infoHash: hash });
       torrent.interested = false;
-      torrent.stats = undefined;
     });
 
     torrentSocket.on('stats', function (hash, stats) {
