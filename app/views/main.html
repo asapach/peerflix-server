@@ -25,6 +25,9 @@
     <div class="panel-heading">
       <span class="glyphicon {{ torrent.interested ? 'glyphicon glyphicon-sort' : 'glyphicon-download-alt'}}"></span>
       {{ torrent.name }}
+      <button type="button" class="btn btn-xs pull-right" ng-click="pauseResume(torrent)">
+        <span class="glyphicon {{ torrent.stats.paused ? 'glyphicon-play' : 'glyphicon-pause' }}"></span>
+      </button>
     </div>
     <div class="panel-body">
       <div class="progress progress-striped" ng-class="{ active: torrent.interested }">

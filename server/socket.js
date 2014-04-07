@@ -4,6 +4,20 @@ var io = require('socket.io').listen(8111),
   _ = require('lodash'),
   progress = require('./progressbar');
 
+io.set('log level', 2);
+
+io.sockets.on('connection', function (socket) {
+  var store = require('./store');
+  socket.on('pause', function (infoHash) {
+    console.log('pausing ' + infoHash);
+    store.get(infoHash).swarm.pause();
+  });
+  socket.on('resume', function (infoHash) {
+    console.log('resuming ' + infoHash);
+    store.get(infoHash).swarm.resume();
+  });
+});
+
 module.exports = {
   register: function (engine) {
     var hash;
@@ -46,7 +60,8 @@ module.exports = {
           down: swarm.downloadSpeed(),
           up: swarm.uploadSpeed()
         },
-        queue: swarm.queued
+        queue: swarm.queued,
+        paused: swarm.paused
       };
     };
   }
