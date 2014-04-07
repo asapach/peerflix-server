@@ -21,5 +21,10 @@ module.exports = function (torrent) {
     //engine.swarm.resume();
   });
 
+  process.on('exit', function () {
+    console.log('shutting down');
+    engine.destroy();
+  });
+
   return engine;
 };
