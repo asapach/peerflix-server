@@ -18,6 +18,10 @@ angular.module('peerflixServerApp')
       torrentSocket.emit(torrent.stats.paused ? 'resume' : 'pause', torrent.infoHash);
     };
 
+    $scope.select = function (torrent, file) {
+      torrentSocket.emit(file.selected ? 'deselect' : 'select', torrent.infoHash, torrent.files.indexOf(file));
+    };
+
     torrentSocket.on('ready', function (hash) {
       $log.info('ready', hash);
       var torrent = _.find($scope.torrents, { infoHash: hash });

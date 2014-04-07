@@ -25,9 +25,6 @@
     <div class="panel-heading">
       <span class="glyphicon {{ torrent.interested ? 'glyphicon glyphicon-sort' : 'glyphicon-download-alt'}}"></span>
       {{ torrent.name }}
-      <button type="button" class="btn btn-xs pull-right" ng-click="pauseResume(torrent)">
-        <span class="glyphicon {{ torrent.stats.paused ? 'glyphicon-play' : 'glyphicon-pause' }}"></span>
-      </button>
     </div>
     <div class="panel-body">
       <div class="progress progress-striped" ng-class="{ active: torrent.interested }">
@@ -36,6 +33,7 @@
       </div>
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="file in torrent.files">
+          <input type="checkbox" ng-model="file.selected" ng-click="select(torrent, file)"/>
           <span class="glyphicon glyphicon-cloud-download"></span>
           <a href="/torrents/{{ torrent.infoHash }}/files/{{ $index }}" target="_blank">
             {{ file.name }} ({{ file.length / 1024 / 1024 | number }} MB)
@@ -44,6 +42,9 @@
       </ul>
     </div>
     <div class="panel-footer" ng-if="torrent.stats">
+      <button type="button" class="btn btn-xs" ng-click="pauseResume(torrent)">
+        <span class="glyphicon {{ torrent.stats.paused ? 'glyphicon-play' : 'glyphicon-pause' }}"></span>
+      </button>
       <strong>Speed:</strong>
         <span class="label label-success">{{ torrent.stats.speed.down / 1024 | number:1 }}</span> /
         <span class="label label-danger">{{ torrent.stats.speed.up / 1024 | number:1 }}</span> KB/s |

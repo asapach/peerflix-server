@@ -16,6 +16,18 @@ io.sockets.on('connection', function (socket) {
     console.log('resuming ' + infoHash);
     store.get(infoHash).swarm.resume();
   });
+  socket.on('select', function (infoHash, file) {
+    console.log('selected ' + infoHash + '/' + file);
+    file = store.get(infoHash).files[file];
+    file.select();
+    file.selected = true;
+  });
+  socket.on('deselect', function (infoHash, file) {
+    console.log('deselected ' + infoHash + '/' + file);
+    file = store.get(infoHash).files[file];
+    file.deselect();
+    file.selected = false;
+  });
 });
 
 module.exports = {
