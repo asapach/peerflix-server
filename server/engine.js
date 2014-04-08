@@ -28,6 +28,7 @@ module.exports = function (torrent) {
 
   engine.on('destroyed', function () {
     console.log('destroyed ' + infoHash);
+    engine.removeAllListeners();
   });
 
   process.on('exit', function () {
