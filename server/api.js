@@ -30,6 +30,15 @@ api.get('/torrents/:infoHash', function (req, res) {
   res.send(serialize(torrent));
 });
 
+api.delete('/torrents/:infoHash', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (!torrent) {
+    res.send(404);
+  }
+  store.remove(req.params.infoHash);
+  res.send(200);
+});
+
 api.post('/torrents', function (req, res) {
   var infoHash = store.add(req.body.link);
   res.send({ infoHash: infoHash });

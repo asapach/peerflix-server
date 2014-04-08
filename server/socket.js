@@ -46,13 +46,18 @@ module.exports = {
         io.sockets.emit('interested', hash);
       });
 
-      setInterval(function () {
+      var interval = setInterval(function () {
         io.sockets.emit('stats', hash, stats());
       }, 1000);
 
       engine.on('download', _.throttle(function () {
         io.sockets.emit('download', hash, progress(engine.bitfield.buffer));
       }, 1000));
+
+      engine.on('destroyed', function () {
+        clearInterval(interval);
+        io.sockets.emit('destroyed', hash);
+      });
     });
 
     var stats = function () {

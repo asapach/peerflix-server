@@ -8,9 +8,7 @@ angular.module('peerflixServerApp')
     });
 
     $scope.download = function () {
-      var torrent = new Torrent();
-      torrent.link = $scope.link;
-      torrent.$save();
+      Torrent.save({ link: $scope.link });
       $scope.link = '';
     };
 
@@ -20,6 +18,10 @@ angular.module('peerflixServerApp')
 
     $scope.select = function (torrent, file) {
       torrentSocket.emit(file.selected ? 'deselect' : 'select', torrent.infoHash, torrent.files.indexOf(file));
+    };
+
+    $scope.remove = function (torrent) {
+      Torrent.remove({ infoHash: torrent.infoHash });
     };
 
     torrentSocket.on('ready', function (hash) {
@@ -50,5 +52,9 @@ angular.module('peerflixServerApp')
     torrentSocket.on('download', function (hash, progress) {
       var torrent = _.find($scope.torrents, { infoHash: hash });
       torrent.progress = progress;
+    });
+
+    torrentSocket.on('destroyed', function (hash) {
+      _.remove($scope.torrents, { infoHash: hash });
     });
   });

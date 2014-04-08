@@ -43,14 +43,23 @@ var store = {
     torrent.once('ready', function () {
       torrents[infoHash] = torrent;
       save();
-      return infoHash;
     });
+    return infoHash;
   },
   get: function (infoHash) {
     if (infoHash) {
       return torrents[infoHash];
     }
     return torrents;
+  },
+  remove: function (infoHash) {
+    var torrent = torrents[infoHash];
+    torrent.destroy();
+    torrent.remove(function () {
+      torrent.emit('destroyed');
+    });
+    delete torrents[infoHash];
+    save();
   },
   list: function () {
     return Object.keys(torrents).map(function (infoHash) {

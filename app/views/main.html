@@ -23,6 +23,7 @@
 <div class="row content">
   <div ng-repeat="torrent in torrents" class="panel panel-default" ng-class="{ 'panel-success': torrent.interested }">
     <div class="panel-heading">
+      <button type="button" class="close" ng-click="remove(torrent)">&times;</button>
       <span class="glyphicon {{ torrent.interested ? 'glyphicon glyphicon-sort' : 'glyphicon-download-alt'}}"></span>
       {{ torrent.name }}
     </div>
