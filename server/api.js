@@ -44,7 +44,7 @@ api.post('/torrents', function (req, res) {
   res.send({ infoHash: infoHash });
 });
 
-api.get('/torrents/:infoHash/files/:file', function (req, res) {
+api.get('/torrents/:infoHash/files/:file/:path', function (req, res) {
   var torrent = store.get(req.params.infoHash),
     i = Number(req.params.file);
 

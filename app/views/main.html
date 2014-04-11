@@ -36,7 +36,7 @@
         <li class="list-group-item" ng-repeat="file in torrent.files">
           <input type="checkbox" ng-model="file.selected" ng-click="select(torrent, file)"/>
           <span class="glyphicon glyphicon-cloud-download"></span>
-          <a href="/torrents/{{ torrent.infoHash }}/files/{{ $index }}" target="_blank">
+          <a href="/torrents/{{ torrent.infoHash }}/files/{{ $index }}/{{file.name}}" target="_blank">
             {{ file.name }} ({{ file.length / 1024 / 1024 | number }} MB)
           </a>
         </li>
