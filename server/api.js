@@ -10,6 +10,7 @@ var rangeParser = require('range-parser'),
   api = express();
 
 api.use(express.json());
+api.use(express.logger('dev'));
 
 function serialize(torrent) {
   return _.extend(_.omit(torrent.torrent, 'pieces'), {
