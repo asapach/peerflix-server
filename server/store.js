@@ -40,7 +40,7 @@ var store = {
     var torrent = engine(link),
       infoHash = torrent.swarm.infoHash.toString('hex');
     socket.register(torrent);
-    torrent.once('ready', function () {
+    torrent.once('verifying', function () {
       torrents[infoHash] = torrent;
       save();
     });
@@ -82,6 +82,29 @@ fs.readFile(filePath, function (err, state) {
       store.add({ infoHash: infoHash });
     });
   }
+});
+
+function shutdown(signal) {
+  console.log(signal);
+  var keys = Object.keys(torrents);
+  if (keys.length) {
+    var key = keys[0], torrent = torrents[key];
+    torrent.destroy(function () {
+      torrent.emit('destroyed');
+      delete torrents[key];
+      process.nextTick(shutdown);
+    });
+  } else {
+    process.nextTick(process.exit);
+  }
+}
+
+process.on('SIGTERM', function () {
+  shutdown('SIGTERM');
+});
+
+process.on('SIGINT', function () {
+  shutdown('SIGINT');
 });
 
 module.exports = store;

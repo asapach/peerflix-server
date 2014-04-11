@@ -5,11 +5,16 @@ module.exports = function (torrent) {
   var engine = torrentStream(torrent),
     infoHash = engine.swarm.infoHash.toString('hex');
 
-  engine.on('ready', function () {
-    console.log(infoHash + ' ready');
+  engine.once('verifying', function () {
+    console.log('verifying ' + infoHash);
     engine.files.forEach(function (file, i) {
       console.log(i + ' ' + file.name);
     });
+  });
+
+  engine.on('ready', function () {
+    console.log('ready ' + infoHash);
+    //engine.swarm.pause();
   });
 
   engine.on('uninterested', function () {
@@ -29,11 +34,6 @@ module.exports = function (torrent) {
   engine.on('destroyed', function () {
     console.log('destroyed ' + infoHash);
     engine.removeAllListeners();
-  });
-
-  process.on('exit', function () {
-    console.log('shutting down');
-    engine.destroy();
   });
 
   return engine;

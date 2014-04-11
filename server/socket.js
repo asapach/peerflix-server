@@ -34,7 +34,7 @@ module.exports = {
   register: function (engine) {
     var hash;
 
-    engine.once('ready', function () {
+    engine.once('verifying', function () {
       hash = engine.torrent.infoHash;
       io.sockets.emit('ready', hash, stats());
 
@@ -50,9 +50,12 @@ module.exports = {
         io.sockets.emit('stats', hash, stats());
       }, 1000);
 
-      engine.on('download', _.throttle(function () {
+      var onPiece = _.throttle(function () {
         io.sockets.emit('download', hash, progress(engine.bitfield.buffer));
-      }, 1000));
+      }, 1000);
+
+      engine.on('download', onPiece);
+      engine.on('verify', onPiece);
 
       engine.on('destroyed', function () {
         clearInterval(interval);
