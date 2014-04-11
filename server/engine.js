@@ -1,8 +1,8 @@
 'use strict';
 var torrentStream = require('torrent-stream');
 
-module.exports = function (torrent) {
-  var engine = torrentStream(torrent),
+module.exports = function (torrent, opts) {
+  var engine = torrentStream(torrent, opts),
     infoHash = engine.swarm.infoHash.toString('hex');
 
   engine.once('verifying', function () {

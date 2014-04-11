@@ -2,16 +2,21 @@
 
 var fs = require('fs'),
   path = require('path'),
+  Promise = require('promise'),
+  read = Promise.denodeify(fs.readFile),
   engine = require('./engine'),
   socket = require('./socket'),
-  filePath = path.join(__dirname, 'config', 'torrents.json'),
-  torrents = {};
+  configPath = path.join(__dirname, 'config'),
+  configFile = path.join(configPath, 'config.json'),
+  storageFile = path.join(configPath, 'torrents.json'),
+  torrents = {},
+  options = {};
 
 function writeFile() {
   var state = Object.keys(torrents).map(function (infoHash) {
     return infoHash;
   });
-  fs.writeFile(filePath, JSON.stringify(state), function (err) {
+  fs.writeFile(storageFile, JSON.stringify(state), function (err) {
     if (err) {
       throw err;
     }
@@ -20,12 +25,11 @@ function writeFile() {
 }
 
 function save() {
-  var dir = path.dirname(filePath);
-  fs.exists(dir, function (exists) {
+  fs.exists(configPath, function (exists) {
     if (exists) {
       writeFile();
     } else {
-      fs.mkdir(dir, function (err) {
+      fs.mkdir(configPath, function (err) {
         if (err) {
           throw err;
         }
@@ -37,7 +41,7 @@ function save() {
 
 var store = {
   add: function (link) {
-    var torrent = engine(link),
+    var torrent = engine(link, options),
       infoHash = torrent.swarm.infoHash.toString('hex');
     socket.register(torrent);
     torrent.once('verifying', function () {
@@ -68,20 +72,27 @@ var store = {
   }
 };
 
-fs.readFile(filePath, function (err, state) {
-  if (err) {
-    if (err.code === 'ENOENT') {
-      console.log('previous state not found');
-    } else {
-      throw err;
-    }
-  } else {
+read(configFile).then(function (config) {
+  options = JSON.parse(config);
+  console.log('options: ' + JSON.stringify(options));
+}, function (err) {
+  if (err.code === 'ENOENT') {
+    return Promise.resolve();
+  }
+}).then(function () {
+  read(storageFile).then(function (state) {
     var torrents = JSON.parse(state);
     console.log('resuming from previous state');
     torrents.forEach(function (infoHash) {
       store.add({ infoHash: infoHash });
     });
-  }
+  }, function (err) {
+    if (err.code === 'ENOENT') {
+      console.log('previous state not found');
+    } else {
+      throw err;
+    }
+  });
 });
 
 function shutdown(signal) {
