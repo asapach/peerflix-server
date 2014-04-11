@@ -37,7 +37,7 @@
           <input type="checkbox" ng-model="file.selected" ng-click="select(torrent, file)"/>
           <span class="glyphicon glyphicon-cloud-download"></span>
           <a href="/torrents/{{ torrent.infoHash }}/files/{{ $index }}/{{file.name}}" target="_blank">
-            {{ file.name }} ({{ file.length / 1024 / 1024 | number }} MB)
+            {{ file.name }} ({{ file.length / 1024 / 1024 | number:1 }} MB)
           </a>
         </li>
       </ul>
