@@ -45,16 +45,14 @@ api.post('/torrents', function (req, res) {
   res.send({ infoHash: infoHash });
 });
 
-api.get('/torrents/:infoHash/files/:file/:path', function (req, res) {
-  var torrent = store.get(req.params.infoHash),
-    i = Number(req.params.file);
+api.get('/torrents/:infoHash/files/:path', function (req, res) {
+  var torrent = store.get(req.params.infoHash), file;
 
-  if (!torrent || isNaN(i) || i >= torrent.files.length) {
+  if (!torrent || !(file = _.find(torrent.files, { path: req.params.path }))) {
     res.send(404);
     return;
   }
 
-  var file = torrent.files[i];
   var range = req.headers.range;
   range = range && rangeParser(file.length, range)[0];
   res.setHeader('Accept-Ranges', 'bytes');
