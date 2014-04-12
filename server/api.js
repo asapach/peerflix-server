@@ -13,6 +13,9 @@ api.use(express.json());
 api.use(express.logger('dev'));
 
 function serialize(torrent) {
+  if (!torrent.torrent) {
+    return {};
+  }
   return _.extend(_.omit(torrent.torrent, 'pieces'), {
     interested: torrent.amInterested,
     progress: progress(torrent.bitfield.buffer)

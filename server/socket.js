@@ -10,23 +10,35 @@ io.sockets.on('connection', function (socket) {
   var store = require('./store');
   socket.on('pause', function (infoHash) {
     console.log('pausing ' + infoHash);
-    store.get(infoHash).swarm.pause();
+    var torrent = store.get(infoHash);
+    if (torrent && torrent.swarm) {
+      torrent.swarm.pause();
+    }
   });
   socket.on('resume', function (infoHash) {
     console.log('resuming ' + infoHash);
-    store.get(infoHash).swarm.resume();
+    var torrent = store.get(infoHash);
+    if (torrent && torrent.swarm) {
+      torrent.swarm.resume();
+    }
   });
   socket.on('select', function (infoHash, file) {
     console.log('selected ' + infoHash + '/' + file);
-    file = store.get(infoHash).files[file];
-    file.select();
-    file.selected = true;
+    var torrent = store.get(infoHash);
+    if (torrent && torrent.files) {
+      file = torrent.files[file];
+      file.select();
+      file.selected = true;
+    }
   });
   socket.on('deselect', function (infoHash, file) {
     console.log('deselected ' + infoHash + '/' + file);
-    file = store.get(infoHash).files[file];
-    file.deselect();
-    file.selected = false;
+    var torrent = store.get(infoHash);
+    if (torrent && torrent.files) {
+      file = torrent.files[file];
+      file.deselect();
+      file.selected = false;
+    }
   });
 });
 
@@ -34,9 +46,17 @@ module.exports = {
   register: function (engine) {
     var hash;
 
+    var notifyProgress = _.throttle(function () {
+      io.sockets.emit('download', hash, progress(engine.bitfield.buffer));
+    }, 1000);
+
     engine.once('verifying', function () {
       hash = engine.torrent.infoHash;
       io.sockets.emit('ready', hash, stats());
+
+      engine.on('ready', function () {
+        io.sockets.emit('ready', hash, stats());
+      });
 
       engine.on('uninterested', function () {
         io.sockets.emit('uninterested', hash);
@@ -50,12 +70,8 @@ module.exports = {
         io.sockets.emit('stats', hash, stats());
       }, 1000);
 
-      var onPiece = _.throttle(function () {
-        io.sockets.emit('download', hash, progress(engine.bitfield.buffer));
-      }, 1000);
-
-      engine.on('download', onPiece);
-      engine.on('verify', onPiece);
+      engine.on('download', notifyProgress);
+      engine.on('verify', notifyProgress);
 
       engine.on('destroyed', function () {
         clearInterval(interval);

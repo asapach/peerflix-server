@@ -44,10 +44,8 @@ var store = {
     var torrent = engine(link, options),
       infoHash = torrent.swarm.infoHash.toString('hex');
     socket.register(torrent);
-    torrent.once('verifying', function () {
-      torrents[infoHash] = torrent;
-      save();
-    });
+    torrents[infoHash] = torrent;
+    save();
     return infoHash;
   },
   get: function (infoHash) {
