@@ -42,7 +42,7 @@ function save() {
 
 var store = {
   add: function (link) {
-    var magnetUri = magnet(link),
+    var magnetUri = typeof link === 'string' ? magnet(link) : link,
       infoHash = magnetUri.infoHash;
     if (torrents[infoHash]) {
       return infoHash;
