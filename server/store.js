@@ -48,6 +48,8 @@ var store = {
       return infoHash;
     }
 
+    console.log('adding ' + infoHash);
+
     var torrent = engine(magnetUri, options);
     socket.register(infoHash, torrent);
     torrents[infoHash] = torrent;

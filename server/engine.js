@@ -1,8 +1,9 @@
 'use strict';
-var torrentStream = require('torrent-stream');
+var torrentStream = require('torrent-stream'),
+  _ = require('lodash');
 
 module.exports = function (magnetUri, opts) {
-  var engine = torrentStream(magnetUri, opts);
+  var engine = torrentStream(magnetUri, _.clone(opts, true));
 
   engine.once('verifying', function () {
     console.log('verifying ' + magnetUri.infoHash);
@@ -11,7 +12,7 @@ module.exports = function (magnetUri, opts) {
     });
   });
 
-  engine.on('ready', function () {
+  engine.once('ready', function () {
     console.log('ready ' + magnetUri.infoHash);
     //engine.swarm.pause();
   });
