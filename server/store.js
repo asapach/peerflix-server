@@ -43,8 +43,12 @@ function save() {
 var store = {
   add: function (link) {
     var magnetUri = magnet(link),
-      infoHash = magnetUri.infoHash,
-      torrent = engine(magnetUri, options);
+      infoHash = magnetUri.infoHash;
+    if (torrents[infoHash]) {
+      return infoHash;
+    }
+
+    var torrent = engine(magnetUri, options);
     socket.register(infoHash, torrent);
     torrents[infoHash] = torrent;
     save();
