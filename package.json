@@ -9,7 +9,8 @@
     "express": "~3.5.1",
     "lodash": "~2.4.1",
     "socket.io": "~0.9.16",
-    "promise": "~4.0.0"
+    "promise": "~4.0.0",
+    "magnet-uri": "~1.1.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

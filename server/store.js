@@ -4,6 +4,7 @@ var fs = require('fs'),
   path = require('path'),
   Promise = require('promise'),
   read = Promise.denodeify(fs.readFile),
+  magnet = require('magnet-uri'),
   engine = require('./engine'),
   socket = require('./socket'),
   configPath = path.join(__dirname, 'config'),
@@ -41,18 +42,16 @@ function save() {
 
 var store = {
   add: function (link) {
-    var torrent = engine(link, options),
-      infoHash = torrent.swarm.infoHash.toString('hex');
-    socket.register(torrent);
+    var magnetUri = magnet(link),
+      infoHash = magnetUri.infoHash,
+      torrent = engine(magnetUri, options);
+    socket.register(infoHash, torrent);
     torrents[infoHash] = torrent;
     save();
     return infoHash;
   },
   get: function (infoHash) {
-    if (infoHash) {
-      return torrents[infoHash];
-    }
-    return torrents;
+    return torrents[infoHash];
   },
   remove: function (infoHash) {
     var torrent = torrents[infoHash];

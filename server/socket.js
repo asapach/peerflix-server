@@ -43,31 +43,28 @@ io.sockets.on('connection', function (socket) {
 });
 
 module.exports = {
-  register: function (engine) {
-    var hash;
-
-    var notifyProgress = _.throttle(function () {
-      io.sockets.emit('download', hash, progress(engine.bitfield.buffer));
-    }, 1000);
-
+  register: function (infoHash, engine) {
     engine.once('verifying', function () {
-      hash = engine.torrent.infoHash;
-      io.sockets.emit('ready', hash, stats());
+      var notifyProgress = _.throttle(function () {
+          io.sockets.emit('download', infoHash, progress(engine.bitfield.buffer));
+        }, 1000);
+
+      io.sockets.emit('ready', infoHash, stats());
 
       engine.on('ready', function () {
-        io.sockets.emit('ready', hash, stats());
+        io.sockets.emit('ready', infoHash, stats());
       });
 
       engine.on('uninterested', function () {
-        io.sockets.emit('uninterested', hash);
+        io.sockets.emit('uninterested', infoHash);
       });
 
       engine.on('interested', function () {
-        io.sockets.emit('interested', hash);
+        io.sockets.emit('interested', infoHash);
       });
 
       var interval = setInterval(function () {
-        io.sockets.emit('stats', hash, stats());
+        io.sockets.emit('stats', infoHash, stats());
       }, 1000);
 
       engine.on('download', notifyProgress);
@@ -75,7 +72,7 @@ module.exports = {
 
       engine.on('destroyed', function () {
         clearInterval(interval);
-        io.sockets.emit('destroyed', hash);
+        io.sockets.emit('destroyed', infoHash);
       });
     });
 

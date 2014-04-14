@@ -14,7 +14,7 @@ api.use(express.logger('dev'));
 
 function serialize(torrent) {
   if (!torrent.torrent) {
-    return {};
+    return { infoHash: torrent.swarm.infoHash.toString('hex') };
   }
   return _.extend(_.omit(torrent.torrent, 'pieces'), {
     interested: torrent.amInterested,
