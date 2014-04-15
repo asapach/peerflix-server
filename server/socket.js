@@ -49,7 +49,7 @@ module.exports = {
           io.sockets.emit('download', infoHash, progress(engine.bitfield.buffer));
         }, 1000);
 
-      io.sockets.emit('ready', infoHash, stats());
+      io.sockets.emit('verifying', infoHash, stats());
 
       engine.on('ready', function () {
         io.sockets.emit('ready', infoHash, stats());

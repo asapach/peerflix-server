@@ -24,14 +24,20 @@ angular.module('peerflixServerApp')
       Torrent.remove({ infoHash: torrent.infoHash });
     };
 
-    torrentSocket.on('ready', function (hash) {
-      $log.info('ready', hash);
+    torrentSocket.on('verifying', function (hash) {
+      $log.info('verifying', hash);
       var torrent = _.find($scope.torrents, { infoHash: hash });
       if (!torrent) {
         torrent = Torrent.get({ infoHash: hash }, function () {
           $scope.torrents.unshift(torrent);
+          torrent.verifying = true;
         });
       }
+    });
+
+    torrentSocket.on('ready', function (hash) {
+      var torrent = _.find($scope.torrents, { infoHash: hash });
+      torrent.verifying = false;
     });
 
     torrentSocket.on('interested', function (hash) {

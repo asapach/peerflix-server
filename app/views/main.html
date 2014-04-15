@@ -21,10 +21,10 @@
 </div>
 
 <div class="row content">
-  <div ng-repeat="torrent in torrents" class="panel panel-default" ng-class="{ 'panel-success': torrent.interested }">
+  <div ng-repeat="torrent in torrents" class="panel panel-default" ng-class="{ 'panel-warning': torrent.verifying, 'panel-success': torrent.interested }">
     <div class="panel-heading">
       <button type="button" class="close" ng-click="remove(torrent)">&times;</button>
-      <span class="glyphicon {{ torrent.interested ? 'glyphicon glyphicon-sort' : 'glyphicon-download-alt'}}"></span>
+      <span class="glyphicon" ng-class="{ 'glyphicon-hdd': !torrent.verifying, 'glyphicon-refresh': torrent.verifying, 'glyphicon-transfer': torrent.interested }"></span>
       {{ torrent.name }}
     </div>
     <div class="panel-body">
