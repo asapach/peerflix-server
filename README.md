@@ -9,9 +9,7 @@ Based on [torrent-stream](https://github.com/mafintosh/torrent-stream), inspired
 
 ## Usage
 
-1. Get the code (using git clone or otherwise)
-1. You will also need [bower](https://github.com/bower/bower): run `npm install -g bower` and `bower install`
-2. Run `npm install --production`
-1. Run `node server/index.js`
+1. `npm install -g peerflix-server`
+1. `peerflix-server`
 1. Open your browser at [http://localhost:9000/](http://localhost:9000/)
 1. Enjoy!
