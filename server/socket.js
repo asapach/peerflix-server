@@ -67,7 +67,6 @@ module.exports = {
         io.sockets.emit('stats', infoHash, stats());
       }, 1000);
 
-      engine.on('download', notifyProgress);
       engine.on('verify', notifyProgress);
 
       engine.on('destroyed', function () {
