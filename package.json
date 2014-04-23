@@ -1,8 +1,22 @@
 {
   "name": "peerflix-server",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "author": "Aliaksei Sapach <dreamsonic@tut.by>",
+  "description": "Streaming torrent client for node.js with web ui.",
+  "bin": {
+    "peerflix-server": "./server/index.js"
+  },
+  "scripts": {
+    "start": "node ./server/index.js",
+    "test": "grunt test"
+  },
+  "main": "./server/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asapach/peerflix-server.git"
+  },
   "dependencies": {
-    "torrent-stream": "~0.7.0",
+    "torrent-stream": "~0.7.1",
     "range-parser": "~1.0.0",
     "mime": "~1.2.11",
     "pump": "~0.3.1",
@@ -42,10 +56,8 @@
     "karma-jasmine": "~0.1.5",
     "karma-phantomjs-launcher": "~0.1.4"
   },
+  "license": "MIT",
   "engines": {
     "node": ">=0.10.0"
-  },
-  "scripts": {
-    "test": "grunt test"
   }
 }
