@@ -14,24 +14,22 @@ module.exports = function (torrent, opts) {
 
   engine.once('ready', function () {
     console.log('ready ' + torrent.infoHash);
-    //engine.swarm.pause();
+    engine.torrent.ready = true;
   });
 
   engine.on('uninterested', function () {
     console.log('uninterested ' + torrent.infoHash);
-    //engine.swarm.pause();
   });
 
   engine.on('interested', function () {
     console.log('interested ' + torrent.infoHash);
-    //engine.swarm.resume();
   });
 
   engine.on('error', function (e) {
     console.log('error ' + torrent.infoHash + ': ' + e);
   });
 
-  engine.on('destroyed', function () {
+  engine.once('destroyed', function () {
     console.log('destroyed ' + torrent.infoHash);
     engine.removeAllListeners();
   });

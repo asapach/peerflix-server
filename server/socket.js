@@ -51,7 +51,7 @@ module.exports = {
 
       io.sockets.emit('verifying', infoHash, stats());
 
-      engine.on('ready', function () {
+      engine.once('ready', function () {
         io.sockets.emit('ready', infoHash, stats());
       });
 
@@ -69,9 +69,10 @@ module.exports = {
 
       engine.on('verify', notifyProgress);
 
-      engine.on('destroyed', function () {
+      engine.once('destroyed', function () {
         clearInterval(interval);
         io.sockets.emit('destroyed', infoHash);
+        engine = null;
       });
     });
 

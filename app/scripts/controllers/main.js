@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('peerflixServerApp')
-  .controller('MainCtrl', function ($scope, $resource, $log, torrentSocket) {
+  .controller('MainCtrl', function ($scope, $resource, $log, $q, torrentSocket) {
     var Torrent = $resource('/torrents/:infoHash');
     var torrents = Torrent.query(function () {
       $scope.torrents = torrents;
@@ -24,40 +24,50 @@ angular.module('peerflixServerApp')
       Torrent.remove({ infoHash: torrent.infoHash });
     };
 
-    torrentSocket.on('verifying', function (hash) {
-      $log.info('verifying', hash);
+    function findTorrent(hash) {
       var torrent = _.find($scope.torrents, { infoHash: hash });
-      if (!torrent) {
-        torrent = Torrent.get({ infoHash: hash }, function () {
+      if (torrent) {
+        return $q.when(torrent);
+      } else {
+        return Torrent.get({ infoHash: hash }).$promise.then(function (torrent) {
           $scope.torrents.unshift(torrent);
-          torrent.verifying = true;
+          return torrent;
         });
       }
+    }
+
+    torrentSocket.on('verifying', function (hash) {
+      findTorrent(hash);
     });
 
     torrentSocket.on('ready', function (hash) {
-      var torrent = _.find($scope.torrents, { infoHash: hash });
-      torrent.verifying = false;
+      findTorrent(hash).then(function (torrent) {
+        torrent.ready = true;
+      });
     });
 
     torrentSocket.on('interested', function (hash) {
-      var torrent = _.find($scope.torrents, { infoHash: hash });
-      torrent.interested = true;
+      findTorrent(hash).then(function (torrent) {
+        torrent.interested = true;
+      });
     });
 
     torrentSocket.on('uninterested', function (hash) {
-      var torrent = _.find($scope.torrents, { infoHash: hash });
-      torrent.interested = false;
+      findTorrent(hash).then(function (torrent) {
+        torrent.interested = false;
+      });
     });
 
     torrentSocket.on('stats', function (hash, stats) {
-      var torrent = _.find($scope.torrents, { infoHash: hash });
-      torrent.stats = stats;
+      findTorrent(hash).then(function (torrent) {
+        torrent.stats = stats;
+      });
     });
 
     torrentSocket.on('download', function (hash, progress) {
-      var torrent = _.find($scope.torrents, { infoHash: hash });
-      torrent.progress = progress;
+      findTorrent(hash).then(function (torrent) {
+        torrent.progress = progress;
+      });
     });
 
     torrentSocket.on('destroyed', function (hash) {
