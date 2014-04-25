@@ -17,12 +17,16 @@ var fs = require('fs'),
 
 function save() {
   mkdirp(configPath, function (err) {
-    if (err) { throw err; }
+    if (err) {
+      throw err;
+    }
     var state = Object.keys(torrents).map(function (infoHash) {
       return infoHash;
     });
     fs.writeFile(storageFile, JSON.stringify(state), function (err) {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
       console.log('current state saved');
     });
   });
@@ -64,6 +68,12 @@ var store = {
     return Object.keys(torrents).map(function (infoHash) {
       return torrents[infoHash];
     });
+  },
+  load: function (infoHash) {
+    console.log('loading ' + infoHash);
+    var e = engine({ infoHash: infoHash }, options);
+    socket.register(infoHash, e);
+    torrents[infoHash] = e;
   }
 };
 
@@ -79,7 +89,7 @@ read(configFile).then(function (config) {
     var torrents = JSON.parse(state);
     console.log('resuming from previous state');
     torrents.forEach(function (infoHash) {
-      store.add({ infoHash: infoHash });
+      store.load(infoHash);
     });
   }, function (err) {
     if (err.code === 'ENOENT') {
@@ -91,7 +101,10 @@ read(configFile).then(function (config) {
 });
 
 function shutdown(signal) {
-  console.log(signal);
+  if (signal) {
+    console.log(signal);
+  }
+
   var keys = Object.keys(torrents);
   if (keys.length) {
     var key = keys[0], torrent = torrents[key];
