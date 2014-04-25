@@ -3,8 +3,6 @@
 var fs = require('fs'),
   path = require('path'),
   mkdirp = require('mkdirp'),
-  Promise = require('promise'),
-  read = Promise.denodeify(fs.readFile),
   readTorrent = require('read-torrent'),
   engine = require('./engine'),
   socket = require('./socket'),
@@ -77,26 +75,35 @@ var store = {
   }
 };
 
-read(configFile).then(function (config) {
-  options = JSON.parse(config);
-  console.log('options: ' + JSON.stringify(options));
-}, function (err) {
-  if (err.code === 'ENOENT') {
-    return Promise.resolve();
+mkdirp(configPath, function (err) {
+  if (err) {
+    throw err;
   }
-}).then(function () {
-  read(storageFile).then(function (state) {
-    var torrents = JSON.parse(state);
-    console.log('resuming from previous state');
-    torrents.forEach(function (infoHash) {
-      store.load(infoHash);
-    });
-  }, function (err) {
-    if (err.code === 'ENOENT') {
-      console.log('previous state not found');
+  fs.readFile(configFile, function (err, data) {
+    if (err) {
+      if (err.code !== 'ENOENT') {
+        throw err;
+      }
     } else {
-      throw err;
+      options = JSON.parse(data);
+      console.log('options: ' + JSON.stringify(options));
     }
+
+    fs.readFile(storageFile, function (err, data) {
+      if (err) {
+        if (err.code === 'ENOENT') {
+          console.log('previous state not found');
+        } else {
+          throw err;
+        }
+      } else {
+        var torrents = JSON.parse(data);
+        console.log('resuming from previous state');
+        torrents.forEach(function (infoHash) {
+          store.load(infoHash);
+        });
+      }
+    });
   });
 });
 
