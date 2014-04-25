@@ -67,6 +67,7 @@ body {
   height: 100%;
   color: #FFF;
   box-shadow: 0px -1px 0px rgba(0, 0, 0, 0.15) inset;
+  transition: width .6s;
 }
 
 /* Responsive: Portrait tablets and up */
