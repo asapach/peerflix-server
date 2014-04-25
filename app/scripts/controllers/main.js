@@ -30,7 +30,7 @@ angular.module('peerflixServerApp')
         return $q.when(torrent);
       } else {
         return Torrent.get({ infoHash: hash }).$promise.then(function (torrent) {
-          if (!_.contains($scope.torrents)) {
+          if (!_.find($scope.torrents, { infoHash: hash })) {
             $scope.torrents.unshift(torrent);
           }
           return torrent;
