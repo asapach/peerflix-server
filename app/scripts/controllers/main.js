@@ -39,7 +39,9 @@ angular.module('peerflixServerApp')
     }
 
     torrentSocket.on('verifying', function (hash) {
-      findTorrent(hash);
+      findTorrent(hash).then(function (torrent) {
+        torrent.ready = false;
+      });
     });
 
     torrentSocket.on('ready', function (hash) {
