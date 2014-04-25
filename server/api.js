@@ -44,8 +44,14 @@ api.delete('/torrents/:infoHash', function (req, res) {
 });
 
 api.post('/torrents', function (req, res) {
-  var infoHash = store.add(req.body.link);
-  res.send({ infoHash: infoHash });
+  store.add(req.body.link, function (err, infoHash) {
+    if (err) {
+      console.error(err);
+      res.send(500, err);
+    } else {
+      res.send({ infoHash: infoHash });
+    }
+  });
 });
 
 api.get('/torrents/:infoHash/files/:path([^"]+)', function (req, res) {

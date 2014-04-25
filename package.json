@@ -15,7 +15,13 @@
     "type": "git",
     "url": "https://github.com/asapach/peerflix-server.git"
   },
-  "keywords": ["torrent", "stream", "peerflix", "server", "web"],
+  "keywords": [
+    "torrent",
+    "stream",
+    "peerflix",
+    "server",
+    "web"
+  ],
   "dependencies": {
     "torrent-stream": "~0.7.3",
     "range-parser": "~1.0.0",
@@ -25,7 +31,8 @@
     "lodash": "~2.4.1",
     "socket.io": "~0.9.16",
     "promise": "~4.0.0",
-    "magnet-uri": "~2.0.1"
+    "read-torrent": "~1.0.0",
+    "mkdirp": "^0.4.0"
   },
   "devDependencies": {
     "grunt": "~0.4.4",

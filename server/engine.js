@@ -2,37 +2,37 @@
 var torrentStream = require('torrent-stream'),
   _ = require('lodash');
 
-module.exports = function (magnetUri, opts) {
-  var engine = torrentStream(magnetUri, _.clone(opts, true));
+module.exports = function (torrent, opts) {
+  var engine = torrentStream(torrent, _.clone(opts, true));
 
   engine.once('verifying', function () {
-    console.log('verifying ' + magnetUri.infoHash);
+    console.log('verifying ' + torrent.infoHash);
     engine.files.forEach(function (file, i) {
       console.log(i + ' ' + file.name);
     });
   });
 
   engine.once('ready', function () {
-    console.log('ready ' + magnetUri.infoHash);
+    console.log('ready ' + torrent.infoHash);
     //engine.swarm.pause();
   });
 
   engine.on('uninterested', function () {
-    console.log('uninterested ' + magnetUri.infoHash);
+    console.log('uninterested ' + torrent.infoHash);
     //engine.swarm.pause();
   });
 
   engine.on('interested', function () {
-    console.log('interested ' + magnetUri.infoHash);
+    console.log('interested ' + torrent.infoHash);
     //engine.swarm.resume();
   });
 
   engine.on('error', function (e) {
-    console.log('error ' + magnetUri.infoHash + ': ' + e);
+    console.log('error ' + torrent.infoHash + ': ' + e);
   });
 
   engine.on('destroyed', function () {
-    console.log('destroyed ' + magnetUri.infoHash);
+    console.log('destroyed ' + torrent.infoHash);
     engine.removeAllListeners();
   });
 

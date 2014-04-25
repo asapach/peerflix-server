@@ -2,60 +2,51 @@
 
 var fs = require('fs'),
   path = require('path'),
+  mkdirp = require('mkdirp'),
   Promise = require('promise'),
   read = Promise.denodeify(fs.readFile),
-  magnet = require('magnet-uri'),
+  readTorrent = require('read-torrent'),
   engine = require('./engine'),
   socket = require('./socket'),
-  homePath = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'],
+  homePath = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'],
   configPath = path.join(homePath, '.config', 'peerflix-server'),
   configFile = path.join(configPath, 'config.json'),
   storageFile = path.join(configPath, 'torrents.json'),
   torrents = {},
   options = {};
 
-function writeFile() {
-  var state = Object.keys(torrents).map(function (infoHash) {
-    return infoHash;
-  });
-  fs.writeFile(storageFile, JSON.stringify(state), function (err) {
-    if (err) {
-      throw err;
-    }
-    console.log('current state saved');
-  });
-}
-
 function save() {
-  fs.exists(configPath, function (exists) {
-    if (exists) {
-      writeFile();
-    } else {
-      fs.mkdir(configPath, function (err) {
-        if (err) {
-          throw err;
-        }
-        writeFile();
-      });
-    }
+  mkdirp(configPath, function (err) {
+    if (err) { throw err; }
+    var state = Object.keys(torrents).map(function (infoHash) {
+      return infoHash;
+    });
+    fs.writeFile(storageFile, JSON.stringify(state), function (err) {
+      if (err) { throw err; }
+      console.log('current state saved');
+    });
   });
 }
 
 var store = {
-  add: function (link) {
-    var magnetUri = typeof link === 'string' ? magnet(link) : link,
-      infoHash = magnetUri.infoHash;
-    if (torrents[infoHash]) {
-      return infoHash;
-    }
+  add: function (link, callback) {
+    readTorrent(link, function (err, torrent) {
+      if (err) {
+        return callback(err);
+      }
+      var infoHash = torrent.infoHash;
+      if (torrents[infoHash]) {
+        return infoHash;
+      }
 
-    console.log('adding ' + infoHash);
+      console.log('adding ' + infoHash);
 
-    var torrent = engine(magnetUri, options);
-    socket.register(infoHash, torrent);
-    torrents[infoHash] = torrent;
-    save();
-    return infoHash;
+      var e = engine(torrent, options);
+      socket.register(infoHash, e);
+      torrents[infoHash] = e;
+      save();
+      callback(null, infoHash);
+    });
   },
   get: function (infoHash) {
     return torrents[infoHash];
