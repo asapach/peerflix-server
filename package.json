@@ -4,10 +4,10 @@
   "author": "Aliaksei Sapach <dreamsonic@tut.by>",
   "description": "Streaming torrent client for node.js with web ui.",
   "bin": {
-    "peerflix-server": "./server/index.js"
+    "peerflix-server": "./server/bin.js"
   },
   "scripts": {
-    "start": "node ./server/index.js",
+    "start": "node ./server/bin.js",
     "test": "grunt test"
   },
   "main": "./server/index.js",
@@ -31,7 +31,7 @@
     "lodash": "~2.4.1",
     "socket.io": "~0.9.16",
     "read-torrent": "~1.0.0",
-    "mkdirp": "^0.4.0"
+    "mkdirp": "~0.4.0"
   },
   "devDependencies": {
     "grunt": "~0.4.4",
@@ -40,7 +40,7 @@
     "grunt-concurrent": "~0.5.0",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-concat": "~0.4.0",
-    "grunt-contrib-connect": "~0.7.1",
+    "grunt-contrib-connect": "git+https://github.com/gruntjs/grunt-contrib-connect.git#0e34876752b1881ec4f7141ca3d968ad51323d30",
     "grunt-contrib-copy": "~0.5.0",
     "grunt-contrib-cssmin": "~0.9.0",
     "grunt-contrib-htmlmin": "~0.3.0",

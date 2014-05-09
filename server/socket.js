@@ -1,49 +1,49 @@
 'use strict';
 
-var io = require('socket.io').listen(8111),
-  _ = require('lodash'),
-  progress = require('./progressbar');
+module.exports = function (server) {
+  var io = require('socket.io').listen(server),
+    _ = require('lodash'),
+    progress = require('./progressbar'),
+    store = require('./store');
 
-io.set('log level', 2);
+  io.set('log level', 2);
 
-io.sockets.on('connection', function (socket) {
-  var store = require('./store');
-  socket.on('pause', function (infoHash) {
-    console.log('pausing ' + infoHash);
-    var torrent = store.get(infoHash);
-    if (torrent && torrent.swarm) {
-      torrent.swarm.pause();
-    }
+  io.sockets.on('connection', function (socket) {
+    socket.on('pause', function (infoHash) {
+      console.log('pausing ' + infoHash);
+      var torrent = store.get(infoHash);
+      if (torrent && torrent.swarm) {
+        torrent.swarm.pause();
+      }
+    });
+    socket.on('resume', function (infoHash) {
+      console.log('resuming ' + infoHash);
+      var torrent = store.get(infoHash);
+      if (torrent && torrent.swarm) {
+        torrent.swarm.resume();
+      }
+    });
+    socket.on('select', function (infoHash, file) {
+      console.log('selected ' + infoHash + '/' + file);
+      var torrent = store.get(infoHash);
+      if (torrent && torrent.files) {
+        file = torrent.files[file];
+        file.select();
+        file.selected = true;
+      }
+    });
+    socket.on('deselect', function (infoHash, file) {
+      console.log('deselected ' + infoHash + '/' + file);
+      var torrent = store.get(infoHash);
+      if (torrent && torrent.files) {
+        file = torrent.files[file];
+        file.deselect();
+        file.selected = false;
+      }
+    });
   });
-  socket.on('resume', function (infoHash) {
-    console.log('resuming ' + infoHash);
-    var torrent = store.get(infoHash);
-    if (torrent && torrent.swarm) {
-      torrent.swarm.resume();
-    }
-  });
-  socket.on('select', function (infoHash, file) {
-    console.log('selected ' + infoHash + '/' + file);
-    var torrent = store.get(infoHash);
-    if (torrent && torrent.files) {
-      file = torrent.files[file];
-      file.select();
-      file.selected = true;
-    }
-  });
-  socket.on('deselect', function (infoHash, file) {
-    console.log('deselected ' + infoHash + '/' + file);
-    var torrent = store.get(infoHash);
-    if (torrent && torrent.files) {
-      file = torrent.files[file];
-      file.deselect();
-      file.selected = false;
-    }
-  });
-});
 
-module.exports = {
-  register: function (infoHash, engine) {
+  store.on('torrent', function (infoHash, engine) {
     engine.once('verifying', function () {
       var notifyProgress = _.throttle(function () {
           io.sockets.emit('download', infoHash, progress(engine.bitfield.buffer));
@@ -97,5 +97,5 @@ module.exports = {
         paused: swarm.paused
       };
     };
-  }
+  });
 };

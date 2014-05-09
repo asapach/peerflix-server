@@ -19,9 +19,7 @@
     <!-- Add your site or application content here -->
     <div class="container" ng-view=""></div>
 
-
     <!-- build:js scripts/vendor.js -->
-    <script src="bower_components/socket.io-client/dist/socket.io.js"></script>
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -41,5 +39,7 @@
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/services/torrent-socket.js"></script>
     <!-- endbuild -->
+
+    <script src="/socket.io/socket.io.js"></script>
 </body>
 </html>

@@ -2,10 +2,11 @@
 
 var fs = require('fs'),
   path = require('path'),
+  events = require('events'),
+  _ = require('lodash'),
   mkdirp = require('mkdirp'),
   readTorrent = require('read-torrent'),
   engine = require('./engine'),
-  socket = require('./socket'),
   homePath = process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'],
   configPath = path.join(homePath, '.config', 'peerflix-server'),
   configFile = path.join(configPath, 'config.json'),
@@ -30,7 +31,7 @@ function save() {
   });
 }
 
-var store = {
+var store = _.extend(new events.EventEmitter(), {
   add: function (link, callback) {
     readTorrent(link, function (err, torrent) {
       if (err) {
@@ -44,7 +45,7 @@ var store = {
       console.log('adding ' + infoHash);
 
       var e = engine(torrent, options);
-      socket.register(infoHash, e);
+      store.emit('torrent', infoHash, e);
       torrents[infoHash] = e;
       save();
       callback(null, infoHash);
@@ -70,10 +71,10 @@ var store = {
   load: function (infoHash) {
     console.log('loading ' + infoHash);
     var e = engine({ infoHash: infoHash }, options);
-    socket.register(infoHash, e);
+    store.emit('torrent', infoHash, e);
     torrents[infoHash] = e;
   }
-};
+});
 
 mkdirp(configPath, function (err) {
   if (err) {

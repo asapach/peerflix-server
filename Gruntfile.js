@@ -67,7 +67,10 @@ module.exports = function (grunt) {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: '*',
-        livereload: 35729
+        livereload: 35729,
+        onCreateServer: function(server) {
+          require('./server/socket')(server);
+        }
       },
       livereload: {
         options: {
@@ -77,15 +80,7 @@ module.exports = function (grunt) {
             '<%= yeoman.app %>'
           ],
           middleware: function (connect, options, middlewares) {
-            middlewares.unshift(require('./server/api'));
-            return middlewares;
-          }
-        }
-      },
-      server: {
-        options: {
-          middleware: function (connect, options, middlewares) {
-            middlewares.unshift(require('./server/api'));
+            middlewares.unshift(require('./server'));
             return middlewares;
           }
         }
@@ -362,8 +357,6 @@ module.exports = function (grunt) {
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
-    } else if (target === 'server') {
-      return grunt.task.run(['connect:server:keepalive']);
     }
 
     grunt.task.run([
