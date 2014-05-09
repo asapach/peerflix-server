@@ -43,23 +43,23 @@ module.exports = function (server) {
     });
   });
 
-  store.on('torrent', function (infoHash, engine) {
-    engine.once('verifying', function () {
+  store.on('torrent', function (infoHash, torrent) {
+    torrent.once('verifying', function () {
       var notifyProgress = _.throttle(function () {
-          io.sockets.emit('download', infoHash, progress(engine.bitfield.buffer));
+          io.sockets.emit('download', infoHash, progress(torrent.bitfield.buffer));
         }, 1000);
 
       io.sockets.emit('verifying', infoHash, stats());
 
-      engine.once('ready', function () {
+      torrent.once('ready', function () {
         io.sockets.emit('ready', infoHash, stats());
       });
 
-      engine.on('uninterested', function () {
+      torrent.on('uninterested', function () {
         io.sockets.emit('uninterested', infoHash);
       });
 
-      engine.on('interested', function () {
+      torrent.on('interested', function () {
         io.sockets.emit('interested', infoHash);
       });
 
@@ -67,17 +67,17 @@ module.exports = function (server) {
         io.sockets.emit('stats', infoHash, stats());
       }, 1000);
 
-      engine.on('verify', notifyProgress);
+      torrent.on('verify', notifyProgress);
 
-      engine.once('destroyed', function () {
+      torrent.once('destroyed', function () {
         clearInterval(interval);
         io.sockets.emit('destroyed', infoHash);
-        engine = null;
+        torrent = null;
       });
     });
 
     var stats = function () {
-      var swarm = engine.swarm;
+      var swarm = torrent.swarm;
       return {
         peers: {
           total: swarm.wires.length,
