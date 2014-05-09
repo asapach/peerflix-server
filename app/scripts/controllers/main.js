@@ -7,6 +7,12 @@ angular.module('peerflixServerApp')
       $scope.torrents = torrents;
     });
 
+    $scope.keypress = function (e) {
+      if (e.which === 13) {
+        $scope.download();
+      }
+    };
+
     $scope.download = function () {
       Torrent.save({ link: $scope.link });
       $scope.link = '';

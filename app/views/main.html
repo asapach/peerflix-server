@@ -11,7 +11,7 @@
   <div class="form-group">
     <div class="input-group">
       <span class="input-group-addon">torrent:</span>
-      <input type="text" class="form-control" placeholder="Torrent or magnet link" ng-model="link">
+      <input type="text" class="form-control" placeholder="Torrent or magnet link" ng-model="link" ng-keypress="keypress($event)">
     </div>
   </div>
   <a class="btn btn-success" href="" ng-click="download()">
