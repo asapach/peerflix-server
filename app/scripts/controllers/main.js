@@ -3,9 +3,36 @@
 angular.module('peerflixServerApp')
   .controller('MainCtrl', function ($scope, $resource, $log, $q, torrentSocket) {
     var Torrent = $resource('/torrents/:infoHash');
-    var torrents = Torrent.query(function () {
-      $scope.torrents = torrents;
-    });
+
+    function load() {
+      var torrents = Torrent.query(function () {
+        $scope.torrents = torrents;
+      });
+    }
+
+    function loadTorrent(hash) {
+      return Torrent.get({ infoHash: hash }).$promise.then(function (torrent) {
+        var existing = _.find($scope.torrents, { infoHash: hash });
+        if (existing) {
+          var index = $scope.torrents.indexOf(existing);
+          $scope.torrents[index] = torrent;
+        } else {
+          $scope.torrents.unshift(torrent);
+        }
+        return torrent;
+      });
+    }
+
+    function findTorrent(hash) {
+      var torrent = _.find($scope.torrents, { infoHash: hash });
+      if (torrent) {
+        return $q.when(torrent);
+      } else {
+        return loadTorrent(hash);
+      }
+    }
+
+    load();
 
     $scope.keypress = function (e) {
       if (e.which === 13) {
@@ -28,21 +55,8 @@ angular.module('peerflixServerApp')
 
     $scope.remove = function (torrent) {
       Torrent.remove({ infoHash: torrent.infoHash });
+      _.remove($scope.torrents, torrent);
     };
-
-    function findTorrent(hash) {
-      var torrent = _.find($scope.torrents, { infoHash: hash });
-      if (torrent) {
-        return $q.when(torrent);
-      } else {
-        return Torrent.get({ infoHash: hash }).$promise.then(function (torrent) {
-          if (!_.find($scope.torrents, { infoHash: hash })) {
-            $scope.torrents.unshift(torrent);
-          }
-          return torrent;
-        });
-      }
-    }
 
     torrentSocket.on('verifying', function (hash) {
       findTorrent(hash).then(function (torrent) {
@@ -51,9 +65,7 @@ angular.module('peerflixServerApp')
     });
 
     torrentSocket.on('ready', function (hash) {
-      findTorrent(hash).then(function (torrent) {
-        torrent.ready = true;
-      });
+      loadTorrent(hash);
     });
 
     torrentSocket.on('interested', function (hash) {
@@ -83,4 +95,10 @@ angular.module('peerflixServerApp')
     torrentSocket.on('destroyed', function (hash) {
       _.remove($scope.torrents, { infoHash: hash });
     });
+
+    torrentSocket.on('disconnect', function () {
+      $scope.torrents = [];
+    });
+
+    torrentSocket.on('connect', load);
   });
