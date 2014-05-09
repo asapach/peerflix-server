@@ -66,6 +66,7 @@ api.get('/torrents/:infoHash/files/:path([^"]+)', function (req, res) {
   range = range && rangeParser(file.length, range)[0];
   res.setHeader('Accept-Ranges', 'bytes');
   res.setHeader('Content-Type', mime.lookup(file.name));
+  req.connection.setTimeout(300000);
 
   if (!range) {
     res.setHeader('Content-Length', file.length);
