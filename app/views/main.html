@@ -43,7 +43,7 @@
       </ul>
     </div>
     <div class="panel-footer" ng-if="torrent.stats">
-      <button type="button" class="btn btn-xs" ng-click="pauseResume(torrent)">
+      <button type="button" class="btn btn-xs" ng-click="pause(torrent)">
         <span class="glyphicon {{ torrent.stats.paused ? 'glyphicon-play' : 'glyphicon-pause' }}"></span>
       </button>
       <strong>Speed:</strong>
