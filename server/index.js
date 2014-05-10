@@ -54,7 +54,7 @@ api.post('/torrents', function (req, res) {
   });
 });
 
-api.get('/torrents/:infoHash/files/:path([^"]+)', function (req, res) {
+api.all('/torrents/:infoHash/files/:path([^"]+)', function (req, res) {
   var torrent = store.get(req.params.infoHash), file;
 
   if (!torrent || !(file = _.find(torrent.files, { path: req.params.path }))) {
