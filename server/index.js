@@ -54,6 +54,36 @@ api.post('/torrents', function (req, res) {
   });
 });
 
+api.post('/torrents/select', function (req, res) {
+  var infoHash = req.body.infoHash;
+  var path = req.body.path;
+  var torrent = store.get(infoHash), file;
+  if (!torrent || !(file = _.find(torrent.files, { path: path }))) {
+    res.send(404);
+    return;
+  }
+
+  console.log('selected ' + infoHash + '/' + path);
+  file.select();
+  file.selected = true;
+  res.send(200);
+});
+
+api.post('/torrents/deselect', function (req, res) {
+  var infoHash = req.body.infoHash;
+  var path = req.body.path;
+  var torrent = store.get(infoHash), file;
+  if (!torrent || !(file = _.find(torrent.files, { path: path }))) {
+    res.send(404);
+    return;
+  }
+
+  console.log('deselected ' + infoHash + '/' + path);
+  file.deselect();
+  file.selected = false;
+  res.send(200);
+});
+
 api.all('/torrents/:infoHash/files/:path([^"]+)', function (req, res) {
   var torrent = store.get(req.params.infoHash), file;
 
