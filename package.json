@@ -23,20 +23,19 @@
     "web"
   ],
   "dependencies": {
-    "torrent-stream": "~0.8.0",
+    "torrent-stream": "~0.10.1",
     "range-parser": "~1.0.0",
     "mime": "~1.2.11",
-    "pump": "~0.3.1",
+    "pump": "~0.3.2",
     "express": "~3.5.1",
     "lodash": "~2.4.1",
     "socket.io": "~0.9.16",
     "read-torrent": "~1.0.0",
-    "mkdirp": "~0.4.0"
+    "mkdirp": "~0.5.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.4",
+    "grunt": "~0.4.5",
     "grunt-autoprefixer": "~0.7.3",
-    "grunt-bower-install": "~1.4.1",
     "grunt-concurrent": "~0.5.0",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-concat": "~0.4.0",
@@ -54,11 +53,12 @@
     "grunt-rev": "~0.1.0",
     "grunt-svgmin": "~0.4.0",
     "grunt-usemin": "~2.1.1",
+    "grunt-wiredep": "~1.7.0",
     "jshint-stylish": "~0.2.0",
     "load-grunt-tasks": "~0.4.0",
     "time-grunt": "~0.3.1",
     "grunt-karma": "~0.8.3",
-    "karma": "~0.12.15",
+    "karma": "~0.12.16",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "karma-jasmine": "~0.1.5",
     "karma-phantomjs-launcher": "~0.1.4"
