@@ -5,7 +5,7 @@ peerflix-server
 
 Streaming torrent client for node.js with web ui.
 
-Based on [torrent-stream](/mafintosh/torrent-stream), inspired by [peerflix](/mafintosh/peerflix).
+Based on [torrent-stream](https://github.com/mafintosh/torrent-stream), inspired by [peerflix](https://github.com/mafintosh/peerflix).
 
 ## Usage
 
@@ -27,6 +27,16 @@ You can configure the application using `~/.config/peerflix-server/config.json` 
 ```
 
 The application stores its current state (list of torrents) in `~/.config/peerflix-server/torrents.json`
+
+## Daemon
+
+If you want to run peerflix-server as a daemon, you can do it using [forever](https://github.com/nodejitsu/forever):
+
+`npm install -g forever`
+
+`forever start /usr/local/bin/peerflix-server` (the path depends on your distribution and npm configuration)
+
+You might also want to enable logging -- see the [docs](https://github.com/nodejitsu/forever#using-forever-from-the-command-line).
 
 ## Development
 
