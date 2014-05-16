@@ -54,6 +54,18 @@ api.post('/torrents', function (req, res) {
   });
 });
 
+api.get('/torrents/:infoHash/files', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (!torrent) {
+    res.send(404);
+  }
+  res.setHeader('Content-Type', 'application/x-mpegurl; charset=utf-8');
+  res.send('#EXTM3U\n' + torrent.files.map(function (f) {
+    return '#EXTINF:-1,' + f.path + '\n' +
+      req.protocol + '://' + req.get('host') + '/torrents/' + req.params.infoHash + '/files/' + encodeURIComponent(f.path);
+  }).join('\n'));
+});
+
 api.all('/torrents/:infoHash/files/:path([^"]+)', function (req, res) {
   var torrent = store.get(req.params.infoHash), file;
 
