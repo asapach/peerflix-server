@@ -44,7 +44,29 @@ module.exports = function (server) {
   });
 
   store.on('torrent', function (infoHash, torrent) {
-    torrent.once('verifying', function () {
+    function stats() {
+      var swarm = torrent.swarm;
+      return {
+        peers: {
+          total: swarm.wires.length,
+          unchocked: swarm.wires.reduce(function (prev, wire) {
+            return prev + !wire.peerChoking;
+          }, 0)
+        },
+        traffic: {
+          down: swarm.downloaded,
+          up: swarm.uploaded
+        },
+        speed: {
+          down: swarm.downloadSpeed(),
+          up: swarm.uploadSpeed()
+        },
+        queue: swarm.queued,
+        paused: swarm.paused
+      };
+    }
+
+    function listen() {
       var notifyProgress = _.throttle(function () {
         if (torrent) {
           io.sockets.emit('download', infoHash, progress(torrent.bitfield.buffer));
@@ -76,28 +98,12 @@ module.exports = function (server) {
         io.sockets.emit('destroyed', infoHash);
         torrent = null;
       });
-    });
+    }
 
-    var stats = function () {
-      var swarm = torrent.swarm;
-      return {
-        peers: {
-          total: swarm.wires.length,
-          unchocked: swarm.wires.reduce(function (prev, wire) {
-            return prev + !wire.peerChoking;
-          }, 0)
-        },
-        traffic: {
-          down: swarm.downloaded,
-          up: swarm.uploaded
-        },
-        speed: {
-          down: swarm.downloadSpeed(),
-          up: swarm.uploadSpeed()
-        },
-        queue: swarm.queued,
-        paused: swarm.paused
-      };
-    };
+    if (torrent.torrent) {
+      listen();
+    } else {
+      torrent.once('verifying', listen);
+    }
   });
 };

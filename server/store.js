@@ -70,7 +70,7 @@ var store = _.extend(new events.EventEmitter(), {
   },
   load: function (infoHash) {
     console.log('loading ' + infoHash);
-    var e = engine({ infoHash: infoHash }, options);
+    var e = engine({ infoHash: infoHash, announce: [] }, options); // TODO
     store.emit('torrent', infoHash, e);
     torrents[infoHash] = e;
   }
