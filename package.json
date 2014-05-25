@@ -24,13 +24,13 @@
     "web"
   ],
   "dependencies": {
-    "torrent-stream": "~0.10.1",
+    "torrent-stream": "~0.11.0",
     "range-parser": "~1.0.0",
     "mime": "~1.2.11",
     "pump": "~0.3.2",
     "express": "~3.5.1",
     "lodash": "~2.4.1",
-    "socket.io": "~0.9.16",
+    "socket.io": "~0.9.17",
     "read-torrent": "~1.0.0",
     "mkdirp": "~0.5.0"
   },
@@ -44,7 +44,7 @@
     "grunt-contrib-copy": "~0.5.0",
     "grunt-contrib-cssmin": "~0.9.0",
     "grunt-contrib-htmlmin": "~0.3.0",
-    "grunt-contrib-imagemin": "~0.3.0",
+    "grunt-contrib-imagemin": "~0.7.0",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-uglify": "~0.4.0",
     "grunt-contrib-watch": "~0.6.1",
