@@ -46,8 +46,10 @@ module.exports = function (server) {
   store.on('torrent', function (infoHash, torrent) {
     torrent.once('verifying', function () {
       var notifyProgress = _.throttle(function () {
+        if (torrent) {
           io.sockets.emit('download', infoHash, progress(torrent.bitfield.buffer));
-        }, 1000);
+        }
+      }, 1000);
 
       io.sockets.emit('verifying', infoHash, stats());
 
