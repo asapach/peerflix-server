@@ -5,6 +5,8 @@ peerflix-server
 
 Streaming torrent client for node.js with web ui.
 
+![screen capture](https://cdn.rawgit.com/asapach/peerflix-server/master/capture.gif)
+
 Based on [torrent-stream](https://github.com/mafintosh/torrent-stream), inspired by [peerflix](https://github.com/mafintosh/peerflix).
 
 ## Usage
