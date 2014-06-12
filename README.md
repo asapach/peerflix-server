@@ -23,7 +23,6 @@ You can configure the application using `~/.config/peerflix-server/config.json` 
 ```json
 {
   "connections": 50,
-  "dht": 1000,
   "tmp": "/mnt/torrents"
 }
 ```
