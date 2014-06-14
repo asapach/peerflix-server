@@ -24,7 +24,7 @@
     "web"
   ],
   "dependencies": {
-    "torrent-stream": "~0.13.0",
+    "torrent-stream": "~0.13.3",
     "range-parser": "~1.0.0",
     "mime": "~1.2.11",
     "pump": "~0.3.2",
