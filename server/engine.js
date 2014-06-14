@@ -6,31 +6,31 @@ module.exports = function (torrent, opts) {
   var engine = torrentStream(torrent, _.clone(opts, true));
 
   engine.once('verifying', function () {
-    console.log('verifying ' + torrent.infoHash);
+    console.log('verifying ' + engine.infoHash);
     engine.files.forEach(function (file, i) {
       console.log(i + ' ' + file.name);
     });
   });
 
   engine.once('ready', function () {
-    console.log('ready ' + torrent.infoHash);
+    console.log('ready ' + engine.infoHash);
     engine.torrent.ready = true;
   });
 
   engine.on('uninterested', function () {
-    console.log('uninterested ' + torrent.infoHash);
+    console.log('uninterested ' + engine.infoHash);
   });
 
   engine.on('interested', function () {
-    console.log('interested ' + torrent.infoHash);
+    console.log('interested ' + engine.infoHash);
   });
 
   engine.on('error', function (e) {
-    console.log('error ' + torrent.infoHash + ': ' + e);
+    console.log('error ' + engine.infoHash + ': ' + e);
   });
 
   engine.once('destroyed', function () {
-    console.log('destroyed ' + torrent.infoHash);
+    console.log('destroyed ' + engine.infoHash);
     engine.removeAllListeners();
   });
 

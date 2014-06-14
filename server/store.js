@@ -70,7 +70,7 @@ var store = _.extend(new events.EventEmitter(), {
   },
   load: function (infoHash) {
     console.log('loading ' + infoHash);
-    var e = engine({ infoHash: infoHash, announce: [] }, options); // TODO
+    var e = engine('magnet:?xt=urn:btih:' + infoHash, options); // TODO
     store.emit('torrent', infoHash, e);
     torrents[infoHash] = e;
   }
