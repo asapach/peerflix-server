@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo by Denis Sapach (http://www.shutterstock.com/g/Picksell) under CC BY 3.0 (http://creativecommons.org/licenses/by/3.0/) -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1000px" height="1000px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+<g>
+	
+		<radialGradient id="SVGID_1_" cx="859.9837" cy="290.4516" r="874.7756" gradientTransform="matrix(1.0015 0 0 1 -0.741 0)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0" style="stop-color:#FDC70C"/>
+		<stop  offset="0.4857" style="stop-color:#F3903F"/>
+		<stop  offset="1" style="stop-color:#ED1C24"/>
+	</radialGradient>
+	<path fill="url(#SVGID_1_)" d="M1000,589.354c0.001,113.486-87.382,214.453-195.352,220.903
+		c-202.982,10.324-406.313,10.324-609.296,0C87.383,803.807-0.001,702.839,0,589.354c0-59.569,0-119.138,0-178.707
+		C-0.001,297.16,87.383,196.194,195.352,189.743c202.982-10.324,406.313-10.324,609.296,0
+		c107.97,6.45,195.353,107.418,195.352,220.903C1000,470.216,1000,529.785,1000,589.354z"/>
+	<g opacity="0.32">
+		<polygon points="406.313,512.718 174.321,646.466 174.321,378.97 		"/>
+		<polygon points="638.316,512.718 406.313,646.466 406.313,378.97 		"/>
+		<polygon points="870.308,512.718 638.316,646.466 638.316,378.97 		"/>
+	</g>
+	<g>
+		<polygon fill="#FFFFFF" points="416.164,497.964 184.172,631.712 184.172,364.217 		"/>
+		<polygon fill="#FFFFFF" points="648.166,497.964 416.164,631.712 416.164,364.217 		"/>
+		<polygon fill="#FFFFFF" points="880.158,497.964 648.166,631.712 648.166,364.217 		"/>
+	</g>
+</g>
+</svg>
