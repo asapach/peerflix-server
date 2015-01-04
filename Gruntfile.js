@@ -67,10 +67,7 @@ module.exports = function (grunt) {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: '*',
-        livereload: 35729,
-        onCreateServer: function(server) {
-          require('./server/socket')(server);
-        }
+        livereload: 35729
       },
       livereload: {
         options: {
@@ -82,6 +79,9 @@ module.exports = function (grunt) {
           middleware: function (connect, options, middlewares) {
             middlewares.unshift(require('./server'));
             return middlewares;
+          },
+          onCreateServer: function(server) {
+            require('./server/socket')(server);
           }
         }
       },
@@ -101,6 +101,9 @@ module.exports = function (grunt) {
           middleware: function (connect, options, middlewares) {
             middlewares.unshift(require('./server'));
             return middlewares;
+          },
+          onCreateServer: function(server) {
+            require('./server/socket')(server);
           }
         }
       }
