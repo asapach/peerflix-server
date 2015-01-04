@@ -7,7 +7,8 @@ angular
     'ngSanitize',
     'ngRoute',
     'btford.socket-io',
-    'rt.encodeuri'
+    'rt.encodeuri',
+    'flow'
   ])
   .config(function ($routeProvider) {
     $routeProvider

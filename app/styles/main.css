@@ -50,6 +50,15 @@ body {
   font-size: 21px;
   padding: 14px 24px;
 }
+.jumbotron p {
+  margin: 15px 0 -30px;
+  font-size: 12px;
+  font-weight: normal;
+}
+.jumbotron.uploading {
+  background-color: #DFF0D8;
+  border-color: #D6E9C6;
+}
 
 /* Main content */
 .content {
