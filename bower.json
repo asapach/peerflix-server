@@ -12,7 +12,8 @@
     "lodash": "~2.4.1",
     "angular-socket-io": "~0.6.0",
     "angular-encode-uri": "~0.0.1",
-    "ng-file-upload": "~2.1.1"
+    "ng-file-upload": "~2.1.1",
+    "font-awesome": "~4.2.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.16"

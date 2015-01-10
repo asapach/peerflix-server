@@ -11,7 +11,7 @@
     "start": "node ./server/bin.js",
     "test": "grunt test"
   },
-  "main": "./server/index.js",
+  "main": "./server/bin.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/asapach/peerflix-server.git"
