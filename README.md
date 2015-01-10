@@ -47,11 +47,9 @@ If you wish to build and run the code from source, here's what you'll need:
 
 ### Prerequisites
 
-Install all local modules: `npm install`
-
 Install Grunt and Bower: `npm install -g grunt-cli bower`
 
-Download all required 3rd-party dependencies like Angular, jQuery and Bootstrap: `bower install`
+Install all local modules: `npm install`
 
 ### Running development server
 
