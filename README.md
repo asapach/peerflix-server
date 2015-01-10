@@ -56,7 +56,7 @@ Install all local modules: `npm install`
 `grunt serve`
 
 The task will first perform all required pre-processing, enable watch, live-reload, jshint and karma, and then open the browser.
-If you don't want any of this fancy stuff, you can just run `node server/bin.js`
+If you don't want any of this fancy stuff, you can just run `npm start`
 
 ### Building production-ready application
 
