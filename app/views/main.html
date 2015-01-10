@@ -6,8 +6,7 @@
   <h3 class="text-muted">peerflix server</h3>
 </div>
 
-<div class="jumbotron" flow-init="{ target: '/upload' }" ng-class="{ uploading: dragging }"
-     flow-drop flow-drag-enter="dragging = true" flow-drag-leave="dragging = false">
+<div class="jumbotron" ng-file-drop ng-file-change="upload($files)">
   <h1>Stream Torrents</h1>
   <div class="form-group">
     <div class="input-group">
@@ -20,7 +19,9 @@
     Download
   </a>
   <p class="text-right">
-    You can also <span flow-btn class="btn-link">upload .torrent files</span> or drag & drop them here
+    You can also
+    <span class="btn-link" ng-file-select ng-file-change="upload($files)">upload .torrent files</span>
+    or drag & drop them here
   </p>
 </div>
 

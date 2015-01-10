@@ -5,6 +5,8 @@ var rangeParser = require('range-parser'),
   pump = require('pump'),
   _ = require('lodash'),
   express = require('express'),
+  multipart = require('connect-multiparty'),
+  fs = require('fs'),
   store = require('./store'),
   progress = require('./progressbar'),
   api = express();
@@ -51,6 +53,22 @@ api.post('/torrents', function (req, res) {
     } else {
       res.send({ infoHash: infoHash });
     }
+  });
+});
+
+api.post('/upload', multipart(), function (req, res) {
+  var file = req.files && req.files.file;
+  if (!file) {
+    return res.send(500, 'file is missing');
+  }
+  store.add(file.path, function (err, infoHash) {
+    if (err) {
+      console.error(err);
+      res.send(500, err);
+    } else {
+      res.send({ infoHash: infoHash });
+    }
+    fs.unlink(file.path);
   });
 });
 

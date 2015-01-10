@@ -8,7 +8,7 @@ angular
     'ngRoute',
     'btford.socket-io',
     'rt.encodeuri',
-    'flow'
+    'angularFileUpload'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -19,4 +19,12 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .run(function () {
+    window.addEventListener('dragover', function(e) {
+      e.preventDefault();
+    }, false);
+    window.addEventListener('drop', function(e) {
+      e.preventDefault();
+    }, false);
   });

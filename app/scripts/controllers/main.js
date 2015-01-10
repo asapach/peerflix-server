@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('peerflixServerApp')
-  .controller('MainCtrl', function ($scope, $resource, $log, $q, torrentSocket) {
+  .controller('MainCtrl', function ($scope, $resource, $log, $q, $upload, torrentSocket) {
     var Torrent = $resource('/torrents/:infoHash');
 
     function load() {
@@ -56,6 +56,17 @@ angular.module('peerflixServerApp')
     $scope.remove = function (torrent) {
       Torrent.remove({ infoHash: torrent.infoHash });
       _.remove($scope.torrents, torrent);
+    };
+
+    $scope.upload = function (file) {
+      $upload.upload({
+        url: '/upload',
+        file: file
+      }).then(function () {
+        console.log('file uploaded');
+      }, function () {
+        console.error('upload failed');
+      });
     };
 
     torrentSocket.on('verifying', function (hash) {
