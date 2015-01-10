@@ -3,7 +3,7 @@ peerflix-server
 
 [![Build Status](https://travis-ci.org/asapach/peerflix-server.svg?branch=master)](https://travis-ci.org/asapach/peerflix-server)
 
-<img src="https://cdn.rawgit.com/asapach/peerflix-server/master/images/logo.svg" alt="logo" height="256">
+<img src="https://cdn.rawgit.com/asapach/peerflix-server/master/app/images/logo.svg" alt="logo" height="256">
 
 Streaming torrent client for node.js with web ui.
 
