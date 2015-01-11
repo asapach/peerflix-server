@@ -42,9 +42,20 @@ angular.module('peerflixServerApp')
 
     $scope.download = function () {
       if ($scope.link) {
-        Torrent.save({ link: $scope.link });
+        Torrent.save({ link: $scope.link }).$promise.then(function (torrent) {
+          loadTorrent(torrent.infoHash);
+        });
         $scope.link = '';
       }
+    };
+
+    $scope.upload = function (file) {
+      $upload.upload({
+        url: '/upload',
+        file: file
+      }).then(function (response) {
+        loadTorrent(response.data.infoHash);
+      });
     };
 
     $scope.pause = function (torrent) {
@@ -58,17 +69,6 @@ angular.module('peerflixServerApp')
     $scope.remove = function (torrent) {
       Torrent.remove({ infoHash: torrent.infoHash });
       _.remove($scope.torrents, torrent);
-    };
-
-    $scope.upload = function (file) {
-      $upload.upload({
-        url: '/upload',
-        file: file
-      }).then(function () {
-        console.log('file uploaded');
-      }, function () {
-        console.error('upload failed');
-      });
     };
 
     torrentSocket.on('verifying', function (hash) {

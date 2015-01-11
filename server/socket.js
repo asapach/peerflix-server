@@ -75,6 +75,10 @@ module.exports = function (server) {
 
       io.sockets.emit('verifying', infoHash, stats());
 
+      torrent.once('verifying', function () {
+        io.sockets.emit('verifying', infoHash, stats());
+      });
+
       torrent.once('ready', function () {
         io.sockets.emit('ready', infoHash, stats());
       });
