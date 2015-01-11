@@ -18,13 +18,13 @@
     </div>
   </div>
   <a class="btn btn-success" href="" ng-click="download()">
-    <span class="glyphicon glyphicon-cloud-download"></span>
+    <span class="fa fa-cloud-download"></span>
     Download
   </a>
   <p class="text-right">
+    <i class="fa fa-upload"></i>
     You can also
     <span class="btn-link" ng-file-select ng-file-change="upload($files)">
-      <i class="glyphicon glyphicon-upload"></i>
       upload .torrent files
     </span>
     or drag & drop them here
@@ -32,15 +32,19 @@
 </div>
 
 <div ng-if="!torrents.length" class="alert alert-info" role="alert">
-  <i class="glyphicon glyphicon-film"></i> Go get some torrents to watch!
+  <i class="fa fa-film"></i> Go get some torrents to watch!
 </div>
 
 <div class="row content">
   <div ng-repeat="torrent in torrents" class="panel panel-default" ng-class="{ 'panel-warning': !torrent.ready, 'panel-success': torrent.interested }">
     <div class="panel-heading">
       <button type="button" class="close" ng-click="remove(torrent)">&times;</button>
-      <span class="glyphicon" ng-class="{ 'glyphicon-hdd': torrent.ready, 'glyphicon-refresh': !torrent.ready, 'glyphicon-transfer': torrent.interested }"></span>
-      {{ torrent.name }}
+      <span class="fa" ng-class="{
+        'fa-cloud-upload': torrent.ready && !torrent.interested,
+        'fa-refresh fa-spin': !torrent.ready,
+        'fa-exchange': torrent.interested }">
+      </span>
+      {{ torrent.name || 'Fetching metadata...' }}
     </div>
     <div class="panel-body">
       <div class="progress progress-striped" ng-class="{ active: torrent.interested }">
@@ -50,32 +54,44 @@
       <ul class="list-group">
         <li class="list-group-item" ng-repeat="file in torrent.files">
           <input type="checkbox" ng-model="file.selected" ng-click="select(torrent, file)"/>
-          <span class="glyphicon glyphicon-cloud-download"></span>
+          <span class="fa fa-cloud-download"></span>
           <a href="/torrents/{{ torrent.infoHash }}/files/{{ file.path | encodeUri }}" target="_blank">
             {{ file.name }} ({{ file.length / 1024 / 1024 | number:1 }} MB)
           </a>
         </li>
       </ul>
     </div>
-    <div class="panel-footer" ng-if="torrent.stats">
-      <button type="button" class="btn btn-xs" ng-click="pause(torrent)">
-        <span class="glyphicon {{ torrent.stats.paused ? 'glyphicon-play' : 'glyphicon-pause' }}"></span>
-      </button>
-      <strong>Speed:</strong>
-        <span class="label label-success">{{ torrent.stats.speed.down / 1024 | number:1 }}</span> /
-        <span class="label label-danger">{{ torrent.stats.speed.up / 1024 | number:1 }}</span> KB/s |
-      <strong>Traffic:</strong>
-        <span class="label label-success">{{ torrent.stats.traffic.down / 1024 / 1024 | number:1 }}</span> /
-        <span class="label label-danger">{{ torrent.stats.traffic.up / 1024 / 1024 | number:1 }}</span> MB |
-      <strong>Peers:</strong>
-        <span class="label label-success">{{ torrent.stats.peers.unchocked | number }}</span> /
-        <span class="label label-default">{{ torrent.stats.peers.total | number }}</span> |
-      <strong>Queue:</strong>
-        <span class="label label-primary">{{ torrent.stats.queue | number }}</span>
+    <div class="panel-footer">
+      <ul class="list-unstyled list-inline">
+        <li class="text-nowrap">
+          <button type="button" class="btn btn-xs" ng-click="pause(torrent)">
+            <span class="fa {{ torrent.stats.paused ? 'fa-play' : 'fa-pause' }}"></span>
+          </button>
+        </li>
+        <li class="text-nowrap" ng-show="torrent.stats">
+          <strong>Speed:</strong>
+          <span class="label label-success">{{ torrent.stats.speed.down / 1024 | number:1 }}</span> /
+          <span class="label label-danger">{{ torrent.stats.speed.up / 1024 | number:1 }}</span> KB/s
+        </li>
+        <li class="text-nowrap" ng-show="torrent.stats">
+          <strong>Traffic:</strong>
+          <span class="label label-success">{{ torrent.stats.traffic.down / 1024 / 1024 | number:1 }}</span> /
+          <span class="label label-danger">{{ torrent.stats.traffic.up / 1024 / 1024 | number:1 }}</span> MB
+        </li>
+        <li class="text-nowrap" ng-show="torrent.stats">
+          <strong>Peers:</strong>
+          <span class="label label-success">{{ torrent.stats.peers.unchocked | number }}</span> /
+          <span class="label label-default">{{ torrent.stats.peers.total | number }}</span>
+        </li>
+        <li class="text-nowrap" ng-show="torrent.stats">
+          <strong>Queue:</strong>
+          <span class="label label-primary">{{ torrent.stats.queue | number }}</span>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
 
 <div class="footer">
-  <p><span class="glyphicon glyphicon-heart"></span> peerflix</p>
+  <p><span class="fa fa-heart"></span> peerflix</p>
 </div>

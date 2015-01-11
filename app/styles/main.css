@@ -58,13 +58,22 @@ body {
 .progress .progress-bar {
   transition: none;
 }
-
 .progress .space {
   float: left;
   width: 0;
   height: 100%;
   color: #FFF;
   box-shadow: 0px -1px 0px rgba(0, 0, 0, 0.15) inset;
+}
+
+.panel-body .list-group,
+.panel-footer .list-inline {
+  margin-bottom: 0;
+}
+.panel-body .list-group li {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-x: hidden;
 }
 
 /* Responsive: Portrait tablets and up */
