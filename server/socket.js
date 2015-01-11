@@ -29,7 +29,6 @@ module.exports = function (server) {
       if (torrent && torrent.files) {
         file = torrent.files[file];
         file.select();
-        file.selected = true;
       }
     });
     socket.on('deselect', function (infoHash, file) {
@@ -38,7 +37,6 @@ module.exports = function (server) {
       if (torrent && torrent.files) {
         file = torrent.files[file];
         file.deselect();
-        file.selected = false;
       }
     });
   });
