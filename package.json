@@ -7,7 +7,6 @@
     "peerflix-server": "./server/bin.js"
   },
   "scripts": {
-    "install": "bower install",
     "start": "node ./server/bin.js",
     "test": "grunt test"
   },

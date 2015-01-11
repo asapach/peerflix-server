@@ -51,6 +51,8 @@ Install Grunt and Bower: `npm install -g grunt-cli bower`
 
 Install all local modules: `npm install`
 
+Install all external dependencies: `bower install`
+
 ### Running development server
 
 `grunt serve`
