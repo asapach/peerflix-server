@@ -8,7 +8,7 @@
     "angular-cookies": "~1.2.16",
     "angular-sanitize": "~1.2.16",
     "angular-route": "~1.2.16",
-    "bootstrap": "~3.1.1",
+    "bootstrap": "~3.3.1",
     "lodash": "~2.4.1",
     "angular-socket-io": "~0.6.0",
     "angular-encode-uri": "~0.0.1",

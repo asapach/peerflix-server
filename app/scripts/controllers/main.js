@@ -41,8 +41,10 @@ angular.module('peerflixServerApp')
     };
 
     $scope.download = function () {
-      Torrent.save({ link: $scope.link });
-      $scope.link = '';
+      if ($scope.link) {
+        Torrent.save({ link: $scope.link });
+        $scope.link = '';
+      }
     };
 
     $scope.pause = function (torrent) {

@@ -31,33 +31,18 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
-/* Customize container */
-@media (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-}
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
 /* Title message and button */
 .jumbotron {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
-}
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
 }
 .jumbotron p {
   margin: 15px 0 -30px;
   font-size: 12px;
   font-weight: normal;
 }
-.jumbotron.uploading {
-  background-color: #DFF0D8;
-  border-color: #D6E9C6;
+.jumbotron .btn-link {
+  cursor: pointer;
 }
 
 /* Main content */
@@ -91,6 +76,9 @@ body {
     padding-left: 0;
     padding-right: 0;
   }
+  .container {
+    max-width: 730px;
+  }
   /* Space out the masthead */
   .header {
     margin-bottom: 30px;
@@ -98,5 +86,9 @@ body {
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
+  }
+  .jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
   }
 }
