@@ -18,10 +18,14 @@ function serialize(torrent) {
   if (!torrent.torrent) {
     return { infoHash: torrent.infoHash };
   }
-  return _.extend(_.omit(torrent.torrent, 'pieces'), {
+  return {
+    infoHash: torrent.infoHash,
+    name: torrent.torrent.name,
     interested: torrent.amInterested,
+    ready: torrent.torrent.ready,
+    files: torrent.torrent.files,
     progress: progress(torrent.bitfield.buffer)
-  });
+  };
 }
 
 api.get('/torrents', function (req, res) {
