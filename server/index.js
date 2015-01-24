@@ -9,6 +9,7 @@ var rangeParser = require('range-parser'),
   fs = require('fs'),
   store = require('./store'),
   progress = require('./progressbar'),
+  stats = require('./stats'),
   api = express();
 
 api.use(express.json());
@@ -74,6 +75,14 @@ api.post('/upload', multipart(), function (req, res) {
     }
     fs.unlink(file.path);
   });
+});
+
+api.get('/torrents/:infoHash/stats', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (!torrent) {
+    return res.send(404);
+  }
+  res.send(stats(torrent));
 });
 
 api.get('/torrents/:infoHash/files', function (req, res) {

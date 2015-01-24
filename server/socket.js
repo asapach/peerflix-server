@@ -1,5 +1,7 @@
 'use strict';
 
+var stats = require('./stats');
+
 module.exports = function (server) {
   var io = require('socket.io').listen(server),
     _ = require('lodash'),
@@ -42,28 +44,6 @@ module.exports = function (server) {
   });
 
   store.on('torrent', function (infoHash, torrent) {
-    function stats() {
-      var swarm = torrent.swarm;
-      return {
-        peers: {
-          total: swarm.wires.length,
-          unchocked: swarm.wires.reduce(function (prev, wire) {
-            return prev + !wire.peerChoking;
-          }, 0)
-        },
-        traffic: {
-          down: swarm.downloaded,
-          up: swarm.uploaded
-        },
-        speed: {
-          down: swarm.downloadSpeed(),
-          up: swarm.uploadSpeed()
-        },
-        queue: swarm.queued,
-        paused: swarm.paused
-      };
-    }
-
     function listen() {
       var notifyProgress = _.throttle(function () {
         if (torrent) {
@@ -71,10 +51,10 @@ module.exports = function (server) {
         }
       }, 1000);
 
-      io.sockets.emit('verifying', infoHash, stats());
+      io.sockets.emit('verifying', infoHash, stats(torrent));
 
       torrent.once('ready', function () {
-        io.sockets.emit('ready', infoHash, stats());
+        io.sockets.emit('ready', infoHash, stats(torrent));
       });
 
       torrent.on('uninterested', function () {
@@ -86,7 +66,7 @@ module.exports = function (server) {
       });
 
       var interval = setInterval(function () {
-        io.sockets.emit('stats', infoHash, stats());
+        io.sockets.emit('stats', infoHash, stats(torrent));
       }, 1000);
 
       torrent.on('verify', notifyProgress);
