@@ -24,16 +24,17 @@
     "web"
   ],
   "dependencies": {
-    "torrent-stream": "~0.13.3",
-    "range-parser": "~1.0.0",
-    "mime": "~1.2.11",
-    "pump": "~0.3.2",
+    "connect-multiparty": "^1.2.5",
     "express": "~3.5.1",
+    "fluent-ffmpeg": "^2.0.0-rc3",
     "lodash": "~2.4.1",
-    "socket.io": "~0.9.17",
-    "read-torrent": "~1.0.0",
+    "mime": "~1.2.11",
     "mkdirp": "~0.5.0",
-    "connect-multiparty": "^1.2.5"
+    "pump": "~0.3.2",
+    "range-parser": "~1.0.0",
+    "read-torrent": "~1.0.0",
+    "socket.io": "~0.9.17",
+    "torrent-stream": "~0.13.3"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
