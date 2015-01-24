@@ -1,14 +1,13 @@
 'use strict';
 
 var rangeParser = require('range-parser'),
-  mime = require('mime'),
   pump = require('pump'),
   _ = require('lodash'),
   express = require('express'),
   multipart = require('connect-multiparty'),
   fs = require('fs'),
   path = require('path'),
-  ffmpeg = require('fluent-ffmpeg'),
+  ffmpeg = require('./ffmpeg'),
   store = require('./store'),
   progress = require('./progressbar'),
   stats = require('./stats'),
@@ -106,20 +105,14 @@ api.all('/torrents/:infoHash/files/:path([^"]+)', function (req, res) {
     return res.send(404);
   }
 
-  if (typeof req.query.probe !== 'undefined') {
-    return ffmpeg.ffprobe(path.join(torrent.path, file.path), function (err, metadata) {
-      if (err) {
-        console.error(err);
-        return res.send(500, err.toString());
-      }
-      res.send(metadata);
-    });
+  if (typeof req.query.ffmpeg !== 'undefined') {
+    return ffmpeg(req, res, torrent, file);
   }
 
   var range = req.headers.range;
   range = range && rangeParser(file.length, range)[0];
   res.setHeader('Accept-Ranges', 'bytes');
-  res.setHeader('Content-Type', mime.lookup(file.name));
+  res.type(file.name);
   req.connection.setTimeout(3600000);
 
   if (!range) {
