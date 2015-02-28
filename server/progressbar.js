@@ -6,7 +6,7 @@ module.exports = function (buffer) {
     counter = 0,
     downloaded = true;
 
-  pieces.forEach(function (p) {
+  pieces.data.forEach(function (p) {
     if (downloaded && p > 0 || !downloaded && p === 0) {
       counter++;
     } else {
