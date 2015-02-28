@@ -6,7 +6,9 @@ module.exports = function (buffer) {
     counter = 0,
     downloaded = true;
 
-  pieces.data.forEach(function (p) {
+  pieces = pieces.data || pieces; // node v0.12 vs v0.10
+
+  pieces.forEach(function (p) {
     if (downloaded && p > 0 || !downloaded && p === 0) {
       counter++;
     } else {
