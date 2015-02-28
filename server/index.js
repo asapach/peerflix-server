@@ -6,8 +6,6 @@ var rangeParser = require('range-parser'),
   express = require('express'),
   multipart = require('connect-multiparty'),
   fs = require('fs'),
-  path = require('path'),
-  ffmpeg = require('./ffmpeg'),
   store = require('./store'),
   progress = require('./progressbar'),
   stats = require('./stats'),
@@ -106,7 +104,7 @@ api.all('/torrents/:infoHash/files/:path([^"]+)', function (req, res) {
   }
 
   if (typeof req.query.ffmpeg !== 'undefined') {
-    return ffmpeg(req, res, torrent, file);
+    return require('./ffmpeg')(req, res, torrent, file);
   }
 
   var range = req.headers.range;

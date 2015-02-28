@@ -2,11 +2,11 @@
 
 var path = require('path'),
   fs = require('fs'),
-  ffmpeg = require('fluent-ffmpeg'),
   pump = require('pump');
 
 module.exports = function (req, res, torrent, file) {
-  var param = req.query.ffmpeg;
+  var param = req.query.ffmpeg,
+    ffmpeg = require('fluent-ffmpeg');
 
   function probe() {
     var filePath = path.join(torrent.path, file.path);
