@@ -40,6 +40,28 @@ api.get('/torrents/:infoHash', function (req, res) {
   res.send(serialize(torrent));
 });
 
+api.get('/torrents/:infoHash/start', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (torrent && torrent.files) {
+  	var file = torrent.files;
+  	for (var i = 0; i < file.length; i++) {
+  		torrent.files[i].select();
+  	}
+  }
+  res.send(200);
+});
+
+api.get('/torrents/:infoHash/stop', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (torrent && torrent.files) {
+  	var file = torrent.files;
+  	for (var i = 0; i < file.length; i++) {
+  		torrent.files[i].deselect();
+  	}
+  }
+  res.send(200);
+});
+
 api.delete('/torrents/:infoHash', function (req, res) {
   var torrent = store.get(req.params.infoHash);
   if (!torrent) {
