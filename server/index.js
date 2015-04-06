@@ -13,6 +13,12 @@ var rangeParser = require('range-parser'),
 
 api.use(express.json());
 api.use(express.logger('dev'));
+api.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "OPTIONS, POST, GET, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 function serialize(torrent) {
   if (!torrent.torrent) {
