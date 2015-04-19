@@ -34,5 +34,9 @@ module.exports = function (torrent, opts) {
     engine.removeAllListeners();
   });
 
+  engine.listen(function () {
+    console.log('listening ' + engine.infoHash);
+  });
+
   return engine;
 };

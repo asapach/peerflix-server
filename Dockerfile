@@ -4,4 +4,4 @@ USER app
 RUN  bower install && grunt build
 RUN  mkdir /tmp/torrent-stream && chown app:app /tmp/torrent-stream
 VOLUME [ "/tmp/torrent-stream" ]
-EXPOSE 9000
+EXPOSE 6881 9000
