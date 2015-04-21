@@ -25,10 +25,16 @@ module.exports = function (req, res, torrent, file) {
   }
 
   function remux() {
-    res.type('video/mp4');
+    res.type('video/webm');
     var command = ffmpeg(file.createReadStream())
-      .videoCodec('copy').audioCodec('aac').format('mp4')
-      .outputOptions('-movflags frag_keyframe+empty_moov')
+      .videoCodec('libvpx').audioCodec('libvorbis').format('webm')
+      .audioBitrate(128)
+      .videoBitrate(1024)
+      .outputOptions([
+        //'-threads 2',
+        '-deadline realtime',
+        '-error-resilient 1'
+      ])
       .on('start', function (cmd) {
         console.log(cmd);
       })
