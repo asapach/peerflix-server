@@ -35,7 +35,7 @@ module.exports = function (torrent, opts) {
   });
 
   engine.listen(function () {
-    console.log('listening ' + engine.infoHash);
+    console.log('listening ' + engine.infoHash + ' on port ' + engine.port);
   });
 
   return engine;
