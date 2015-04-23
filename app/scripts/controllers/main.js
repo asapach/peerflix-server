@@ -49,13 +49,17 @@ angular.module('peerflixServerApp')
       }
     };
 
-    $scope.upload = function (file) {
-      $upload.upload({
-        url: '/upload',
-        file: file
-      }).then(function (response) {
-        loadTorrent(response.data.infoHash);
-      });
+    $scope.upload = function (files) {
+      if (files && files.length) {
+        files.forEach(function (file) {
+          $upload.upload({
+            url: '/upload',
+            file: file
+          }).then(function (response) {
+            loadTorrent(response.data.infoHash);
+          });
+        });
+      }
     };
 
     $scope.pause = function (torrent) {
