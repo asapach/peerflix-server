@@ -1,14 +1,12 @@
 'use strict';
 
-module.exports = function (buffer) {
-  var pieces = buffer.toJSON(),
-    progress = [],
+module.exports = function progressbar(buffer) {
+  var progress = [],
     counter = 0,
     downloaded = true;
 
-  pieces = pieces.data || pieces; // node v0.12 vs v0.10
-
-  pieces.forEach(function (p) {
+  for (var i = 0; i < buffer.length; i++) {
+    var p = buffer[i];
     if (downloaded && p > 0 || !downloaded && p === 0) {
       counter++;
     } else {
@@ -16,11 +14,11 @@ module.exports = function (buffer) {
       counter = 1;
       downloaded = !downloaded;
     }
-  });
+  }
 
   progress.push(counter);
 
   return progress.map(function (p) {
-    return p * 100 / pieces.length;
+    return p * 100 / buffer.length;
   });
 };
