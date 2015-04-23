@@ -25,6 +25,10 @@ module.exports = function (torrent, opts) {
     console.log('interested ' + engine.infoHash);
   });
 
+  engine.on('idle', function () {
+    console.log('idle ' + engine.infoHash);
+  });
+
   engine.on('error', function (e) {
     console.log('error ' + engine.infoHash + ': ' + e);
   });
