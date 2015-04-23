@@ -6,9 +6,9 @@ var express = require('express'),
   path = require('path'),
   socket = require('./socket'),
   api = require('./')
+    .use(express.static(path.join(__dirname, '../dist')))
     .use(express.static(path.join(__dirname, '../.tmp')))
-    .use(express.static(path.join(__dirname, '../app')))
-    .use(express.static(path.join(__dirname, '../dist')));
+    .use(express.static(path.join(__dirname, '../app')));
 
 var server = http.createServer(api);
 socket(server);
