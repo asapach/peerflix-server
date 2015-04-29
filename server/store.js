@@ -45,8 +45,16 @@ var store = _.extend(new events.EventEmitter(), {
       console.log('adding ' + infoHash);
 
       var e = engine(torrent, options);
+      var onready = function () {
+        var index = e.files.reduce(function (a, b) {
+          return a.length > b.length ? a : b
+        })
+        index = e.files.indexOf(index)
+        e.files[index].select();
+      }
       store.emit('torrent', infoHash, e);
       torrents[infoHash] = e;
+      e.on('ready', onready);
       save();
       callback(null, infoHash);
     });
