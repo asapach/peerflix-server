@@ -44,11 +44,15 @@ var store = _.extend(new events.EventEmitter(), {
 
       console.log('adding ' + infoHash);
 
-      var e = engine(torrent, options);
-      store.emit('torrent', infoHash, e);
-      torrents[infoHash] = e;
-      save();
-      callback(null, infoHash);
+      try {
+        var e = engine(torrent, options);
+        store.emit('torrent', infoHash, e);
+        torrents[infoHash] = e;
+        save();
+        callback(null, infoHash);
+      } catch (e) {
+        callback(e);
+      }
     });
   },
   get: function (infoHash) {
