@@ -11,7 +11,6 @@
     "bootstrap": "~3.3.1",
     "lodash": "~2.4.1",
     "angular-socket-io": "~0.6.0",
-    "angular-encode-uri": "~0.0.1",
     "ng-file-upload": "~3.3.4",
     "font-awesome": "~4.2.0"
   },

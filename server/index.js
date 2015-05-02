@@ -29,7 +29,15 @@ function serialize(torrent) {
     name: torrent.torrent.name,
     interested: torrent.amInterested,
     ready: torrent.torrent.ready,
-    files: torrent.torrent.files,
+    files: torrent.files.map(function (f) {
+      return {
+        name: f.name,
+        path: f.path,
+        link: '/torrents/' + torrent.infoHash + '/files/' + encodeURIComponent(f.path),
+        length: f.length,
+        offset: f.offset
+      };
+    }),
     progress: progress(torrent.bitfield.buffer)
   };
 }
