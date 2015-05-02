@@ -2,6 +2,8 @@
 var torrentStream = require('torrent-stream'),
   _ = require('lodash');
 
+var BITTORRENT_PORT = 6881;
+
 module.exports = function (torrent, opts) {
   var engine = torrentStream(torrent, _.clone(opts, true));
 
@@ -38,7 +40,7 @@ module.exports = function (torrent, opts) {
     engine.removeAllListeners();
   });
 
-  engine.listen(function () {
+  engine.listen(BITTORRENT_PORT, function () {
     console.log('listening ' + engine.infoHash + ' on port ' + engine.port);
   });
 
