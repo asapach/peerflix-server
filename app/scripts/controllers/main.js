@@ -6,7 +6,7 @@ angular.module('peerflixServerApp')
 
     function load() {
       var torrents = Torrent.query(function () {
-        $scope.torrents = torrents;
+        $scope.torrents = torrents.reverse();
       });
     }
 
@@ -106,6 +106,15 @@ angular.module('peerflixServerApp')
     torrentSocket.on('download', function (hash, progress) {
       findTorrent(hash).then(function (torrent) {
         torrent.progress = progress;
+      });
+    });
+
+    torrentSocket.on('selection', function (hash, selection) {
+      findTorrent(hash).then(function (torrent) {
+        for (var i = 0; i < torrent.files.length; i++) {
+          var file = torrent.files[i];
+          file.selected = selection[i];
+        }
       });
     });
 

@@ -46,10 +46,20 @@ module.exports = function (server) {
   store.on('torrent', function (infoHash, torrent) {
     function listen() {
       var notifyProgress = _.throttle(function () {
-        if (torrent) {
-          io.sockets.emit('download', infoHash, progress(torrent.bitfield.buffer));
-        }
-      }, 1000);
+        io.sockets.emit('download', infoHash, progress(torrent.bitfield.buffer));
+      }, 1000, { trailing: false });
+
+      var notifySelection = _.throttle(function () {
+        var pieceLength = torrent.torrent.pieceLength;
+        io.sockets.emit('selection', infoHash, torrent.files.map(function (f) {
+          // jshint -W016
+          var start = f.offset / pieceLength | 0;
+          var end = (f.offset + f.length - 1) / pieceLength | 0;
+          return torrent.selection.some(function (s) {
+            return s.from <= start && s.to >= end;
+          });
+        }));
+      }, 2000, { trailing: false });
 
       io.sockets.emit('verifying', infoHash, stats(torrent));
 
@@ -59,14 +69,17 @@ module.exports = function (server) {
 
       torrent.on('uninterested', function () {
         io.sockets.emit('uninterested', infoHash);
+        notifySelection();
       });
 
       torrent.on('interested', function () {
         io.sockets.emit('interested', infoHash);
+        notifySelection();
       });
 
       var interval = setInterval(function () {
         io.sockets.emit('stats', infoHash, stats(torrent));
+        notifySelection();
       }, 1000);
 
       torrent.on('verify', notifyProgress);
@@ -74,7 +87,6 @@ module.exports = function (server) {
       torrent.once('destroyed', function () {
         clearInterval(interval);
         io.sockets.emit('destroyed', infoHash);
-        torrent = null;
       });
     }
 
