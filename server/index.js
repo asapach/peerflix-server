@@ -24,18 +24,27 @@ function serialize(torrent) {
   if (!torrent.torrent) {
     return { infoHash: torrent.infoHash };
   }
+  var pieceLength = torrent.torrent.pieceLength;
+
   return {
     infoHash: torrent.infoHash,
     name: torrent.torrent.name,
     interested: torrent.amInterested,
     ready: torrent.ready,
     files: torrent.files.map(function (f) {
+      // jshint -W016
+      var start = f.offset / pieceLength | 0;
+      var end = (f.offset + f.length - 1) / pieceLength | 0;
+
       return {
         name: f.name,
         path: f.path,
         link: '/torrents/' + torrent.infoHash + '/files/' + encodeURIComponent(f.path),
         length: f.length,
-        offset: f.offset
+        offset: f.offset,
+        selected: torrent.selection.some(function (s) {
+          return s.from <= start && s.to >= end;
+        })
       };
     }),
     progress: progress(torrent.bitfield.buffer)
