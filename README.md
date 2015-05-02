@@ -43,8 +43,8 @@ You might also want to enable logging -- see the [docs](https://github.com/nodej
 
 ## Development
 
-See [Development.md](./Development.md)
+See [Development.md](Development.md)
 
 ## REST API
 
-See [REST.md](./REST.md)
+See [REST.md](REST.md)
