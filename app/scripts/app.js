@@ -7,7 +7,6 @@ angular
     'ngSanitize',
     'ngRoute',
     'btford.socket-io',
-    'rt.encodeuri',
     'angularFileUpload'
   ])
   .config(function ($routeProvider) {
