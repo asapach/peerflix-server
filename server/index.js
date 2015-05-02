@@ -28,7 +28,7 @@ function serialize(torrent) {
     infoHash: torrent.infoHash,
     name: torrent.torrent.name,
     interested: torrent.amInterested,
-    ready: torrent.torrent.ready,
+    ready: torrent.ready,
     files: torrent.files.map(function (f) {
       return {
         name: f.name,
@@ -44,45 +44,6 @@ function serialize(torrent) {
 
 api.get('/torrents', function (req, res) {
   res.send(store.list().map(serialize));
-});
-
-api.get('/torrents/:infoHash', function (req, res) {
-  var torrent = store.get(req.params.infoHash);
-  if (!torrent) {
-    return res.send(404);
-  }
-  res.send(serialize(torrent));
-});
-
-api.get('/torrents/:infoHash/start', function (req, res) {
-  var torrent = store.get(req.params.infoHash);
-  if (torrent && torrent.files) {
-  	var file = torrent.files;
-  	for (var i = 0; i < file.length; i++) {
-  		torrent.files[i].select();
-  	}
-  }
-  res.send(200);
-});
-
-api.get('/torrents/:infoHash/stop', function (req, res) {
-  var torrent = store.get(req.params.infoHash);
-  if (torrent && torrent.files) {
-  	var file = torrent.files;
-  	for (var i = 0; i < file.length; i++) {
-  		torrent.files[i].deselect();
-  	}
-  }
-  res.send(200);
-});
-
-api.delete('/torrents/:infoHash', function (req, res) {
-  var torrent = store.get(req.params.infoHash);
-  if (!torrent) {
-    return res.send(404);
-  }
-  store.remove(req.params.infoHash);
-  res.send(200);
 });
 
 api.post('/torrents', function (req, res) {
@@ -112,6 +73,63 @@ api.post('/upload', multipart(), function (req, res) {
   });
 });
 
+api.get('/torrents/:infoHash', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (!torrent) {
+    return res.send(404);
+  }
+  res.send(serialize(torrent));
+});
+
+api.post('/torrents/:infoHash/start', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (!torrent) {
+    return res.send(404);
+  }
+  torrent.files.forEach(function (f) {
+    f.select();
+  });
+  res.send(200);
+});
+
+api.post('/torrents/:infoHash/stop', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (!torrent) {
+    return res.send(404);
+  }
+  torrent.files.forEach(function (f) {
+    f.deselect();
+  });
+  res.send(200);
+});
+
+api.post('/torrents/:infoHash/pause', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (!torrent) {
+    return res.send(404);
+  }
+  torrent.swarm.pause();
+  res.send(200);
+});
+
+api.post('/torrents/:infoHash/resume', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (!torrent) {
+    return res.send(404);
+  }
+  torrent.swarm.resume();
+  res.send(200);
+});
+
+api.delete('/torrents/:infoHash', function (req, res) {
+  var torrent = store.get(req.params.infoHash);
+  if (!torrent) {
+    return res.send(404);
+  }
+  store.remove(req.params.infoHash);
+  res.send(200);
+});
+
 api.get('/torrents/:infoHash/stats', function (req, res) {
   var torrent = store.get(req.params.infoHash);
   if (!torrent) {
@@ -127,9 +145,9 @@ api.get('/torrents/:infoHash/files', function (req, res) {
   }
   res.setHeader('Content-Type', 'application/x-mpegurl; charset=utf-8');
   res.send('#EXTM3U\n' + torrent.files.map(function (f) {
-    return '#EXTINF:-1,' + f.path + '\n' +
-      req.protocol + '://' + req.get('host') + '/torrents/' + req.params.infoHash + '/files/' + encodeURIComponent(f.path);
-  }).join('\n'));
+      return '#EXTINF:-1,' + f.path + '\n' +
+        req.protocol + '://' + req.get('host') + '/torrents/' + req.params.infoHash + '/files/' + encodeURIComponent(f.path);
+    }).join('\n'));
 });
 
 api.all('/torrents/:infoHash/files/:path([^"]+)', function (req, res) {

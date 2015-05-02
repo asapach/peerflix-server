@@ -1,4 +1,5 @@
 'use strict';
+
 var torrentStream = require('torrent-stream'),
   _ = require('lodash');
 
@@ -16,7 +17,7 @@ module.exports = function (torrent, opts) {
 
   engine.once('ready', function () {
     console.log('ready ' + engine.infoHash);
-    engine.torrent.ready = true;
+    engine.ready = true;
   });
 
   engine.on('uninterested', function () {
