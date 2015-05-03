@@ -94,17 +94,27 @@ api.get('/torrents/:infoHash', findTorrent, function (req, res) {
   res.send(serialize(req.torrent));
 });
 
-api.post('/torrents/:infoHash/start', findTorrent, function (req, res) {
-  req.torrent.files.forEach(function (f) {
-    f.select();
-  });
+api.post('/torrents/:infoHash/start/:index?', findTorrent, function (req, res) {
+  var index = parseInt(req.params.index);
+  if (index >= 0 && index < req.torrent.files.length) {
+    req.torrent.files[index].select();
+  } else {
+    req.torrent.files.forEach(function (f) {
+      f.select();
+    });
+  }
   res.send(200);
 });
 
-api.post('/torrents/:infoHash/stop', findTorrent, function (req, res) {
-  req.torrent.files.forEach(function (f) {
-    f.deselect();
-  });
+api.post('/torrents/:infoHash/stop/:index?', findTorrent, function (req, res) {
+  var index = parseInt(req.params.index);
+  if (index >= 0 && index < req.torrent.files.length) {
+    req.torrent.files[index].deselect();
+  } else {
+    req.torrent.files.forEach(function (f) {
+      f.deselect();
+    });
+  }
   res.send(200);
 });
 
