@@ -1,7 +1,10 @@
 peerflix-server
 ===============
 
-[![Build Status](https://travis-ci.org/asapach/peerflix-server.svg?branch=master)](https://travis-ci.org/asapach/peerflix-server)
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Node.js Version][node-version-image]][node-version-url]
+[![Build Status][travis-image]][travis-url]
 
 <img src="https://cdn.rawgit.com/asapach/peerflix-server/master/app/images/logo.svg" alt="logo" height="256">
 
@@ -48,3 +51,12 @@ See [Development.md](Development.md)
 ## REST API
 
 See [REST.md](REST.md)
+
+[npm-image]: https://img.shields.io/npm/v/peerflix-server.svg?style=flat
+[npm-url]: https://npmjs.org/package/peerflix-server
+[node-version-image]: https://img.shields.io/node/v/peerflix-server.svg?style=flat
+[node-version-url]: http://nodejs.org/download/
+[travis-image]: https://img.shields.io/travis/asapach/peerflix-server.svg?style=flat
+[travis-url]: https://travis-ci.org/asapach/peerflix-server
+[downloads-image]: https://img.shields.io/npm/dm/peerflix-server.svg?style=flat
+[downloads-url]: https://npmjs.org/package/peerflix-server
