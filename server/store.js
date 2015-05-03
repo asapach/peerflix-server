@@ -39,7 +39,7 @@ var store = _.extend(new events.EventEmitter(), {
       }
       var infoHash = torrent.infoHash;
       if (torrents[infoHash]) {
-        return infoHash;
+        return callback(null, infoHash);
       }
 
       console.log('adding ' + infoHash);
@@ -74,7 +74,7 @@ var store = _.extend(new events.EventEmitter(), {
   },
   load: function (infoHash) {
     console.log('loading ' + infoHash);
-    var e = engine('magnet:?xt=urn:btih:' + infoHash, options); // TODO
+    var e = engine({ infoHash: infoHash });
     store.emit('torrent', infoHash, e);
     torrents[infoHash] = e;
   }
