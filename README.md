@@ -52,6 +52,10 @@ See [Development.md](Development.md)
 
 See [REST.md](REST.md)
 
+## Docker
+
+See [Docker.md](Docker.md)
+
 [npm-image]: https://img.shields.io/npm/v/peerflix-server.svg?style=flat
 [npm-url]: https://npmjs.org/package/peerflix-server
 [node-version-image]: https://img.shields.io/node/v/peerflix-server.svg?style=flat
