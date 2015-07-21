@@ -168,13 +168,13 @@ module.exports = function (grunt) {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
         ignorePath: '<%= yeoman.app %>/',
-		overrides:{
-			bootstrap : {
-				main: [
-					"dist/css/bootstrap.css"
-			   	]
-																				}
-		}
+		    overrides:{
+			    bootstrap : {
+				    main: [
+					    "dist/css/bootstrap.css"
+			   	  ]
+				  }
+		    }
       }
     },
 
