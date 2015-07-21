@@ -171,9 +171,10 @@ module.exports = function (grunt) {
 		    overrides:{
 			    bootstrap : {
 				    main: [
-					    "dist/css/bootstrap.css"
-			   	  ]
-				  }
+					    "dist/css/bootstrap.css",
+						"dist/js/bootstrap.js"
+			   	 	]
+				}
 		    }
       }
     },
