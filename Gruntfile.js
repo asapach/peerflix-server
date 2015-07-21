@@ -167,7 +167,14 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
-        ignorePath: '<%= yeoman.app %>/'
+        ignorePath: '<%= yeoman.app %>/',
+		overrides:{
+			bootstrap : {
+				main: [
+					"dist/css/bootstrap.css"
+			   	]
+																				}
+		}
       }
     },
 

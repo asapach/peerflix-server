@@ -44,6 +44,9 @@ If you want to run peerflix-server as a daemon, you can do it using [forever](ht
 
 You might also want to enable logging -- see the [docs](https://github.com/nodejitsu/forever#using-forever-from-the-command-line).
 
+## Heroku
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ## Development
 
 See [Development.md](Development.md)

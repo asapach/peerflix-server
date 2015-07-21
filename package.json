@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node ./server/bin.js",
-    "test": "grunt test"
+    "test": "grunt test",
+    "postinstall": "./node_modules/bower/bin/bower install"
   },
   "main": "./server/bin.js",
   "repository": {
@@ -24,6 +25,7 @@
     "web"
   ],
   "dependencies": {
+    "bower": "^1.4.1",
     "connect-multiparty": "^1.2.5",
     "express": "~3.5.1",
     "lodash": "~2.4.1",
