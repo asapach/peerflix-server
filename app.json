@@ -10,5 +10,10 @@
 		"peerflix",
 		"server",
 		"web"
+	],
+	"buildpacks" : [
+		{
+			"url" : "https://github.com/abecadel/heroku-buildpack-nodejs-grunt-bower"
+		}
 	]
 }

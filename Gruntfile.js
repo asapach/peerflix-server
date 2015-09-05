@@ -171,8 +171,8 @@ module.exports = function (grunt) {
 		    overrides:{
 			    bootstrap : {
 				    main: [
-					    "dist/css/bootstrap.css",
-						"dist/js/bootstrap.js"
+					    'dist/css/bootstrap.css',
+						'dist/js/bootstrap.js'
 			   	 	]
 				}
 		    }
@@ -405,6 +405,8 @@ module.exports = function (grunt) {
     'usemin',
     'htmlmin'
   ]);
+
+  grunt.registerTask('heroku:production', 'build');
 
   grunt.registerTask('default', [
     'newer:jshint',
