@@ -1,0 +1,19 @@
+{
+	"name": "peerflix-server",
+	"description": "Streaming torrent client for node.js with web ui.",
+	"repository":  "https://github.com/asapach/peerflix-server",
+	"logo" : "https://camo.githubusercontent.com/3ca7ab2201d344d79310e5d436a0e7ad8e5ba97d/68747470733a2f2f63646e2e7261776769742e636f6d2f617361706163682f70656572666c69782d7365727665722f6d61737465722f6170702f696d616765732f6c6f676f2e737667",
+	"keywords": [
+		"bittorrent",
+		"torrent",
+		"stream",
+		"peerflix",
+		"server",
+		"web"
+	],
+	"buildpacks" : [
+		{
+			"url" : "https://github.com/abecadel/heroku-buildpack-nodejs-grunt-bower"
+		}
+	]
+}

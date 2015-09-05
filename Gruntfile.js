@@ -167,7 +167,15 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
-        ignorePath: '<%= yeoman.app %>/'
+        ignorePath: '<%= yeoman.app %>/',
+        overrides: {
+          bootstrap: {
+            main: [
+              'dist/css/bootstrap.css',
+              'dist/js/bootstrap.js'
+            ]
+          }
+        }
       }
     },
 
@@ -397,6 +405,8 @@ module.exports = function (grunt) {
     'usemin',
     'htmlmin'
   ]);
+
+  grunt.registerTask('heroku:production', 'build');
 
   grunt.registerTask('default', [
     'newer:jshint',
