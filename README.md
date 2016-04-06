@@ -40,7 +40,7 @@ If you want to run peerflix-server as a daemon, you can do it using [forever](ht
 
 `npm install -g forever`
 
-`forever start /usr/local/bin/peerflix-server` (the path depends on your distribution and npm configuration)
+`forever start $(which peerflix-server)`
 
 You might also want to enable logging -- see the [docs](https://github.com/nodejitsu/forever#using-forever-from-the-command-line).
 
