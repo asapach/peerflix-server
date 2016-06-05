@@ -11,7 +11,7 @@ RUN npm install -g grunt-cli bower
 
 RUN adduser -D app 
 WORKDIR /home/app
-ADD . .
+COPY . .
 RUN chown app:app /home/app -R
 
 # run as user app from here on
