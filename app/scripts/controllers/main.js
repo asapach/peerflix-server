@@ -101,7 +101,6 @@ angular.module('peerflixServerApp')
     torrentSocket.on('uninterested', function (hash) {
       findTorrent(hash).then(function (torrent) {
         torrent.interested = false;
-        console.log(torrent);
         $scope.notify(torrent.name);
       });
     });
