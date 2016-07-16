@@ -84,6 +84,12 @@ module.exports = function (server) {
 
       torrent.on('verify', notifyProgress);
 
+      torrent.on('finished', function () {
+        io.sockets.emit('finished', infoHash);
+        notifySelection();
+        notifyProgress();
+      });
+
       torrent.once('destroyed', function () {
         clearInterval(interval);
         io.sockets.emit('destroyed', infoHash);
