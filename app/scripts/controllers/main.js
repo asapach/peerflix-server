@@ -1,5 +1,6 @@
 'use strict';
 
+/* global Push */
 angular.module('peerflixServerApp')
   .controller('MainCtrl', function ($scope, $resource, $log, $q, $upload, torrentSocket) {
     var Torrent = $resource('/torrents/:infoHash');
@@ -33,6 +34,13 @@ angular.module('peerflixServerApp')
     }
 
     load();
+
+    function notifyFinished(torrent) {
+      Push.create('Your torrent has finished downloading!', {
+        body: torrent.name + ' has finished downloading.',
+        icon: 'images/logo.png'
+      });
+    }
 
     $scope.keypress = function (e) {
       if (e.which === 13) {
@@ -75,13 +83,6 @@ angular.module('peerflixServerApp')
       _.remove($scope.torrents, torrent);
     };
 
-    $scope.notify = function(name) {
-      Push.create('Your torrent has finished downloading!', {
-        body: name + ' has finished downloading.',
-        icon: 'images/logo.png'
-      });
-    };
-
     torrentSocket.on('verifying', function (hash) {
       findTorrent(hash).then(function (torrent) {
         torrent.ready = false;
@@ -101,8 +102,11 @@ angular.module('peerflixServerApp')
     torrentSocket.on('uninterested', function (hash) {
       findTorrent(hash).then(function (torrent) {
         torrent.interested = false;
-        $scope.notify(torrent.name);
       });
+    });
+
+    torrentSocket.on('finished', function (hash) {
+      findTorrent(hash).then(notifyFinished);
     });
 
     torrentSocket.on('stats', function (hash, stats) {
@@ -119,6 +123,9 @@ angular.module('peerflixServerApp')
 
     torrentSocket.on('selection', function (hash, selection) {
       findTorrent(hash).then(function (torrent) {
+        if (!torrent.files) {
+          return;
+        }
         for (var i = 0; i < torrent.files.length; i++) {
           var file = torrent.files[i];
           file.selected = selection[i];

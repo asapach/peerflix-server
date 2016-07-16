@@ -1,7 +1,7 @@
 'use strict';
 
-var torrentStream = require('torrent-stream'),
-  _ = require('lodash');
+var torrentStream = require('torrent-stream');
+var _ = require('lodash');
 
 var BITTORRENT_PORT = 6881;
 
@@ -9,9 +9,19 @@ module.exports = function (torrent, opts) {
   var engine = torrentStream(torrent, _.clone(opts, true));
 
   engine.once('verifying', function () {
+    var totalPieces = engine.torrent.pieces.length;
+    var verifiedPieces = 0;
+
     console.log('verifying ' + engine.infoHash);
     engine.files.forEach(function (file, i) {
       console.log(i + ' ' + file.name);
+    });
+
+    engine.on('verify', function () {
+      if (++verifiedPieces === totalPieces) {
+        engine.emit('finished');
+        console.log('finished ' + engine.infoHash);
+      }
     });
   });
 
