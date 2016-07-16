@@ -75,6 +75,13 @@ angular.module('peerflixServerApp')
       _.remove($scope.torrents, torrent);
     };
 
+    $scope.notify = function(name) {
+      Push.create('Your torrent has finished downloading!', {
+        body: name + ' has finished downloading.',
+        icon: 'images/logo.png'
+      });
+    };
+
     torrentSocket.on('verifying', function (hash) {
       findTorrent(hash).then(function (torrent) {
         torrent.ready = false;
@@ -94,6 +101,8 @@ angular.module('peerflixServerApp')
     torrentSocket.on('uninterested', function (hash) {
       findTorrent(hash).then(function (torrent) {
         torrent.interested = false;
+        console.log(torrent);
+        $scope.notify(torrent.name, torrent.link);
       });
     });
 
