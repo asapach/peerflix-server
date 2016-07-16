@@ -102,7 +102,7 @@ angular.module('peerflixServerApp')
       findTorrent(hash).then(function (torrent) {
         torrent.interested = false;
         console.log(torrent);
-        $scope.notify(torrent.name, torrent.link);
+        $scope.notify(torrent.name);
       });
     });
 
