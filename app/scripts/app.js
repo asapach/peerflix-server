@@ -4,7 +4,6 @@ angular
   .module('peerflixServerApp', [
     'ngCookies',
     'ngResource',
-    'ngMaterial',
     'ngSanitize',
     'ngRoute',
     'btford.socket-io',
