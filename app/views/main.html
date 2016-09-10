@@ -1,26 +1,16 @@
-<div class="header">
-  <ul class="nav nav-pills pull-right">
-    <li class="active"><a href="">Torrents</a></li>
-    <li>
-      <a href="https://github.com/asapach/peerflix-server" target="_blank">
-        <i class="fa fa-github"></i> About</a>
-    </li>
-  </ul>
-  <h3 class="text-muted text-nowrap"><img src="images/logo.svg" alt="logo" height="40"> peerflix server</h3>
-</div>
-
-<div class="jumbotron" ng-file-drop ng-file-change="upload($files)">
-  <h1>Stream Torrents</h1>
-  <div class="form-group">
+  <md-card>
+<div ng-file-drop ng-file-change="upload($files)">
+              <span class="md-headline">Orion Peer Test</span>
+              <div class="form-group">
     <div class="input-group">
       <span class="input-group-addon">torrent:</span>
       <input type="text" class="form-control" placeholder="Torrent or magnet link" ng-model="link" ng-keypress="keypress($event)">
     </div>
   </div>
-  <a class="btn btn-success" href="" ng-click="download()">
+  <md-button><a href="" ng-click="download()">
     <span class="fa fa-cloud-download"></span>
     Download
-  </a>
+  </a><md-button>
   <p class="text-right">
     <i class="fa fa-upload"></i>
     Drop .torrent files here or
@@ -33,7 +23,7 @@
 <div ng-if="!torrents.length" class="alert alert-info" role="alert">
   <i class="fa fa-film"></i> Go get some torrents to watch!
 </div>
-
+</md-card>
 <div class="row content">
   <div ng-repeat="torrent in torrents" class="panel panel-default" ng-class="{ 'panel-warning': !torrent.ready, 'panel-success': torrent.interested }">
     <div class="panel-heading">
@@ -92,5 +82,5 @@
 </div>
 
 <div class="footer">
-  <p><span class="fa fa-heart"></span> peerflix</p>
+  <p><span class="fa fa-heart"></span></p>
 </div>
