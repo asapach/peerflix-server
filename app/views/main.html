@@ -1,16 +1,19 @@
-  <md-card>
-<div ng-file-drop ng-file-change="upload($files)">
-              <span class="md-headline">Orion Peer Test</span>
+<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">Orion Peeer Server</h2>
+  </div>
+  <div ng-file-drop ng-file-change="upload($files)">
               <div class="form-group">
     <div class="input-group">
       <span class="input-group-addon">torrent:</span>
       <input type="text" class="form-control" placeholder="Torrent or magnet link" ng-model="link" ng-keypress="keypress($event)">
     </div>
   </div>
-  <md-button><a href="" ng-click="download()">
+  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+<a href="" ng-click="download()">
     <span class="fa fa-cloud-download"></span>
     Download
-  </a><md-button>
+  </a></button>
   <p class="text-right">
     <i class="fa fa-upload"></i>
     Drop .torrent files here or
