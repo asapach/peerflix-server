@@ -1,5 +1,6 @@
 <div class="jumbo-card mdl-card mdl-shadow--2dp" style="width:100%">
   <div class="mdl-card__title">
+    <i class="material-icons">local_movies</i>
     <h2 class="mdl-card__title-text">Orion Peer Server</h2>
   </div>
   <div ng-file-drop ng-file-change="upload($files)">
@@ -9,12 +10,14 @@
       <input type="text" class="form-control" placeholder="Torrent or magnet link" ng-model="link" ng-keypress="keypress($event)">
     </div>
   </div>
-  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent m-x-auto">
+  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style=" margin-left: auto;
+    margin-right: auto;">
 <a href="" ng-click="download()" style="color:#fff;text-decoration:none">
     <span class="fa fa-cloud-download"></span>
     Stream It
   </a></button>
-
+<br>
+<br>
    <div class="mdl-card__actions mdl-card--border">
     <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
     <span class="btn-link" ng-file-select ng-file-change="upload($files)">Upload a torrent
@@ -23,11 +26,10 @@
 </div>
 
 <div ng-if="!torrents.length" class="alert bg-inverse" role="alert">
-  <i class="fa fa-film"></i> Go get some torrents to watch!
 </div>
 </div>
 <div class="row content">
-  <div ng-repeat="torrent in torrents" class="panel mdl-card mdl-shadow--2dp" ng-class="{ 'panel-warning': !torrent.ready, 'panel-success': torrent.interested }">
+  <div ng-repeat="torrent in torrents" class="panel mdl-card mdl-shadow--2dp" style="width:100%" ng-class="{ 'panel-warning': !torrent.ready, 'panel-success': torrent.interested }">
     <div class="panel-heading">
       <button type="button" class="close" ng-click="remove(torrent)">&times;</button>
       <span class="fa" ng-class="{
@@ -84,5 +86,4 @@
 </div>
 
 <div class="footer">
-  <p><span class="fa fa-heart"></span></p>
 </div>
