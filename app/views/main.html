@@ -3,25 +3,25 @@
     <i class="material-icons">local_movies</i>
     <h2 class="mdl-card__title-text">Orion Peer Server</h2>
   </div>
+  <form action="#">
+
   <div ng-file-drop ng-file-change="upload($files)">
-              <div class="form-group">
-    <div class="input-group">
-      <span class="input-group-addon">torrent:</span>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input id="input" type="text" class="form-control mdl-textfield__input" placeholder="" ng-model="link" ng-keypress="keypress($event)">
+          <input id="input" type="text" class="mdl-textfield__input" placeholder="" ng-model="link" ng-keypress="keypress($event)">
 
     <label class="mdl-textfield__label" for="input">Torrent or magnet link</label>
-  </div>
-    </div>
-  </div>
-  <br>
-<br>
+ </div>
   <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style=" margin-left: auto;
     margin-right: auto;">
 <a href="" ng-click="download()" style="color:#fff;text-decoration:none">
     <span class="fa fa-cloud-download"></span>
     Stream It
   </a></button>
+ </div>
+ </form>
+  <br>
+<br>
+ 
 <br>
 <br></div>
    <div class="mdl-card__actions mdl-card--border">
