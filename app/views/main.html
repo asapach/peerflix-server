@@ -1,4 +1,4 @@
-<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+<div class="jumbo-card mdl-card mdl-shadow--2dp" style="width:80%">
   <div class="mdl-card__title">
     <h2 class="mdl-card__title-text">Orion Peeer Server</h2>
   </div>
@@ -21,12 +21,17 @@
       browse to upload
     </span>
   </p>
+   <div class="mdl-card__actions mdl-card--border">
+    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+    <span class="btn-link" ng-file-select ng-file-change="upload($files)">Upload a torrent
+    </a>
+  </div>
 </div>
 
 <div ng-if="!torrents.length" class="alert alert-info" role="alert">
   <i class="fa fa-film"></i> Go get some torrents to watch!
 </div>
-</md-card>
+</div>
 <div class="row content">
   <div ng-repeat="torrent in torrents" class="panel panel-default" ng-class="{ 'panel-warning': !torrent.ready, 'panel-success': torrent.interested }">
     <div class="panel-heading">
