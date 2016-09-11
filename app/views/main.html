@@ -7,7 +7,11 @@
               <div class="form-group">
     <div class="input-group">
       <span class="input-group-addon">torrent:</span>
-      <input type="text" class="form-control" placeholder="Torrent or magnet link" ng-model="link" ng-keypress="keypress($event)">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input id="input" type="text" class="form-control mdl-textfield__input" placeholder="" ng-model="link" ng-keypress="keypress($event)">
+
+    <label class="mdl-textfield__label" for="input">Torrent or magnet link</label>
+  </div>
     </div>
   </div>
   <br>
