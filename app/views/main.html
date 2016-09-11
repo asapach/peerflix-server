@@ -1,38 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+</head>
+<body ng-file-drop ng-file-change="upload($files)"><br>
 <div class="jumbo-card mdl-card mdl-shadow--2dp" style="width:100%">
-  <div class="mdl-card__title">
-    <i class="material-icons">local_movies</i>
-    <h2 class="mdl-card__title-text">Orion Peer Server</h2>
+  <div class="mdl-card__title ">
+    <div class="mdl-card__title-text">Orion Peer Server</div>
   </div>
   <form action="#">
 
-  <div ng-file-drop ng-file-change="upload($files)">
+  <div >
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
           <input id="input" type="text" class="mdl-textfield__input" placeholder="" ng-model="link" ng-keypress="keypress($event)">
 
-    <label class="mdl-textfield__label" for="input">Torrent or magnet link</label>
+    <label class="mdl-textfield__label" for="input">Paste a Torrent or magnet link</label>
  </div>
-  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" style=" margin-left: auto;
-    margin-right: auto;">
+  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" style="padding-left:10px">
 <a href="" ng-click="download()" style="color:#fff;text-decoration:none">
-    <span class="fa fa-cloud-download"></span>
-    Stream It
+Stream It
   </a></button>
- </div>
  </form>
-  <br>
-<br>
+
  
 <br>
 <br></div>
    <div class="mdl-card__actions mdl-card--border">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" style="float:right">
     <span class="btn-link" ng-file-select ng-file-change="upload($files)">Upload a torrent
     </a>
   </div>
-</div>
+  </div></div>
+<br>
+  <br>
 
-<div ng-if="!torrents.length" class="alert bg-inverse" role="alert">
-</div>
 </div>
 <div class="row content">
   <div ng-repeat="torrent in torrents" class="panel mdl-card mdl-shadow--2dp" style="width:100%" ng-class="{ 'panel-warning': !torrent.ready, 'panel-success': torrent.interested }">
@@ -93,3 +99,5 @@
 
 <div class="footer">
 </div>
+</body>
+</html>
