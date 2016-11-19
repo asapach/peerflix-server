@@ -8,8 +8,6 @@ module.exports = function (server) {
     progress = require('./progressbar'),
     store = require('./store');
 
-  io.set('log level', 2);
-
   io.sockets.on('connection', function (socket) {
     socket.on('pause', function (infoHash) {
       console.log('pausing ' + infoHash);
