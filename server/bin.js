@@ -14,4 +14,7 @@ var express = require('express'),
 
 var server = http.createServer(api);
 socket(server);
-server.listen(process.env.PORT || 9000);
+var port = process.env.PORT || 9000;
+server.listen(port, function () {
+  console.log('Listening on http://localhost:' + port);
+});
