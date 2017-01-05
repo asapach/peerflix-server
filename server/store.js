@@ -74,7 +74,7 @@ var store = _.extend(new events.EventEmitter(), {
   },
   load: function (infoHash) {
     console.log('loading ' + infoHash);
-    var e = engine({ infoHash: infoHash });
+    var e = engine({ infoHash: infoHash }, options);
     store.emit('torrent', infoHash, e);
     torrents[infoHash] = e;
   }
