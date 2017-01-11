@@ -57,6 +57,7 @@ See [REST.md](REST.md)
 
 ## Docker
 
+includes openvpn
 See [Docker.md](Docker.md)
 
 [npm-image]: https://img.shields.io/npm/v/peerflix-server.svg?style=flat

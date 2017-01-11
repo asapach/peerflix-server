@@ -1,0 +1,16 @@
+[Unit]
+Description=peerflix-server container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart= /usr/bin/docker run -p 9000:9000 -p 6881:6881 -p 6881:6881/udp --rm \
+           --cap-add=NET_ADMIN -v /tmp/torrent-stream:/tmp/torrent-stream \
+           -v /etc/peerflix-server/:/home/app/.config/peerflix-server \
+           --name pf_srv peerflix-server
+ExecStop= /usr/bin/docker stop -t 2 pf_srv
+#; /usr/bin/docker rm -f pf_srv
+
+[Install]
+WantedBy=local.target
