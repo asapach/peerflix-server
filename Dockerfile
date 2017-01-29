@@ -1,5 +1,5 @@
 # Alpine is a lightweight Linux
-FROM mhart/alpine-node:5
+FROM mhart/alpine-node:6
 
 # Update latest available packages
 RUN apk update && \
