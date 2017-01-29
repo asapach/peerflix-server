@@ -15,6 +15,13 @@ var express = require('express'),
 var server = http.createServer(api);
 socket(server);
 var port = process.env.PORT || 9000;
-server.listen(port, function () {
+
+server.listen(port).on('error', function (e) {
+  if (e.code !== 'EADDRINUSE' && e.code !== 'EACCES') {
+    throw e;
+  }
+  console.error('Port ' + port + ' is busy. Trying the next available port...');
+  server.listen(++port);
+}).on('listening', function () {
   console.log('Listening on http://localhost:' + port);
 });

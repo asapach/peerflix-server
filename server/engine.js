@@ -2,8 +2,25 @@
 
 var torrentStream = require('torrent-stream');
 var _ = require('lodash');
+var net = require('net');
 
 var BITTORRENT_PORT = 6881;
+var tryPort = new Promise(function (resolve) {
+  function findPort(port) {
+    var s = net.createServer();
+    s.on('error', function() {
+      findPort(0);
+    });
+
+    s.listen(port, function() {
+      var port = s.address().port;
+      s.close(function() {
+        resolve(port);
+      });
+    });
+  }
+  findPort(BITTORRENT_PORT);
+});
 
 module.exports = function (torrent, opts) {
   var engine = torrentStream(torrent, _.clone(opts, true));
@@ -57,8 +74,10 @@ module.exports = function (torrent, opts) {
     engine.removeAllListeners();
   });
 
-  engine.listen(BITTORRENT_PORT, function () {
-    console.log('listening ' + engine.infoHash + ' on port ' + engine.port);
+  tryPort.then(function (port) {
+    engine.listen(port, function () {
+      console.log('listening ' + engine.infoHash + ' on port ' + engine.port);
+    });
   });
 
   return engine;
