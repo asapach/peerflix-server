@@ -23,7 +23,9 @@ Based on [torrent-stream](https://github.com/mafintosh/torrent-stream), inspired
 
 ## Configuration
 
-You can configure the application using `~/.config/peerflix-server/config.json` file (doesn't exist by default). The [options](https://github.com/mafintosh/torrent-stream#full-api) are passed to all torrent-stream instances. Here's an example that overrides the defaults:
+You can configure the application using `~/.config/peerflix-server/config.json` file (doesn't exist by default).
+The [options](https://github.com/mafintosh/torrent-stream#full-api) are passed to all torrent-stream instances.
+Here's an example that overrides the defaults:
 
 ```json
 {
@@ -32,17 +34,31 @@ You can configure the application using `~/.config/peerflix-server/config.json` 
 }
 ```
 
+You can also change the default port by setting `PORT` environment variable:
+
+```sh
+PORT=1234 peerflix-server
+
+# or on windows
+SET PORT=1234
+peerflix-server
+```
+
 The application stores its current state (list of torrents) in `~/.config/peerflix-server/torrents.json`
 
 ## Daemon
 
-If you want to run peerflix-server as a daemon, you can do it using [forever](https://github.com/nodejitsu/forever):
+If you want to run peerflix-server as a daemon, you can do it using [forever](https://github.com/foreverjs/forever):
 
-`npm install -g forever`
+```sh
+npm install -g forever
+```
 
-`forever start $(which peerflix-server)`
+```sh
+forever start $(which peerflix-server)
+```
 
-You might also want to enable logging -- see the [docs](https://github.com/nodejitsu/forever#using-forever-from-the-command-line).
+You might also want to enable logging -- see the [docs](https://github.com/foreverjs/forever#command-line-usage).
 
 ## Development
 
