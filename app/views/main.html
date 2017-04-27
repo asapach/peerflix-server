@@ -1,41 +1,47 @@
-<div class="header">
-  <ul class="nav nav-pills pull-right">
-    <li class="active"><a href="">Torrents</a></li>
-    <li>
-      <a href="https://github.com/asapach/peerflix-server" target="_blank">
-        <i class="fa fa-github"></i> About</a>
-    </li>
-  </ul>
-  <h3 class="text-muted text-nowrap"><img src="images/logo.svg" alt="logo" height="40"> peerflix server</h3>
-</div>
-
-<div class="jumbotron" ng-file-drop ng-file-change="upload($files)">
-  <h1>Stream Torrents</h1>
-  <div class="form-group">
-    <div class="input-group">
-      <span class="input-group-addon">torrent:</span>
-      <input type="text" class="form-control" placeholder="Torrent or magnet link" ng-model="link" ng-keypress="keypress($event)">
-    </div>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+</head>
+<body ng-file-drop ng-file-change="upload($files)"><br>
+<div class="jumbo-card mdl-card mdl-shadow--2dp" style="width:100%">
+  <div class="mdl-card__title ">
+    <div class="mdl-card__title-text">Orion Peer Server</div>
   </div>
-  <a class="btn btn-success" href="" ng-click="download()">
-    <span class="fa fa-cloud-download"></span>
-    Download
-  </a>
-  <p class="text-right">
-    <i class="fa fa-upload"></i>
-    Drop .torrent files here or
-    <span class="btn-link" ng-file-select ng-file-change="upload($files)">
-      browse to upload
-    </span>
-  </p>
-</div>
+  <form action="#">
 
-<div ng-if="!torrents.length" class="alert alert-info" role="alert">
-  <i class="fa fa-film"></i> Go get some torrents to watch!
-</div>
+  <div >
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input id="input" type="text" class="mdl-textfield__input" placeholder="" ng-model="link" ng-keypress="keypress($event)">
 
+    <label class="mdl-textfield__label" for="input">Paste a Torrent or magnet link</label>
+ </div>
+  <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary" style="padding-left:10px">
+<a href="" ng-click="download()" style="color:#fff;text-decoration:none">
+Stream It
+  </a></button>
+ </form>
+
+ 
+<br>
+<br></div>
+   <div class="mdl-card__actions mdl-card--border">
+    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" style="float:right">
+    <span class="btn-link" ng-file-select ng-file-change="upload($files)">Upload a torrent
+    </a>
+  </div>
+  </div></div>
+<br>
+  <br>
+
+</div>
 <div class="row content">
-  <div ng-repeat="torrent in torrents" class="panel panel-default" ng-class="{ 'panel-warning': !torrent.ready, 'panel-success': torrent.interested }">
+  <div ng-repeat="torrent in torrents" class="panel mdl-card mdl-shadow--2dp" style="width:100%" ng-class="{ 'panel-warning': !torrent.ready, 'panel-success': torrent.interested }">
     <div class="panel-heading">
       <button type="button" class="close" ng-click="remove(torrent)">&times;</button>
       <span class="fa" ng-class="{
@@ -92,5 +98,6 @@
 </div>
 
 <div class="footer">
-  <p><span class="fa fa-heart"></span> peerflix</p>
 </div>
+</body>
+</html>
