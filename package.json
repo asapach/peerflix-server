@@ -24,18 +24,18 @@
     "web"
   ],
   "dependencies": {
-    "connect-multiparty": "^1.2.5",
-    "express": "~3.5.1",
-    "lodash": "~2.4.1",
-    "mkdirp": "^0.5.0",
-    "pump": "^1.0.0",
-    "range-parser": "^1.0.2",
+    "connect-multiparty": "^2.0.0",
+    "express": "^3.21.2",
+    "lodash": "^2.4.2",
+    "mkdirp": "^0.5.1",
+    "pump": "^1.0.2",
+    "range-parser": "^1.2.0",
     "read-torrent": "^1.3.0",
-    "socket.io": "^1.5.1",
-    "torrent-stream": "^0.18.1"
+    "socket.io": "^1.7.4",
+    "torrent-stream": "^1.0.3"
   },
   "optionalDependencies": {
-    "fluent-ffmpeg": "^2.0.0-rc3"
+    "fluent-ffmpeg": "^2.0.0"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
