@@ -3,6 +3,7 @@ FROM mhart/alpine-node:6
 
 # Update latest available packages
 RUN apk update && \
+    apk add ffmpeg && \
     apk add git && \
     rm -rf /var/cache/apk/* /tmp/* && \
     adduser -D app && \
