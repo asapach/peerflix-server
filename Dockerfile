@@ -13,7 +13,7 @@ RUN apk update && \
 COPY . .
 
 RUN npm install && \
-    bower install && \
+    bower --allow-root install && \
     grunt build
 
 VOLUME [ "/tmp/torrent-stream" ]
