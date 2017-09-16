@@ -1,6 +1,7 @@
 # Alpine is a lightweight Linux
 FROM mhart/alpine-node:8
 
+ENV HOME /app
 WORKDIR /app
 # Update latest available packages
 RUN apk update && \
