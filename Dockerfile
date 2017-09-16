@@ -7,7 +7,8 @@ RUN apk update && \
     apk add ffmpeg && \
     apk add git && \
     rm -rf /var/cache/apk/* /tmp/* && \
-    addgroup app && adduser -D app app && \
+    addgroup app && \
+    adduser -D app app && \
     mkdir /tmp/torrent-stream && \
     chown app:app /tmp/torrent-stream && \
     npm install -g grunt-cli bower
