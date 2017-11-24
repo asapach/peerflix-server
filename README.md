@@ -45,7 +45,7 @@ peerflix-server
 ```
 
 The application stores its current state (list of torrents) in `~/.config/peerflix-server/torrents.json`
-
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 ## Daemon
 
 If you want to run peerflix-server as a daemon, you can do it using [forever](https://github.com/foreverjs/forever):
