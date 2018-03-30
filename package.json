@@ -25,7 +25,7 @@
   ],
   "dependencies": {
     "connect-multiparty": "^2.0.0",
-    "express": "^3.21.2",
+    "express": "^4.16.3",
     "lodash": "^2.4.2",
     "mkdirp": "^0.5.1",
     "pump": "^1.0.2",
