@@ -17,6 +17,9 @@ Based on [torrent-stream](https://github.com/mafintosh/torrent-stream), inspired
 ## Usage
 
 1. `npm install -g peerflix-server`
+1. `sudo npm cache clean -f`
+1. `sudo npm install -g n`
+1. `sudo n stable`
 1. `peerflix-server`
 1. Open your browser at [http://localhost:9000/](http://localhost:9000/)
 1. Enjoy!
