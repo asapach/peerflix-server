@@ -28,4 +28,3 @@ node_modules
 /dist
 /.tmp
 /.idea
-package-lock.json
