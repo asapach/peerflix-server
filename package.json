@@ -24,6 +24,7 @@
     "web"
   ],
   "dependencies": {
+    "archiver": "^2.1.1",
     "connect-multiparty": "^2.0.0",
     "express": "^3.21.2",
     "lodash": "^2.4.2",
@@ -67,6 +68,6 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=0.12"
+    "node": ">=6"
   }
 }

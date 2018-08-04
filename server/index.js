@@ -6,6 +6,7 @@ var rangeParser = require('range-parser'),
   express = require('express'),
   multipart = require('connect-multiparty'),
   fs = require('fs'),
+  archiver = require('archiver'),
   store = require('./store'),
   progress = require('./progressbar'),
   stats = require('./stats'),
@@ -179,6 +180,20 @@ api.all('/torrents/:infoHash/files/:path([^"]+)', findTorrent, function (req, re
     return res.end();
   }
   pump(file.createReadStream(range), res);
+});
+
+api.get('/torrents/:infoHash/archive/:path([^"]+)', findTorrent, function (req, res) {
+  var torrent = req.torrent;
+
+  res.setHeader('Content-Type', 'application/zip');
+  req.connection.setTimeout(3600000);
+
+  var archive = archiver('zip');
+  torrent.files.forEach(function (f) {
+    archive.append(f.createReadStream(), { name: f.path });
+  });
+
+  pump(archive, res);
 });
 
 module.exports = api;
