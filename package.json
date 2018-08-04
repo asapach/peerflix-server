@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node ./server/bin.js",
-    "test": "grunt test"
+    "test": "grunt test",
+    "prepack": "grunt build"
   },
   "main": "./server/bin.js",
   "repository": {
