@@ -1,7 +1,13 @@
 app
+test
 .tmp
 .idea
 .bowerrc
 .editorconfig
 .gitattributes
+.jshintrc
+.travis.yml
 bower.json
+capture.gif
+Gruntfile.js
+karma.conf.js
