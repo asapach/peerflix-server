@@ -30,6 +30,7 @@ function serialize(torrent) {
   return {
     infoHash: torrent.infoHash,
     name: torrent.torrent.name,
+    link: '/torrents/' + torrent.infoHash + '/archive/' + encodeURIComponent(torrent.torrent.name) + '.zip',
     interested: torrent.amInterested,
     ready: torrent.ready,
     files: torrent.files.map(function (f) {
@@ -189,11 +190,12 @@ api.get('/torrents/:infoHash/archive/:path([^"]+)', findTorrent, function (req, 
   req.connection.setTimeout(3600000);
 
   var archive = archiver('zip');
+  pump(archive, res);
+
   torrent.files.forEach(function (f) {
     archive.append(f.createReadStream(), { name: f.path });
   });
-
-  pump(archive, res);
+  archive.finalize();
 });
 
 module.exports = api;

@@ -43,7 +43,8 @@
         'fa-refresh fa-spin': !torrent.ready,
         'fa-exchange': torrent.interested }">
       </span>
-      {{ torrent.name || 'Fetching metadata...' }}
+      <span ng-if="!torrent.name">Fetching metadata...</span>
+      <a ng-if="torrent.name" href="{{ torrent.link }}" target="_blank">{{ torrent.name }}</a>
     </div>
     <div class="panel-body">
       <div class="progress progress-striped" ng-class="{ active: torrent.interested }">
