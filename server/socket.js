@@ -24,19 +24,39 @@ module.exports = function (server) {
       }
     });
     socket.on('select', function (infoHash, file) {
-      console.log('selected ' + infoHash + '/' + file);
+      if (typeof file === 'number') {
+        console.log('selected ' + infoHash + '/' + file);
+      } else {
+        console.log('selected ' + infoHash);
+      }
       var torrent = store.get(infoHash);
       if (torrent && torrent.files) {
-        file = torrent.files[file];
-        file.select();
+        if (typeof file === 'number') {
+          file = torrent.files[file];
+          file.select();
+        } else {
+          torrent.files.forEach(function (f) {
+            f.select();
+          });
+        }
       }
     });
     socket.on('deselect', function (infoHash, file) {
-      console.log('deselected ' + infoHash + '/' + file);
+      if (typeof file === 'number') {
+        console.log('deselected ' + infoHash + '/' + file);
+      } else {
+        console.log('deselected ' + infoHash);
+      }
       var torrent = store.get(infoHash);
       if (torrent && torrent.files) {
-        file = torrent.files[file];
-        file.deselect();
+        if (typeof file === 'number') {
+          file = torrent.files[file];
+          file.deselect();
+        } else {
+          torrent.files.forEach(function (f) {
+            f.deselect();
+          });
+        }
       }
     });
   });

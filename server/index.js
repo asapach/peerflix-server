@@ -30,6 +30,7 @@ function serialize(torrent) {
   return {
     infoHash: torrent.infoHash,
     name: torrent.torrent.name,
+    length: torrent.torrent.length,
     link: '/torrents/' + torrent.infoHash + '/archive/' + encodeURIComponent(torrent.torrent.name) + '.zip',
     interested: torrent.amInterested,
     ready: torrent.ready,
@@ -144,6 +145,7 @@ api.get('/torrents/:infoHash/stats', findTorrent, function (req, res) {
 api.get('/torrents/:infoHash/files', findTorrent, function (req, res) {
   var torrent = req.torrent;
   res.setHeader('Content-Type', 'application/x-mpegurl; charset=utf-8');
+  res.attachment(torrent.torrent.name + '.m3u');
   res.send('#EXTM3U\n' + torrent.files.map(function (f) {
       return '#EXTINF:-1,' + f.path + '\n' +
         req.protocol + '://' + req.get('host') + '/torrents/' + torrent.infoHash + '/files/' + encodeURIComponent(f.path);
@@ -189,6 +191,7 @@ api.get('/torrents/:infoHash/archive/:path([^"]+)', findTorrent, function (req, 
   var torrent = req.torrent;
 
   res.setHeader('Content-Type', 'application/zip');
+  res.attachment(torrent.torrent.name + '.zip');
   req.connection.setTimeout(3600000);
 
   var archive = archiver('zip');
