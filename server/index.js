@@ -88,7 +88,9 @@ api.post('/upload', multipart(), function (req, res) {
     } else {
       res.send({ infoHash: infoHash });
     }
-    fs.unlink(file.path);
+    fs.unlink(file.path, function (err) {
+      console.error(err);
+    });
   });
 });
 
