@@ -56,20 +56,16 @@
           <label class="list-group-item-heading text-nowrap">
             <input type="checkbox" ng-model="torrent.selected" ng-click="selectAll(torrent)"/>
             <span class="fa fa-cloud-download"></span>
-            <span>
-              All {{ torrent.files.length }} files ({{ torrent.length / 1024 / 1024 | number:1 }} MB)
-            </span>
-          </label>
+            All {{ torrent.files.length }} files ({{ torrent.length / 1024 / 1024 | number:1 }} MB)
+          </label><span>&nbsp;&mdash;</span>
           <span class="list-group-item-text text-nowrap">
-            - Download as
+            Download as
             <a ng-href="{{ torrent.link }}" target="_blank">
-              <span class="fa fa-file-zip-o"></span>
-              archive
+              <span class="fa fa-file-zip-o"></span> archive
             </a>
             or
             <a ng-href="/torrents/{{ torrent.infoHash }}/files" target="_blank">
-              <span class="fa fa-play-circle-o"></span>
-              playlist
+              <span class="fa fa-play-circle-o"></span> playlist
             </a>
           </span>
         </li>
