@@ -80,6 +80,9 @@ angular.module('peerflixServerApp')
 
     $scope.selectAll = function (torrent) {
       torrentSocket.emit(torrent.selected ? 'deselect' : 'select', torrent.infoHash);
+      torrent.files.forEach(function (f) {
+        f.selected = !torrent.selected;
+      });
     };
 
     $scope.remove = function (torrent) {
