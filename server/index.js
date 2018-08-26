@@ -31,7 +31,6 @@ function serialize(torrent) {
     infoHash: torrent.infoHash,
     name: torrent.torrent.name,
     length: torrent.torrent.length,
-    link: '/torrents/' + torrent.infoHash + '/archive/' + encodeURIComponent(torrent.torrent.name) + '.zip',
     interested: torrent.amInterested,
     ready: torrent.ready,
     files: torrent.files.map(function (f) {
@@ -187,14 +186,20 @@ api.all('/torrents/:infoHash/files/:path([^"]+)', findTorrent, function (req, re
   pump(file.createReadStream(range), res);
 });
 
-api.get('/torrents/:infoHash/archive/:path([^"]+)', findTorrent, function (req, res) {
+api.get('/torrents/:infoHash/archive', findTorrent, function (req, res) {
   var torrent = req.torrent;
 
-  res.setHeader('Content-Type', 'application/zip');
   res.attachment(torrent.torrent.name + '.zip');
   req.connection.setTimeout(3600000);
 
   var archive = archiver('zip');
+  archive.on('warning', function (err) {
+    console.error(err);
+  });
+  archive.on('error', function (err) {
+    throw err;
+  });
+
   pump(archive, res);
 
   torrent.files.forEach(function (f) {
