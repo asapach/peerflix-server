@@ -143,13 +143,14 @@ api.get('/torrents/:infoHash/stats', findTorrent, function (req, res) {
 
 api.get('/torrents/:infoHash/files', findTorrent, function (req, res) {
   var torrent = req.torrent;
-  var proto = req.get('x-forwarded-proto');
+  var proto = req.get('x-forwarded-proto') || req.protocol;
+  var host = req.get('x-Forwarded-host') || req.get('host');
   if (!proto) { proto=req.protocol; }
   res.setHeader('Content-Type', 'application/x-mpegurl; charset=utf-8');
   res.attachment(torrent.torrent.name + '.m3u');
   res.send('#EXTM3U\n' + torrent.files.map(function (f) {
       return '#EXTINF:-1,' + f.path + '\n' +
-        proto + '://' + req.get('host') + '/torrents/' + torrent.infoHash + '/files/' + encodeURIComponent(f.path);
+        proto + '://' + host + '/torrents/' + torrent.infoHash + '/files/' + encodeURIComponent(f.path);
     }).join('\n'));
 });
 
