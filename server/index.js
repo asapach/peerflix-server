@@ -144,8 +144,7 @@ api.get('/torrents/:infoHash/stats', findTorrent, function (req, res) {
 api.get('/torrents/:infoHash/files', findTorrent, function (req, res) {
   var torrent = req.torrent;
   var proto = req.get('x-forwarded-proto') || req.protocol;
-  var host = req.get('x-Forwarded-host') || req.get('host');
-  if (!proto) { proto=req.protocol; }
+  var host = req.get('x-forwarded-host') || req.get('host');
   res.setHeader('Content-Type', 'application/x-mpegurl; charset=utf-8');
   res.attachment(torrent.torrent.name + '.m3u');
   res.send('#EXTM3U\n' + torrent.files.map(function (f) {
