@@ -6,11 +6,11 @@ peerflix-server
 [![Node.js Version][node-version-image]][node-version-url]
 [![Build Status][travis-image]][travis-url]
 
-<img src="https://cdn.rawgit.com/asapach/peerflix-server/master/app/images/logo.svg" alt="logo" height="256">
+<img src="https://cdn.jsdelivr.net/gh/asapach/peerflix-server@master/app/images/logo.svg" alt="logo" height="256">
 
 Streaming torrent client for node.js with web ui.
 
-![screen capture](https://cdn.rawgit.com/asapach/peerflix-server/master/capture.gif)
+![screen capture](https://cdn.jsdelivr.net/gh/asapach/peerflix-server@master/capture.gif)
 
 Based on [torrent-stream](https://github.com/mafintosh/torrent-stream), inspired by [peerflix](https://github.com/mafintosh/peerflix).
 
