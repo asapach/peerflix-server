@@ -4,6 +4,8 @@ var rangeParser = require('range-parser'),
   pump = require('pump'),
   _ = require('lodash'),
   express = require('express'),
+  logger = require('morgan'),
+  bodyParser = require('body-parser'),
   multipart = require('connect-multiparty'),
   fs = require('fs'),
   archiver = require('archiver'),
@@ -12,8 +14,8 @@ var rangeParser = require('range-parser'),
   stats = require('./stats'),
   api = express();
 
-api.use(express.json());
-api.use(express.logger('dev'));
+api.use(bodyParser.json())
+api.use(logger('dev'));
 api.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'OPTIONS, POST, GET, PUT, DELETE');
@@ -56,7 +58,7 @@ function serialize(torrent) {
 function findTorrent(req, res, next) {
   var torrent = req.torrent = store.get(req.params.infoHash);
   if (!torrent) {
-    return res.send(404);
+    return res.sendStatus(404);
   }
   next();
 }
@@ -69,7 +71,7 @@ api.post('/torrents', function (req, res) {
   store.add(req.body.link, function (err, infoHash) {
     if (err) {
       console.error(err);
-      res.send(500, err);
+      res.status(500).send(err);
     } else {
       res.send({ infoHash: infoHash });
     }
@@ -79,17 +81,19 @@ api.post('/torrents', function (req, res) {
 api.post('/upload', multipart(), function (req, res) {
   var file = req.files && req.files.file;
   if (!file) {
-    return res.send(500, 'file is missing');
+    return res.status(500).send('file is missing');
   }
   store.add(file.path, function (err, infoHash) {
     if (err) {
       console.error(err);
-      res.send(500, err);
+      res.status(500).send(err);
     } else {
       res.send({ infoHash: infoHash });
     }
     fs.unlink(file.path, function (err) {
-      console.error(err);
+      if (err) {
+        console.error(err);
+      }
     });
   });
 });
@@ -107,7 +111,7 @@ api.post('/torrents/:infoHash/start/:index?', findTorrent, function (req, res) {
       f.select();
     });
   }
-  res.send(200);
+  res.sendStatus(200);
 });
 
 api.post('/torrents/:infoHash/stop/:index?', findTorrent, function (req, res) {
@@ -119,22 +123,22 @@ api.post('/torrents/:infoHash/stop/:index?', findTorrent, function (req, res) {
       f.deselect();
     });
   }
-  res.send(200);
+  res.sendStatus(200);
 });
 
 api.post('/torrents/:infoHash/pause', findTorrent, function (req, res) {
   req.torrent.swarm.pause();
-  res.send(200);
+  res.sendStatus(200);
 });
 
 api.post('/torrents/:infoHash/resume', findTorrent, function (req, res) {
   req.torrent.swarm.resume();
-  res.send(200);
+  res.sendStatus(200);
 });
 
 api.delete('/torrents/:infoHash', findTorrent, function (req, res) {
   store.remove(req.torrent.infoHash);
-  res.send(200);
+  res.sendStatus(200);
 });
 
 api.get('/torrents/:infoHash/stats', findTorrent, function (req, res) {
@@ -157,7 +161,7 @@ api.all('/torrents/:infoHash/files/:path([^"]+)', findTorrent, function (req, re
   var torrent = req.torrent, file = _.find(torrent.files, { path: req.params.path });
 
   if (!file) {
-    return res.send(404);
+    return res.sendStatus(404);
   }
 
   if (typeof req.query.ffmpeg !== 'undefined') {
