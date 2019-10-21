@@ -19,9 +19,7 @@ function save() {
     if (err) {
       throw err;
     }
-    var state = Object.keys(torrents).map(function (infoHash) {
-      return infoHash;
-    });
+    var state = Object.keys(torrents);
     fs.writeFile(storageFile, JSON.stringify(state), function (err) {
       if (err) {
         throw err;
@@ -33,9 +31,9 @@ function save() {
 
 var store = _.extend(new events.EventEmitter(), {
   add: function (link, callback) {
-    if (typeof link === "string")
-      if (link.match(/^\w{32}$|^\w{40}$/))
-        link = `magnet:?xt=urn:btih:${link}`
+    if (/^(\w{32}|\w{40})$/.test(link)) {
+      link = `magnet:?xt=urn:btih:${link}`;
+    }
 
     readTorrent(link, function (err, torrent) {
       if (err) {
