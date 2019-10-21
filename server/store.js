@@ -33,6 +33,10 @@ function save() {
 
 var store = _.extend(new events.EventEmitter(), {
   add: function (link, callback) {
+    if (typeof link === "string")
+      if (link.match(/^\w{32}$|^\w{40}$/))
+        link = `magnet:?xt=urn:btih:${link}`
+
     readTorrent(link, function (err, torrent) {
       if (err) {
         return callback(err);
