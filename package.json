@@ -1,6 +1,6 @@
 {
   "name": "peerflix-server",
-  "version": "0.2.0",
+  "version": "0.5.1",
   "author": "Aliaksei Sapach <dreamsonic@tut.by>",
   "description": "Streaming torrent client for node.js with web ui.",
   "bin": {
@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node ./server/bin.js",
-    "test": "grunt test"
+    "test": "grunt test",
+    "prepack": "grunt build"
   },
   "main": "./server/bin.js",
   "repository": {
@@ -24,15 +25,19 @@
     "web"
   ],
   "dependencies": {
+    "archiver": "^3.0.0",
+    "body-parser": "^1.19.0",
     "connect-multiparty": "^2.0.0",
-    "express": "^4.16.3",
-    "lodash": "^2.4.2",
+    "express": "^4.17.1",
+    "lodash": "^4",
     "mkdirp": "^0.5.1",
-    "pump": "^1.0.2",
+    "morgan": "^1.9.1",
+    "pump": "^3.0.0",
     "range-parser": "^1.2.0",
     "read-torrent": "^1.3.0",
-    "socket.io": "^2.0.4",
-    "torrent-stream": "^1.0.3"
+    "serve-static": "^1.14.1",
+    "socket.io": "^2.3.0",
+    "torrent-stream": "^1.2.0"
   },
   "optionalDependencies": {
     "fluent-ffmpeg": "^2.0.0"
@@ -45,28 +50,28 @@
     "grunt-contrib-concat": "~0.4.0",
     "grunt-contrib-connect": "^0.10.1",
     "grunt-contrib-copy": "~0.5.0",
-    "grunt-contrib-cssmin": "~2.2.1",
-    "grunt-contrib-htmlmin": "~2.4.0",
-    "grunt-contrib-jshint": "~1.1.0",
+    "grunt-contrib-cssmin": "~0.9.0",
+    "grunt-contrib-htmlmin": "~0.3.0",
+    "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-uglify": "~0.4.0",
-    "grunt-contrib-watch": "~1.0.1",
+    "grunt-contrib-watch": "~0.6.1",
     "grunt-karma": "^2.0.0",
-    "grunt-newer": "~1.3.0",
+    "grunt-newer": "~0.7.0",
     "grunt-ngmin": "~0.0.3",
     "grunt-rev": "~0.1.0",
     "grunt-svgmin": "~0.4.0",
     "grunt-usemin": "~2.1.1",
-    "grunt-wiredep": "~3.0.1",
+    "grunt-wiredep": "~1.7.0",
     "jshint-stylish": "~0.2.0",
     "karma": "^0.13.22",
-    "karma-jasmine": "~3.0.1",
+    "karma-jasmine": "~0.1.5",
     "karma-ng-html2js-preprocessor": "~0.1.0",
-    "karma-phantomjs-launcher": "~1.0.4",
-    "load-grunt-tasks": "~3.5.2",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "load-grunt-tasks": "~0.4.0",
     "time-grunt": "~0.3.1"
   },
   "license": "MIT",
   "engines": {
-    "node": ">=0.12"
+    "node": ">=6"
   }
 }
