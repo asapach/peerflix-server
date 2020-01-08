@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 docker.image: node_js
 node_js:
   - '6'
@@ -7,3 +8,19 @@ node_js:
 run:
   - 'npm install -g bower grunt-cli'
   - 'bower install'
+=======
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.16.3
+      - image: mongo:4.2.0
+    steps:
+      - checkout
+      - run:
+          name: update-npm bower
+          command: 'npm install -g bower grunt-cli'
+      - run:
+          name: test
+          command: npm test
+>>>>>>> Stashed changes
