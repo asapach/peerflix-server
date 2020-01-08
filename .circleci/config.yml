@@ -1,0 +1,9 @@
+docker.image: node_js
+node_js:
+  - '6'
+  - '7'
+  - '8'
+  - '10'
+run:
+  - 'npm install -g bower grunt-cli'
+  - 'bower install'

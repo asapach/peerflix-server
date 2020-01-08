@@ -63,11 +63,11 @@
     "grunt-usemin": "~2.1.1",
     "grunt-wiredep": "~1.7.0",
     "jshint-stylish": "~0.2.0",
-    "karma": "^0.13.22",
+    "karma": "^4.4.1",
     "karma-jasmine": "~0.1.5",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "karma-phantomjs-launcher": "^1.0.4",
-    "load-grunt-tasks": "~0.4.0",
+    "load-grunt-tasks": "^4.0.0",
     "time-grunt": "~0.3.1"
   },
   "license": "MIT",
