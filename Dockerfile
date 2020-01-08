@@ -1,14 +1,12 @@
-# Alpine is a lightweight Linux
-FROM mhart/alpine-node:6
+FROM node:6-alpine
 
-# Update latest available packages
-RUN apk update && \
-    apk add git && \
-    rm -rf /var/cache/apk/* /tmp/* && \
+# Update latest available packages,
+# add 'app' user, and make temp directory
+RUN apk --no-cache add ffmpeg git && \
+    npm install -g grunt-cli bower && \
     adduser -D app && \
     mkdir /tmp/torrent-stream && \
-    chown app:app /tmp/torrent-stream && \
-    npm install -g grunt-cli bower
+    chown app:app /tmp/torrent-stream
 
 WORKDIR /home/app
 COPY . .

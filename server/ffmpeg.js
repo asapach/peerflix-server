@@ -12,12 +12,12 @@ module.exports = function (req, res, torrent, file) {
     var filePath = path.join(torrent.path, file.path);
     fs.exists(filePath, function (exists) {
       if (!exists) {
-        return res.send(404, 'File doesn`t exist.');
+        return res.status(404).send('File doesn`t exist.');
       }
       return ffmpeg.ffprobe(filePath, function (err, metadata) {
         if (err) {
           console.error(err);
-          return res.send(500, err.toString());
+          return res.status(500).send(err.toString());
         }
         res.send(metadata);
       });
@@ -50,6 +50,6 @@ module.exports = function (req, res, torrent, file) {
     case 'remux':
       return remux();
     default:
-      res.send(501, 'Not supported.');
+      res.status(501).send('Not supported.');
   }
 };

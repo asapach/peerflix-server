@@ -23,7 +23,7 @@ var tryPort = new Promise(function (resolve) {
 });
 
 module.exports = function (torrent, opts) {
-  var engine = torrentStream(torrent, _.clone(opts, true));
+  var engine = torrentStream(torrent, _.cloneDeep(opts));
 
   engine.once('verifying', function () {
     var totalPieces = engine.torrent.pieces.length;

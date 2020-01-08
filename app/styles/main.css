@@ -70,10 +70,13 @@ body {
 .panel-footer .list-inline {
   margin-bottom: 0;
 }
-.panel-body .list-group li {
+.panel-body .list-group li.text-nowrap {
   text-overflow: ellipsis;
-  white-space: nowrap;
   overflow-x: hidden;
+}
+
+.list-group-item-header {
+  background-color: #eee;
 }
 
 /* Responsive: Portrait tablets and up */

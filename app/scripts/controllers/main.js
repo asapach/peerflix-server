@@ -78,6 +78,13 @@ angular.module('peerflixServerApp')
       torrentSocket.emit(file.selected ? 'deselect' : 'select', torrent.infoHash, torrent.files.indexOf(file));
     };
 
+    $scope.selectAll = function (torrent) {
+      torrentSocket.emit(torrent.selected ? 'deselect' : 'select', torrent.infoHash);
+      torrent.files.forEach(function (f) {
+        f.selected = !torrent.selected;
+      });
+    };
+
     $scope.remove = function (torrent) {
       Torrent.remove({ infoHash: torrent.infoHash });
       _.remove($scope.torrents, torrent);
@@ -130,6 +137,7 @@ angular.module('peerflixServerApp')
           var file = torrent.files[i];
           file.selected = selection[i];
         }
+        torrent.selected = _.every(torrent.files, 'selected');
       });
     });
 

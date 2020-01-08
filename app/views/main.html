@@ -14,7 +14,7 @@
   <div class="form-group">
     <div class="input-group">
       <span class="input-group-addon">torrent:</span>
-      <input type="text" class="form-control" placeholder="Torrent or magnet link" ng-model="link" ng-keypress="keypress($event)">
+      <input type="text" class="form-control" placeholder="Torrent or magnet link or hash" ng-model="link" ng-keypress="keypress($event)">
     </div>
   </div>
   <a class="btn btn-success" href="" ng-click="download()">
@@ -43,7 +43,8 @@
         'fa-refresh fa-spin': !torrent.ready,
         'fa-exchange': torrent.interested }">
       </span>
-      {{ torrent.name || 'Fetching metadata...' }}
+      <span ng-if="!torrent.name">Fetching metadata...</span>
+      {{ torrent.name }}
     </div>
     <div class="panel-body">
       <div class="progress progress-striped" ng-class="{ active: torrent.interested }">
@@ -51,7 +52,24 @@
              ng-repeat="progress in torrent.progress track by $index" ng-style="{ width: progress + '%' }"></div>
       </div>
       <ul class="list-group">
-        <li class="list-group-item" ng-repeat="file in torrent.files">
+        <li class="list-group-item list-group-item-header" ng-if="torrent.files.length > 1">
+          <label class="list-group-item-heading text-nowrap">
+            <input type="checkbox" ng-model="torrent.selected" ng-click="selectAll(torrent)"/>
+            <span class="fa fa-cloud-download"></span>
+            All {{ torrent.files.length }} files ({{ torrent.length / 1024 / 1024 | number:1 }} MB)
+          </label><span>&nbsp;&mdash;</span>
+          <span class="list-group-item-text text-nowrap">
+            Download as
+            <a ng-href="/torrents/{{ torrent.infoHash }}/archive" target="_blank">
+              <span class="fa fa-file-zip-o"></span> archive
+            </a>
+            or
+            <a ng-href="/torrents/{{ torrent.infoHash }}/files" target="_blank">
+              <span class="fa fa-play-circle-o"></span> playlist
+            </a>
+          </span>
+        </li>
+        <li class="list-group-item text-nowrap" ng-repeat="file in torrent.files">
           <input type="checkbox" ng-model="file.selected" ng-click="select(torrent, file)"/>
           <span class="fa fa-cloud-download"></span>
           <a ng-href="{{ file.link }}" target="_blank">
