@@ -90,6 +90,10 @@
           <span class="label label-success">{{ torrent.stats.speed.down / 1024 | number:1 }}</span> /
           <span class="label label-danger">{{ torrent.stats.speed.up / 1024 | number:1 }}</span> KB/s
         </li>
+        <li class="text-nowrap" ng-show="torrent.stats" ng-if="torrent.stats.traffic.down > 1 && torrent.stats.eta > 0">
+          <strong>ETA:</strong>
+          <span class="label label-primary">{{ torrent.stats.eta / 60 | number:0 }}</span> min
+        </li>
         <li class="text-nowrap" ng-show="torrent.stats">
           <strong>Traffic:</strong>
           <span class="label label-success">{{ torrent.stats.traffic.down / 1024 / 1024 | number:1 }}</span> /

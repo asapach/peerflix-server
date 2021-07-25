@@ -2,6 +2,7 @@
 
 module.exports = function stats(torrent) {
   var swarm = torrent.swarm;
+  var eta = (torrent.torrent.length - swarm.downloaded) / swarm.downloadSpeed();
   return {
     peers: {
       total: swarm.wires.length,
@@ -17,6 +18,7 @@ module.exports = function stats(torrent) {
       down: swarm.downloadSpeed(),
       up: swarm.uploadSpeed()
     },
+    eta: Math.round(eta),
     queue: swarm.queued,
     paused: swarm.paused
   };
