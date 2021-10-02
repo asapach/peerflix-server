@@ -23,7 +23,7 @@ Based on [torrent-stream](https://github.com/mafintosh/torrent-stream), inspired
 
 ## Configuration
 
-You can configure the application using `~/.config/peerflix-server/config.json` file (doesn't exist by default).
+You can configure the application using `config.json` file (doesn't exist by default).
 The [options](https://github.com/mafintosh/torrent-stream#full-api) are passed to all torrent-stream instances.
 Here's an example that overrides the defaults:
 
@@ -33,6 +33,10 @@ Here's an example that overrides the defaults:
   "tmp": "/mnt/torrents"
 }
 ```
+
+The application stores its current state (list of torrents) in `torrents.json`
+
+You can define configuration and state files location by `PEERFLIX_CONFIG_PATH` environmnt variable. Default value is `$HOME/.config/peerflix-server/`.
 
 You can also change the default port by setting `PORT` environment variable:
 
@@ -44,7 +48,6 @@ SET PORT=1234
 peerflix-server
 ```
 
-The application stores its current state (list of torrents) in `~/.config/peerflix-server/torrents.json`
 
 ## Daemon
 
