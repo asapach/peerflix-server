@@ -21,7 +21,7 @@ RUN npm prune --production
 
 RUN mkdir release && \
     cp -r /app/node_modules release/node_modules && \
-    cp -r /app/dist release/app && \
+    cp -r /app/dist release/dist && \
     cp -r /app/server release/server && \
     cp -r package.json release/
 
