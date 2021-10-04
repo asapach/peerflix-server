@@ -3,6 +3,9 @@
 
 var STATIC_OPTIONS = { maxAge: 3600000 };
 
+var process = require('process');
+process.title = 'peerflix-server';
+
 var express = require('express'),
   http = require('http'),
   path = require('path'),
