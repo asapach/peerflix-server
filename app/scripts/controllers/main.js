@@ -1,5 +1,16 @@
 'use strict';
 
+function openOverlay() {
+  document.querySelector(".overlay").style.display = "block";
+  document.querySelector(".overlay .backdrop").addEventListener("click", closeOverlay);
+}
+
+function closeOverlay() {
+  document.querySelector(".overlay").style.display = "none";
+  document.querySelector(".overlay video").src = "";
+  document.querySelector(".overlay .backdrop").removeEventListener("click", closeOverlay);
+}
+
 /* global Push */
 angular.module('peerflixServerApp')
   .controller('MainCtrl', function ($scope, $resource, $log, $q, $upload, torrentSocket) {
@@ -94,6 +105,36 @@ angular.module('peerflixServerApp')
     $scope.remove = function (torrent) {
       Torrent.remove({ infoHash: torrent.infoHash });
       _.remove($scope.torrents, torrent);
+    };
+
+    $scope.play = function (link) {
+      document.querySelector(".overlay video").src = link;
+      openOverlay();
+    };
+
+    $scope.isVideo = function (fileName) {
+      return [
+        '.mkv',
+        '.webm',
+        '.mpg',
+        '.mp2',
+        '.mpeg',
+        '.mpe',
+        '.mpv',
+        '.ogg',
+        '.mp4',
+        '.m4p',
+        '.m4v',
+        '.avi',
+        '.wmv',
+        '.mov',
+        '.qt',
+        '.flv',
+        '.swf',
+        '.avchd'
+      ].some(function(ext) {
+        return fileName.endsWith(ext)
+      })
     };
 
     $scope.toggleDarkMode = function () {

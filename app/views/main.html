@@ -1,3 +1,7 @@
+<div class="overlay">
+  <video src="" type="video/mp4" width="auto" height="auto" controls></video>
+  <div class="backdrop"></div>
+</div>
 <div class="header">
   <ul class="nav nav-pills pull-right">
     <li>
@@ -80,6 +84,9 @@
           <a ng-href="{{ file.link }}" target="_blank">
             {{ file.name }} ({{ file.length / 1024 / 1024 | number:1 }} MB)
           </a>
+          <button type="button" class="btn btn-xs" ng-click="play(file.link)" ng-if="isVideo(file.name)">
+            <span class="fa fa-play"></span>
+          </button>
         </li>
       </ul>
     </div>
