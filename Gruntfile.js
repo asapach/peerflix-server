@@ -288,7 +288,7 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{png,jpg,jpeg,gif,webp}',
-            'bower_components/font-awesome/fonts/*'
+            'bower_components/components-font-awesome/webfonts/*'
           ]
         }, {
           expand: true,
