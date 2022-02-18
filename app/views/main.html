@@ -1,10 +1,15 @@
 <div class="header">
   <ul class="nav nav-pills pull-right">
-    <li class="active"><a href="">Torrents</a></li>
+    <li>
+      <button type="button" class="btn dark-mode-toggle" ng-click="toggleDarkMode()">
+        <span class="fa fa-circle-half-stroke"></span>
+      </button>
+    </li>
     <li>
       <a href="https://github.com/asapach/peerflix-server" target="_blank">
         <i class="fa-brands fa-github"></i> About</a>
     </li>
+    <li class="active"><a href="">Torrents</a></li>
   </ul>
   <h3 class="text-muted text-nowrap"><img src="images/logo.svg" alt="logo" height="40"> peerflix server</h3>
 </div>
@@ -15,12 +20,12 @@
     <div class="input-group">
       <span class="input-group-addon">torrent:</span>
       <input type="text" class="form-control" placeholder="Torrent or magnet link or hash" ng-model="link" ng-keypress="keypress($event)">
+      <a class="input-group-addon btn btn-success" href="" ng-click="download()">
+        <span class="fa fa-cloud-download"></span>
+        Download
+      </a>
     </div>
   </div>
-  <a class="btn btn-success" href="" ng-click="download()">
-    <span class="fa fa-cloud-download"></span>
-    Download
-  </a>
   <p class="text-right">
     <i class="fa fa-upload"></i>
     Drop .torrent files here or

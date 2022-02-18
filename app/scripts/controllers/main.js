@@ -3,6 +3,12 @@
 /* global Push */
 angular.module('peerflixServerApp')
   .controller('MainCtrl', function ($scope, $resource, $log, $q, $upload, torrentSocket) {
+
+    // Get darkmode status from system
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.querySelector("html").classList.add("dark")
+    }
+
     var Torrent = $resource('/torrents/:infoHash');
 
     function load() {
@@ -88,6 +94,10 @@ angular.module('peerflixServerApp')
     $scope.remove = function (torrent) {
       Torrent.remove({ infoHash: torrent.infoHash });
       _.remove($scope.torrents, torrent);
+    };
+
+    $scope.toggleDarkMode = function () {
+      document.querySelector("html").classList.toggle("dark")
     };
 
     torrentSocket.on('verifying', function (hash) {
