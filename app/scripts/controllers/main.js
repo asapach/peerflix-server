@@ -73,6 +73,7 @@ angular.module('peerflixServerApp')
 
     $scope.search = function () {
       if ($scope.query) {
+        $scope.results = undefined;
         Search.query({ param: $scope.query }).$promise.then(function (results) {
           $scope.results = results;
         })
