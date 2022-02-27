@@ -84,7 +84,6 @@ angular.module('peerflixServerApp')
       Search.save({ param: link }).$promise.then(function (torrent) {
         loadTorrent(torrent.infoHash);
       });
-      $scope.clearSearch();
     };
 
     $scope.keypressDownload = function (e) {
