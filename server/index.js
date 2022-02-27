@@ -180,6 +180,7 @@ api.all('/torrents/:infoHash/files/:path([^"]+)', findTorrent, function (req, re
 
   if (!range) {
     res.setHeader('Content-Length', file.length);
+    res.setHeader('Content-Type', 'application/octet-stream');
     if (req.method === 'HEAD') {
       return res.end();
     }
