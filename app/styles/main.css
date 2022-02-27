@@ -140,6 +140,14 @@ body {
   background-color: #d9edf7;
   border-color: #bce8f1;
 }
+.panel-success > .panel-heading {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.panel-success {
+  border-color: #bce8f1;
+}
 
 /* Search and download bar */
 .search-box {
