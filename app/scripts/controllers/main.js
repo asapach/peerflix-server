@@ -140,6 +140,7 @@ angular.module('peerflixServerApp')
     };
 
     $scope.isVideo = function (fileName) {
+      fileName = fileName.toLowerCase();
       return [
         '.mkv',
         '.webm',
