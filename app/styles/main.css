@@ -131,6 +131,35 @@ body {
   border-color: #bce8f1;
 }
 
+/* Search and download bar */
+.search-box {
+  border-right: none;
+}
+.clear-search {
+  border-left: none;
+  background-color: #fff;
+}
+.form-control, .form-control:focus {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+/* Search results table fixes */
+.table {
+  overflow-wrap: anywhere;
+}
+.table > thead > tr > th {
+  border-bottom: none;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.result-link {
+  white-space: normal;
+}
+
 /* Video overlay */
 .overlay {
 	position: fixed;
@@ -261,4 +290,10 @@ html.dark {
 }
 .dark .panel-warning {
   border-color: rgb(105, 68, 0);
+}
+.dark .clear-search {
+  background-color: #080B0C;
+}
+.dark .table>tbody>tr>td, .dark .table>tbody>tr>th, .dark .table>tfoot>tr>td, .dark .table>tfoot>tr>th, .dark .table>thead>tr>td, .dark .table>thead>tr>th {
+  border-top-color: #303438;
 }

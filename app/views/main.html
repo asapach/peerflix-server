@@ -22,8 +22,50 @@
   <h1>Stream Torrents</h1>
   <div class="form-group">
     <div class="input-group">
+      <span class="input-group-addon">search:</span>
+      <input type="text" class="form-control search-box" placeholder="Find torrents using 1337x" ng-model="query" ng-keypress="keypressSearch($event)">
+      <a class="input-group-addon btn clear-search" href="" ng-click="clearSearch()">
+        <span class="fa fa-xmark"></span>
+      </a>
+      <a class="input-group-addon btn btn-success" href="" ng-click="search()">
+        <span class="fa fa-magnifying-glass"></span>
+        Search
+      </a>
+    </div>
+  </div>
+  <div class="panel panel-default" ng-if="results !== undefined">
+    <table class="table">
+      <thead ng-if="results.length === 0">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">No results found!</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <thead class="list-group-item-header" ng-if="results.length > 0">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Se</th>
+          <th scope="col">Le</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+      <tbody ng-if="results.length > 0">
+        <tr ng-repeat="result in results">
+          <th scope="row">{{ results.indexOf(result) + 1 }}</th>
+          <td><a class="btn-link result-link" ng-click="downloadSearchResult(result.link)">{{ result.name }}</a></td>
+          <td>{{ result.seeds }}</td>
+          <td>{{ result.leeches }}</td>
+          <td>{{ result.size }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <div class="input-group">
       <span class="input-group-addon">torrent:</span>
-      <input type="text" class="form-control" placeholder="Torrent or magnet link or hash" ng-model="link" ng-keypress="keypress($event)">
+      <input type="text" class="form-control" placeholder="Torrent or magnet link or hash" ng-model="link" ng-keypress="keypressDownload($event)">
       <a class="input-group-addon btn btn-success" href="" ng-click="download()">
         <span class="fa fa-cloud-download"></span>
         Download

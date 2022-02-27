@@ -21,6 +21,7 @@ angular.module('peerflixServerApp')
     }
 
     var Torrent = $resource('/torrents/:infoHash');
+    var Search = $resource('/search/:param');
 
     function load() {
       var torrents = Torrent.query(function () {
@@ -59,7 +60,33 @@ angular.module('peerflixServerApp')
       });
     }
 
-    $scope.keypress = function (e) {
+    $scope.clearSearch = function () {
+      $scope.query = "";
+      $scope.results = undefined;
+    };
+
+    $scope.keypressSearch = function (e) {
+      if (e.which === 13) {
+        $scope.search();
+      }
+    };
+
+    $scope.search = function () {
+      if ($scope.query) {
+        Search.query({ param: $scope.query }).$promise.then(function (results) {
+          $scope.results = results;
+        })
+      }
+    };
+
+    $scope.downloadSearchResult = function (link) {
+      Search.save({ param: link }).$promise.then(function (torrent) {
+        loadTorrent(torrent.infoHash);
+      });
+      $scope.clearSearch();
+    };
+
+    $scope.keypressDownload = function (e) {
       if (e.which === 13) {
         $scope.download();
       }

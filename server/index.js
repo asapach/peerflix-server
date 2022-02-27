@@ -12,6 +12,10 @@ var rangeParser = require('range-parser'),
   store = require('./store'),
   progress = require('./progressbar'),
   stats = require('./stats'),
+  request = require('request'),
+  htmlparser = require('htmlparser'),
+  select = require('soupselect').select,
+  magnetRegex = new RegExp(/href="(magnet:\?xt=urn:btih:[^"]*)"/),
   api = express();
 
 api.use(bodyParser.json())
@@ -212,6 +216,50 @@ api.get('/torrents/:infoHash/archive', findTorrent, function (req, res) {
     archive.append(f.createReadStream(), { name: f.path });
   });
   archive.finalize();
+});
+
+function parseDom(body) {
+  var parseHandler = new htmlparser.DefaultHandler(function (err, dom) {
+    if (err) {
+      console.error("Error: " + err);
+    }
+  });
+  var parser = new htmlparser.Parser(parseHandler);
+  parser.parseComplete(body);
+  return parseHandler.dom;
+}
+
+api.get('/search/:param', function (req, res) {
+  request(`https://1337x.to/search/${encodeURIComponent(req.params.param)}/1/`, function(error, response, body) {
+    var dom = parseDom(body);
+    var rows = select(dom, '.search-page table tbody tr');
+    var results = [];
+    rows.forEach(function(row) {
+      results.push({
+        name: select(row, ".name a")[1].children[0].raw,
+        seeds: select(row, ".seeds")[0].children[0].raw,
+        leeches: select(row, ".leeches")[0].children[0].raw,
+        size: select(row, ".size")[0].children[0].raw,
+        link: `https://1337x.to${select(row, ".name a")[1].attribs.href}`,
+      });
+    });
+    res.send(results);
+  });
+});
+
+api.post('/search', function (req, res) {
+  console.log(req.body.param);
+  request(req.body.param, function(error, response, body) {
+    var link = body.match(magnetRegex)[1];
+    store.add(link, function (err, infoHash) {
+      if (err) {
+        console.error(err);
+        res.status(500).send(err);
+      } else {
+        res.send({ infoHash: infoHash });
+      }
+    });
+  });
 });
 
 module.exports = api;
