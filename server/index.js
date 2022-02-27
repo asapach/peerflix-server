@@ -110,10 +110,12 @@ api.post('/torrents/:infoHash/start/:index?', findTorrent, function (req, res) {
   var index = parseInt(req.params.index);
   if (index >= 0 && index < req.torrent.files.length) {
     req.torrent.files[index].select();
+    store.save();
   } else {
     req.torrent.files.forEach(function (f) {
       f.select();
     });
+    store.save();
   }
   res.sendStatus(200);
 });
@@ -122,10 +124,12 @@ api.post('/torrents/:infoHash/stop/:index?', findTorrent, function (req, res) {
   var index = parseInt(req.params.index);
   if (index >= 0 && index < req.torrent.files.length) {
     req.torrent.files[index].deselect();
+    store.save();
   } else {
     req.torrent.files.forEach(function (f) {
       f.deselect();
     });
+    store.save();
   }
   res.sendStatus(200);
 });

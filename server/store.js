@@ -19,7 +19,24 @@ function save() {
     if (err) {
       throw err;
     }
-    var state = Object.keys(torrents);
+    var state = {};
+    var infoHashes = Object.keys(torrents);
+    infoHashes.forEach(function (infoHash) {
+      var torrent = torrents[infoHash]
+      var selection = [];
+      if (torrent.torrent) {
+        var pieceLength = torrent.torrent.pieceLength;
+        selection = torrent.files.map(function (f) {
+          // jshint -W016
+          var start = f.offset / pieceLength | 0;
+          var end = (f.offset + f.length - 1) / pieceLength | 0;
+          return torrent.selection.some(function (s) {
+            return s.from <= start && s.to >= end;
+          });
+        });
+      }
+      state[infoHash] = selection;
+    });
     fs.writeFile(storageFile, JSON.stringify(state), function (err) {
       if (err) {
         throw err;
@@ -50,6 +67,14 @@ var store = _.extend(new events.EventEmitter(), {
         var e = engine(torrent, options);
         store.emit('torrent', infoHash, e);
         torrents[infoHash] = e;
+        torrents[infoHash].once('ready', function () {
+          // select the largest file
+          var file = torrents[infoHash].files.reduce(function (a, b) {
+            return a.length > b.length ? a : b;
+          });
+          file.select();
+          store.save();
+        });
         save();
         callback(null, infoHash);
       } catch (e) {
@@ -79,6 +104,9 @@ var store = _.extend(new events.EventEmitter(), {
     var e = engine({ infoHash: infoHash }, options);
     store.emit('torrent', infoHash, e);
     torrents[infoHash] = e;
+  },
+  save: function () {
+    save();
   }
 });
 
@@ -104,11 +132,37 @@ mkdirp(configPath, function (err) {
           throw err;
         }
       } else {
-        var torrents = JSON.parse(data);
+        var state = JSON.parse(data);
         console.log('resuming from previous state');
-        torrents.forEach(function (infoHash) {
-          store.load(infoHash);
-        });
+        if (Array.isArray(state)) {
+          // Backwards state compatibility (load infohashes and select biggest file)
+          state.forEach(function (infoHash) {
+            store.load(infoHash);
+            torrents[infoHash].once('ready', function () {
+              // select the largest file
+              var file = torrents[infoHash].files.reduce(function (a, b) {
+                return a.length > b.length ? a : b;
+              });
+              file.select();
+              store.save();
+            })
+          })
+        } else {
+          // New state setup (load infohashes and remember selected files)
+          var infoHashes = Object.keys(state);
+          infoHashes.forEach(function (infoHash) {
+            store.load(infoHash);
+            torrents[infoHash].once('ready', function () {
+              var selection = state[infoHash];
+              for (let file = 0; file < selection.length; file++) {
+                var selected = selection[file];
+                if (selected) {
+                  torrents[infoHash].files[file].select();
+                }
+              }
+            })
+          })
+        }
       }
     });
   });

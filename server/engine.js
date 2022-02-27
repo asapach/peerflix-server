@@ -45,12 +45,6 @@ module.exports = function (torrent, opts) {
   engine.once('ready', function () {
     console.log('ready ' + engine.infoHash);
     engine.ready = true;
-
-    // select the largest file
-    var file = engine.files.reduce(function (a, b) {
-      return a.length > b.length ? a : b;
-    });
-    file.select();
   });
 
   engine.on('uninterested', function () {
