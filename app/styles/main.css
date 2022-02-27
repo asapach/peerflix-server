@@ -12,6 +12,16 @@ body {
   padding-right: 15px;
 }
 
+/* Hide header text for small screens (prevent overlap with buttons) */
+.header span {
+  display: none;
+}
+@media screen and (min-width: 480px) {
+  .header span {
+    display: inline;
+  }
+}
+
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
@@ -34,7 +44,6 @@ body {
 /* Title message and button */
 .jumbotron {
   text-align: center;
-  border-bottom: 1px solid #e5e5e5;
 }
 .jumbotron p {
   margin: 15px 0;
@@ -79,6 +88,11 @@ body {
   background-color: #eee;
 }
 
+/* Space out the masthead */
+.header {
+  margin-bottom: 30px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
@@ -90,10 +104,6 @@ body {
   }
   .container {
     max-width: 730px;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
@@ -194,6 +204,9 @@ body {
   background-color: rgba(0,0,0,0.6);
   cursor: pointer;
   z-index: 101;
+}
+.play {
+  margin-left: 1px;
 }
 
 /* Dark mode */

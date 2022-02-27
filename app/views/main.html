@@ -6,7 +6,7 @@
   <ul class="nav nav-pills pull-right">
     <li>
       <button type="button" class="btn dark-mode-toggle" ng-click="toggleDarkMode()">
-        <span class="fa fa-circle-half-stroke"></span>
+        <i class="fa fa-circle-half-stroke"></i>
       </button>
     </li>
     <li>
@@ -15,7 +15,7 @@
     </li>
     <li class="active"><a href="">Torrents</a></li>
   </ul>
-  <h3 class="text-muted text-nowrap"><img src="images/logo.svg" alt="logo" height="40"> peerflix server</h3>
+  <h3 class="text-muted text-nowrap"><img src="images/logo.svg" alt="logo" height="40"> <span>peerflix server</span></h3>
 </div>
 
 <div class="jumbotron" ng-file-drop ng-file-change="upload($files)">
@@ -123,12 +123,12 @@
         <li class="list-group-item text-nowrap" ng-repeat="file in torrent.files">
           <input type="checkbox" ng-model="file.selected" ng-click="select(torrent, file)"/>
           <span class="fa fa-cloud-download"></span>
+          <button type="button" class="btn btn-xs play" ng-click="play(file.link)" ng-if="isVideo(file.name)">
+            <span class="fa fa-play"></span>
+          </button>
           <a ng-href="{{ file.link }}" target="_blank">
             {{ file.name }} ({{ file.length / 1024 / 1024 | number:1 }} MB)
           </a>
-          <button type="button" class="btn btn-xs" ng-click="play(file.link)" ng-if="isVideo(file.name)">
-            <span class="fa fa-play"></span>
-          </button>
         </li>
       </ul>
     </div>
