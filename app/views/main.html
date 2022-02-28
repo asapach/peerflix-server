@@ -1,26 +1,77 @@
+<div class="overlay">
+  <video src="" type="video/mp4" width="auto" height="auto" controls></video>
+  <div class="backdrop"></div>
+</div>
 <div class="header">
   <ul class="nav nav-pills pull-right">
-    <li class="active"><a href="">Torrents</a></li>
+    <li>
+      <button type="button" class="btn dark-mode-toggle" ng-click="toggleDarkMode()">
+        <i class="fa fa-circle-half-stroke"></i>
+      </button>
+    </li>
     <li>
       <a href="https://github.com/asapach/peerflix-server" target="_blank">
-        <i class="fa fa-github"></i> About</a>
+        <i class="fa-brands fa-github"></i> About</a>
     </li>
+    <li class="active"><a href="">Torrents</a></li>
   </ul>
-  <h3 class="text-muted text-nowrap"><img src="images/logo.svg" alt="logo" height="40"> peerflix server</h3>
+  <h3 class="text-muted text-nowrap"><img src="images/logo.svg" alt="logo" height="40"> <span>peerflix server</span></h3>
 </div>
 
 <div class="jumbotron" ng-file-drop ng-file-change="upload($files)">
   <h1>Stream Torrents</h1>
   <div class="form-group">
     <div class="input-group">
-      <span class="input-group-addon">torrent:</span>
-      <input type="text" class="form-control" placeholder="Torrent or magnet link or hash" ng-model="link" ng-keypress="keypress($event)">
+      <span class="input-group-addon">search:</span>
+      <input type="text" class="form-control search-box" placeholder="Find torrents using 1337x" ng-model="query" ng-keypress="keypressSearch($event)">
+      <a class="input-group-addon btn clear-search" href="" ng-click="clearSearch()">
+        <span class="fa fa-xmark"></span>
+      </a>
+      <a class="input-group-addon btn btn-success" href="" ng-click="search()">
+        <span class="fa fa-magnifying-glass"></span>
+        Search
+      </a>
     </div>
   </div>
-  <a class="btn btn-success" href="" ng-click="download()">
-    <span class="fa fa-cloud-download"></span>
-    Download
-  </a>
+  <div class="panel panel-default" ng-if="results !== undefined">
+    <table class="table">
+      <thead ng-if="results.length === 0">
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">No results found!</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <thead class="list-group-item-header" ng-if="results.length > 0">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Se</th>
+          <th scope="col">Le</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+      <tbody ng-if="results.length > 0">
+        <tr ng-repeat="result in results">
+          <th scope="row">{{ results.indexOf(result) + 1 }}</th>
+          <td><a class="btn-link result-link" ng-click="downloadSearchResult(result.link)">{{ result.name }}</a></td>
+          <td>{{ result.seeds }}</td>
+          <td>{{ result.leeches }}</td>
+          <td>{{ result.size }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-group">
+    <div class="input-group">
+      <span class="input-group-addon">torrent:</span>
+      <input type="text" class="form-control" placeholder="Torrent or magnet link or hash" ng-model="link" ng-keypress="keypressDownload($event)">
+      <a class="input-group-addon btn btn-success" href="" ng-click="download()">
+        <span class="fa fa-cloud-download"></span>
+        Download
+      </a>
+    </div>
+  </div>
   <p class="text-right">
     <i class="fa fa-upload"></i>
     Drop .torrent files here or
@@ -61,17 +112,20 @@
           <span class="list-group-item-text text-nowrap">
             Download as
             <a ng-href="/torrents/{{ torrent.infoHash }}/archive" target="_blank">
-              <span class="fa fa-file-zip-o"></span> archive
+              <span class="fa fa-file-zipper"></span> archive
             </a>
             or
             <a ng-href="/torrents/{{ torrent.infoHash }}/files" target="_blank">
-              <span class="fa fa-play-circle-o"></span> playlist
+              <span class="fa fa-list"></span> playlist
             </a>
           </span>
         </li>
         <li class="list-group-item text-nowrap" ng-repeat="file in torrent.files">
           <input type="checkbox" ng-model="file.selected" ng-click="select(torrent, file)"/>
           <span class="fa fa-cloud-download"></span>
+          <button type="button" class="btn btn-xs play" ng-click="play(file.link)" ng-if="isVideo(file.name)">
+            <span class="fa fa-play"></span>
+          </button>
           <a ng-href="{{ file.link }}" target="_blank">
             {{ file.name }} ({{ file.length / 1024 / 1024 | number:1 }} MB)
           </a>

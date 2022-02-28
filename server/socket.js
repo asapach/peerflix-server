@@ -34,10 +34,12 @@ module.exports = function (server) {
         if (typeof file === 'number') {
           file = torrent.files[file];
           file.select();
+          store.save();
         } else {
           torrent.files.forEach(function (f) {
             f.select();
           });
+          store.save();
         }
       }
     });
@@ -52,10 +54,12 @@ module.exports = function (server) {
         if (typeof file === 'number') {
           file = torrent.files[file];
           file.deselect();
+          store.save();
         } else {
           torrent.files.forEach(function (f) {
             f.deselect();
           });
+          store.save();
         }
       }
     });

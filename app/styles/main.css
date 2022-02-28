@@ -12,6 +12,16 @@ body {
   padding-right: 15px;
 }
 
+/* Hide header text for small screens (prevent overlap with buttons) */
+.header span {
+  display: none;
+}
+@media screen and (min-width: 480px) {
+  .header span {
+    display: inline;
+  }
+}
+
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
@@ -34,10 +44,9 @@ body {
 /* Title message and button */
 .jumbotron {
   text-align: center;
-  border-bottom: 1px solid #e5e5e5;
 }
 .jumbotron p {
-  margin: 15px 0 -30px;
+  margin: 15px 0;
   font-size: 12px;
   font-weight: normal;
 }
@@ -79,6 +88,11 @@ body {
   background-color: #eee;
 }
 
+/* Space out the masthead */
+.header {
+  margin-bottom: 30px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
@@ -91,16 +105,217 @@ body {
   .container {
     max-width: 730px;
   }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
+    padding-top: 18px;
+    padding-bottom: 18px;
   }
-  .jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+  /* Smaller padding */
+  .container .jumbotron, .container-fluid .jumbotron {
+    padding-right: 42px;
+    padding-left: 42px;
   }
+  .jumbotron h1 {
+    margin-top: 10px;
+    margin-bottom: 30px;
+  }
+}
+
+/* Only blue accents */
+.btn-success, .label-success {
+  background-color: #337AB7 !important;
+  border-color: #337AB7 !important;
+  color: #fff !important;
+}
+.btn-success:hover {
+  background-color: #285f8f !important;
+  border-color: #285f8f !important;
+}
+.progress-bar-success {
+  background-color: #337AB7;
+}
+.alert-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.panel-success > .panel-heading {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.panel-success {
+  border-color: #bce8f1;
+}
+
+/* Search and download bar */
+.search-box {
+  border-right: none;
+}
+.clear-search {
+  border-left: none;
+  background-color: #fff;
+}
+.form-control, .form-control:focus {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
+/* Search results table fixes */
+.table {
+  overflow-wrap: anywhere;
+}
+.table > thead > tr > th {
+  border-bottom: none;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.result-link {
+  white-space: normal;
+}
+
+/* Video overlay */
+.overlay {
+	position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+.overlay video {
+  background-color: black;
+  width: -webkit-fill-available;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  border-radius: 8px;
+  z-index: 102;
+}
+.overlay .backdrop {
+	position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+  cursor: pointer;
+  z-index: 101;
+}
+.play {
+  margin-left: 1px;
+}
+
+/* Dark mode */
+.dark-mode-toggle {
+  border-radius: 4px;
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  background-color: transparent;
+}
+html.dark {
+  color-scheme: dark !important;
+}
+.dark body {
+  background-color: #080B0C;
+  color: rgb(211, 205, 197);
+}
+.dark .jumbotron {
+  background-color: #141619;
+}
+.dark .header {
+  border-bottom-color: rgb(44, 50, 52);
+}
+.dark .input-group-addon {
+  background-color: #141619;
+  border-color: rgb(52, 59, 61);
+  color: rgb(186, 179, 167);
+}
+.dark .form-control {
+  background-color: #080B0C;
+  border-color: rgb(52, 59, 61);
+  color: rgb(186, 179, 167);
+}
+.dark .panel-default>.panel-heading {
+  background-color: #0F1213;
+  border-color: rgb(48, 52, 56);
+  color: rgb(211, 205, 197);
+}
+.dark .list-group-item-header {
+  background-color: #141619;
+}
+.dark .list-group-item {
+  background-color: #080B0C;
+  border-color: rgb(48, 52, 56);
+}
+.dark .panel {
+  background-color: #080B0C;
+}
+.dark .panel-default {
+  border-color: rgb(48, 52, 56);
+}
+.dark .panel-footer {
+  background-color: #0F1213;
+  border-top-color: rgb(48, 52, 56);
+}
+.dark .footer {
+  border-top-color: rgb(44, 50, 52);
+  color: rgb(161, 151, 137);
+}
+.dark input {
+  border-color: #716859;
+  background-color: #080b0c;
+}
+.dark .btn {
+  color: #EEE;
+}
+.dark .close {
+  color: #FFF;
+}
+.dark .progress {
+  background-color: rgb(15, 18, 19);
+}
+.dark .progress-striped .progress-bar-success {
+  background-image: linear-gradient(45deg, rgba(8, 11, 12, 0.15) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, rgba(8, 11, 12, 0.15) 50%, rgba(8, 11, 12, 0.15) 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0))
+}
+.dark .alert-info {
+  color: rgb(115, 186, 220);
+  background-color: rgb(0, 36, 56);
+  border-color: rgb(6, 84, 100);
+}
+.dark .panel-success > .panel-heading {
+  color: rgb(115, 186, 220);
+  background-color: rgb(0, 36, 56);
+  border-color: rgb(6, 84, 100);
+}
+.dark .panel-success {
+  border-color: rgb(6, 84, 100);
+}
+.dark .panel-warning > .panel-heading {
+  color: rgb(209, 178, 122);
+  background-color: rgb(53, 43, 0);
+  border-color: rgb(105, 68, 0);
+}
+.dark .panel-warning {
+  border-color: rgb(105, 68, 0);
+}
+.dark .clear-search {
+  background-color: #080B0C;
+}
+.dark .table>tbody>tr>td, .dark .table>tbody>tr>th, .dark .table>tfoot>tr>td, .dark .table>tfoot>tr>th, .dark .table>thead>tr>td, .dark .table>thead>tr>th {
+  border-top-color: #303438;
 }

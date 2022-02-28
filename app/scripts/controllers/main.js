@@ -1,9 +1,27 @@
 'use strict';
 
+function openOverlay() {
+  document.querySelector(".overlay").style.display = "block";
+  document.querySelector(".overlay .backdrop").addEventListener("click", closeOverlay);
+}
+
+function closeOverlay() {
+  document.querySelector(".overlay").style.display = "none";
+  document.querySelector(".overlay video").src = "";
+  document.querySelector(".overlay .backdrop").removeEventListener("click", closeOverlay);
+}
+
 /* global Push */
 angular.module('peerflixServerApp')
   .controller('MainCtrl', function ($scope, $resource, $log, $q, $upload, torrentSocket) {
+
+    // Get darkmode status from system
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.querySelector("html").classList.add("dark")
+    }
+
     var Torrent = $resource('/torrents/:infoHash');
+    var Search = $resource('/search/:param');
 
     function load() {
       var torrents = Torrent.query(function () {
@@ -42,7 +60,33 @@ angular.module('peerflixServerApp')
       });
     }
 
-    $scope.keypress = function (e) {
+    $scope.clearSearch = function () {
+      $scope.query = "";
+      $scope.results = undefined;
+    };
+
+    $scope.keypressSearch = function (e) {
+      if (e.which === 13) {
+        $scope.search();
+      }
+    };
+
+    $scope.search = function () {
+      if ($scope.query) {
+        $scope.results = undefined;
+        Search.query({ param: $scope.query }).$promise.then(function (results) {
+          $scope.results = results;
+        })
+      }
+    };
+
+    $scope.downloadSearchResult = function (link) {
+      Search.save({ param: link }).$promise.then(function (torrent) {
+        loadTorrent(torrent.infoHash);
+      });
+    };
+
+    $scope.keypressDownload = function (e) {
       if (e.which === 13) {
         $scope.download();
       }
@@ -88,6 +132,41 @@ angular.module('peerflixServerApp')
     $scope.remove = function (torrent) {
       Torrent.remove({ infoHash: torrent.infoHash });
       _.remove($scope.torrents, torrent);
+    };
+
+    $scope.play = function (link) {
+      document.querySelector(".overlay video").src = link;
+      openOverlay();
+    };
+
+    $scope.isVideo = function (fileName) {
+      fileName = fileName.toLowerCase();
+      return [
+        '.mkv',
+        '.webm',
+        '.mpg',
+        '.mp2',
+        '.mpeg',
+        '.mpe',
+        '.mpv',
+        '.ogg',
+        '.mp4',
+        '.m4p',
+        '.m4v',
+        '.avi',
+        '.wmv',
+        '.mov',
+        '.qt',
+        '.flv',
+        '.swf',
+        '.avchd'
+      ].some(function(ext) {
+        return fileName.endsWith(ext)
+      })
+    };
+
+    $scope.toggleDarkMode = function () {
+      document.querySelector("html").classList.toggle("dark")
     };
 
     torrentSocket.on('verifying', function (hash) {
