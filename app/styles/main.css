@@ -191,6 +191,7 @@ body {
   z-index: 100;
 }
 .overlay video {
+  background-color: black;
   width: -webkit-fill-available;
   height: auto;
   position: absolute;
