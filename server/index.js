@@ -6,7 +6,9 @@ var rangeParser = require('range-parser'),
   express = require('express'),
   logger = require('morgan'),
   bodyParser = require('body-parser'),
-  multipart = require('connect-multiparty'),
+  multer = require('multer'),
+  os = require('os'),
+  upload = multer({ dest: os.tmpdir() }),
   fs = require('fs'),
   archiver = require('archiver'),
   store = require('./store'),
@@ -78,8 +80,8 @@ api.post('/torrents', function (req, res) {
   });
 });
 
-api.post('/upload', multipart(), function (req, res) {
-  var file = req.files && req.files.file;
+api.post('/upload', upload.single('file'), function (req, res) {
+  var file = req.file;
   if (!file) {
     return res.status(500).send('file is missing');
   }

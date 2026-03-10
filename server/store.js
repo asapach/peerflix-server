@@ -15,10 +15,7 @@ var fs = require('fs'),
   options = {};
 
 function save() {
-  mkdirp(configPath, function (err) {
-    if (err) {
-      throw err;
-    }
+  mkdirp(configPath).then(function () {
     var state = Object.keys(torrents);
     fs.writeFile(storageFile, JSON.stringify(state), function (err) {
       if (err) {
@@ -26,6 +23,8 @@ function save() {
       }
       console.log('current state saved');
     });
+  }).catch(function (err) {
+    throw err;
   });
 }
 
@@ -82,10 +81,7 @@ var store = _.extend(new events.EventEmitter(), {
   }
 });
 
-mkdirp(configPath, function (err) {
-  if (err) {
-    throw err;
-  }
+mkdirp(configPath).then(function () {
   fs.readFile(configFile, function (err, data) {
     if (err) {
       if (err.code !== 'ENOENT') {
@@ -112,6 +108,8 @@ mkdirp(configPath, function (err) {
       }
     });
   });
+}).catch(function (err) {
+  throw err;
 });
 
 function shutdown(signal) {
