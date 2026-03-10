@@ -44,7 +44,7 @@ module.exports = function (grunt) {
       },
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-        tasks: ['newer:copy:styles', 'autoprefixer']
+        tasks: ['newer:copy:styles', 'postcss']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -150,9 +150,11 @@ module.exports = function (grunt) {
     },
 
     // Add vendor prefixed styles
-    autoprefixer: {
+    postcss: {
       options: {
-        browsers: ['last 1 version']
+        processors: [
+          require('autoprefixer')({ overrideBrowserslist: ['last 1 version'] })
+        ]
       },
       dist: {
         files: [{
@@ -181,15 +183,13 @@ module.exports = function (grunt) {
     },
 
     // Renames files for browser caching purposes
-    rev: {
+    filerev: {
       dist: {
-        files: {
-          src: [
-            '<%= yeoman.dist %>/scripts/{,*/}*.js',
-            '<%= yeoman.dist %>/styles/{,*/}*.css',
-            '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-          ]
-        }
+        src: [
+          '<%= yeoman.dist %>/scripts/{,*/}*.js',
+          '<%= yeoman.dist %>/styles/{,*/}*.css',
+          '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+        ]
       }
     },
 
@@ -260,10 +260,8 @@ module.exports = function (grunt) {
       }
     },
 
-    // ngmin tries to make the code safe for minification automatically by
-    // using the Angular long form for dependency injection. It doesn't work on
-    // things like resolve or inject so those have to be done manually.
-    ngmin: {
+    // ngAnnotate makes code safe for minification using Angular long form injection.
+    ngAnnotate: {
       dist: {
         files: [{
           expand: true,
@@ -287,10 +285,14 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
-            'images/{,*/}*.{png,jpg,jpeg,gif,webp}',
-            'bower_components/font-awesome/fonts/*'
-          ]
-        }, {
+            'images/{,*/}*.{png,jpg,jpeg,gif,webp}'
+        ]
+      }, {
+        expand: true,
+        cwd: '<%= yeoman.app %>/bower_components/font-awesome',
+        dest: '<%= yeoman.dist %>',
+        src: ['fonts/*']
+      }, {
           expand: true,
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
@@ -364,7 +366,7 @@ module.exports = function (grunt) {
       'clean:server',
       'wiredep',
       'concurrent:server',
-      'autoprefixer',
+      'postcss',
       'connect:livereload',
       'watch'
     ]);
@@ -378,7 +380,7 @@ module.exports = function (grunt) {
   grunt.registerTask('test', [
     'clean:server',
     'concurrent:test',
-    'autoprefixer',
+    'postcss',
     'connect:test',
     'karma'
   ]);
@@ -388,13 +390,13 @@ module.exports = function (grunt) {
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
-    'autoprefixer',
+    'postcss',
     'concat',
-    'ngmin',
+    'ngAnnotate',
     'copy:dist',
     'cssmin',
     'uglify',
-    'rev',
+    'filerev',
     'usemin',
     'htmlmin'
   ]);
