@@ -139,6 +139,11 @@ api.post('/torrents/:infoHash/resume', findTorrent, function (req, res) {
 });
 
 api.delete('/torrents/:infoHash', findTorrent, function (req, res) {
+  var apiKey = process.env.API_KEY;
+  if (apiKey && req.get('x-api-key') !== apiKey) {
+    return res.sendStatus(403);
+  }
+
   store.remove(req.torrent.infoHash);
   res.sendStatus(200);
 });
