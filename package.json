@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node ./server/bin.js",
     "test": "grunt test",
+    "test:server": "node --test test/server/streaming-route.test.cjs",
     "prepack": "grunt build"
   },
   "main": "./server/bin.js",
