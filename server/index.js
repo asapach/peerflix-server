@@ -159,7 +159,7 @@ api.get('/torrents/:infoHash/files', findTorrent, function (req, res) {
     }).join('\n'));
 });
 
-api.all('/torrents/:infoHash/files/:path([^"]+)', findTorrent, function (req, res) {
+api.get('/torrents/:infoHash/files/:path([^"]+)', findTorrent, function (req, res) {
   var torrent = req.torrent, file = _.find(torrent.files, { path: req.params.path });
 
   if (!file) {
